@@ -14,20 +14,27 @@
         <nav class="main-nav">
             <a href="/" class="logo">CostFlowAI</a>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
+                <li><a href="/" class="active">Home</a></li>
                 <li><a href="/calculators/">Calculators</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="#" onclick="toggleSearch()">Search</a></li>
+                <li><a href="#" class="search-trigger">Search</a></li>
                 <li><a href="mailto:contact@costflowai.com">Contact</a></li>
             </ul>
+            <div class="search-container">
+                <input type="search" id="header-search" placeholder="Search calculators and blog posts..." aria-label="Search">
+                <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+            </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
             <div class="hero-content">
-                <h1>Professional Cost Calculation Platform</h1>
-                <p>Accurate construction cost estimation and analysis tools for professionals</p>
+                <h1>Professional Construction Cost Estimation</h1>
+                <p class="hero-description">
+                    CostFlowAI delivers accurate, data-driven cost calculations for construction professionals.
+                    Get instant estimates, detailed material breakdowns, and professional reports with regional pricing precision.
+                </p>
                 <div class="hero-actions">
                     <a href="/calculators/" class="btn btn-primary">Open Calculators</a>
                     <a href="/blog/" class="btn btn-secondary">Read the Blog</a>
@@ -39,12 +46,44 @@
             <h2>CostFlowAI is under active development—thanks for your patience.</h2>
         </div>
 
-        <div id="search-overlay" class="search-overlay" style="display: none;">
-            <div class="search-container">
-                <input type="text" id="global-search" placeholder="Search calculators and blog posts..." />
-                <button onclick="toggleSearch()">Close</button>
+        <section class="features">
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/>
+                            <path d="M9 11V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <h3>Transparent Estimates</h3>
+                    <p>Detailed material breakdowns, labor calculations, and clear cost justification. Know exactly where every dollar goes in your construction budget.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                    </div>
+                    <h3>Professional Exports</h3>
+                    <p>Generate polished PDF reports, Excel spreadsheets, and CSV files. Professional formatting with your branding for client presentations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88 16.24,7.76"/>
+                        </svg>
+                    </div>
+                    <h3>Regional Pricing</h3>
+                    <p>Accurate cost data for your specific location. Automatically adjusted pricing based on local market conditions, labor rates, and material costs.</p>
+                </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <footer>
@@ -57,19 +96,6 @@
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
 
-    <script nonce="ZXmBngRGKvFl+S0+m0eMxQ==">
-        function toggleSearch() {
-            const overlay = document.getElementById('search-overlay');
-            const searchInput = document.getElementById('global-search');
-
-            if (overlay.style.display === 'none' || overlay.style.display === '') {
-                overlay.style.display = 'block';
-                searchInput.focus();
-            } else {
-                overlay.style.display = 'none';
-                searchInput.value = '';
-            }
-        }
-    </script>
+    <script type="module" src="/assets/js/core/search.js" nonce="ZXmBngRGKvFl+S0+m0eMxQ=="></script>
 </body>
 </html>

@@ -64,13 +64,19 @@
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <header>
-        <nav>
+        <nav class="main-nav">
             <a href="/" class="logo">CostFlowAI</a>
-            <ul>
-                <li><a href="/calculators">Calculators</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/about">About</a></li>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/calculators/">Calculators</a></li>
+                <li><a href="/blog/" class="active">Blog</a></li>
+                <li><a href="#" class="search-trigger">Search</a></li>
+                <li><a href="mailto:contact@costflowai.com">Contact</a></li>
             </ul>
+            <div class="search-container">
+                <input type="search" id="header-search" placeholder="Search blog posts and calculators..." aria-label="Search">
+                <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+            </div>
         </nav>
     </header>
 
@@ -186,26 +192,77 @@
         </article>
 
         <aside class="blog-sidebar">
+            <div class="sidebar-section search-section">
+                <h3>Search</h3>
+                <div class="sidebar-search">
+                    <input type="search" id="sidebar-search" placeholder="Search posts..." aria-label="Search blog posts">
+                    <div id="sidebar-search-results" class="search-results hidden"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Popular Calculators</h3>
+                <ul class="popular-calculators">
+                    
+                    <li>
+                        <a href="/calculators/concrete/">
+                            <strong>Concrete Calculator</strong>
+                            <span class="calculator-description">Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/calculators/framing/">
+                            <strong>Framing Calculator</strong>
+                            <span class="calculator-description">Estimate lumber quantities and costs for wood and steel framing systems</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/calculators/drywall/">
+                            <strong>Drywall Calculator</strong>
+                            <span class="calculator-description">Calculate drywall sheets, mud, tape, and finishing materials</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/calculators/paint/">
+                            <strong>Paint Calculator</strong>
+                            <span class="calculator-description">Estimate paint quantities, primer, and coating materials for interior and exterior surfaces</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/calculators/roofing/">
+                            <strong>Roofing Calculator</strong>
+                            <span class="calculator-description">Calculate roofing materials including shingles, underlayment, and accessories</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+
+            
             <div class="sidebar-section">
                 <h3>Related Posts</h3>
                 <ul class="related-posts">
                     
                 </ul>
             </div>
-
-            <div class="sidebar-section">
-                <h3>Popular Calculators</h3>
-                <ul class="popular-calculators">
-                    <li><a href="/calculators/concrete">Concrete Slab Pro</a></li>
-                    <li><a href="/calculators/drywall">Drywall Calculator</a></li>
-                    <li><a href="/calculators/paint">Paint Calculator</a></li>
-                </ul>
-            </div>
+            
         </aside>
     </main>
 
     <footer>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="/calculators/">Calculators</a></li>
+                <li><a href="/blog/">Blog</a></li>
+            </ul>
+        </nav>
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
+
+    <script type="module" src="/assets/js/core/search.js" nonce="PLACEHOLDER_NONCE"></script>
 </body>
 </html>
