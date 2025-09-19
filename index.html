@@ -9,7 +9,6 @@
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
     <!-- Performance: Preload critical assets -->
-    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
 
     <!-- Performance: Prefetch likely-needed assets -->
     <link rel="prefetch" href="/assets/data/search.json">
@@ -35,8 +34,8 @@
                 <li><a href="mailto:contact@costflowai.com">Contact</a></li>
             </ul>
             <div class="search-container">
-                <input type="search" id="header-search" placeholder="Search calculators and blog posts..." aria-label="Search">
-                <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+                <input type="search" id="site-search" placeholder="Search calculators and blog posts..." aria-label="Search calculators and blog">
+                <div id="search-results" class="search-dropdown hidden" role="listbox" aria-label="Search results"></div>
             </div>
         </nav>
     </header>
@@ -119,24 +118,6 @@
     <script type="module" src="/assets/js/blog-search.js" nonce="ZXmBngRGKvFl+S0+m0eMxQ=="></script>
     <script type="module" src="/assets/js/core/search.js" nonce="ZXmBngRGKvFl+S0+m0eMxQ=="></script>
 
-    <script nonce="ZXmBngRGKvFl+S0+m0eMxQ==">
-      // Performance monitoring
-      window.addEventListener('load', function() {
-        if ('performance' in window) {
-          const perfData = performance.timing;
-          const loadTime = perfData.loadEventEnd - perfData.navigationStart;
-          console.log('⚡ Page load time:', Math.round(loadTime) + 'ms');
-
-          // Track performance metrics for analytics (guard against missing analytics)
-          if (window.CostFlowAnalytics && typeof window.CostFlowAnalytics.trackEvent === 'function') {
-            window.CostFlowAnalytics.trackEvent('performance_timing', {
-              load_time: loadTime,
-              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
-              first_paint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
-            });
-          }
-        }
-      });
-    </script>
+    <script type="module" src="/assets/js/core/performance.js" nonce="ZXmBngRGKvFl+S0+m0eMxQ=="></script>
 </body>
 </html>

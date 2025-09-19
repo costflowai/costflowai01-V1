@@ -19,15 +19,20 @@ class SiteSearch {
   }
 
   /**
-   * Initialize search functionality
+   * Initialize search functionality (quiet mode - no logs if elements missing)
    */
   async init() {
     try {
-      // Find search elements
-      this.searchElements.header = document.getElementById('header-search');
-      this.searchElements.headerDropdown = document.getElementById('search-results-dropdown');
+      // Find search elements (standardized IDs)
+      this.searchElements.header = document.getElementById('site-search');
+      this.searchElements.headerDropdown = document.getElementById('search-results');
       this.searchElements.sidebar = document.getElementById('sidebar-search');
       this.searchElements.sidebarResults = document.getElementById('sidebar-search-results');
+
+      // If no search elements found, return quietly (page doesn't have search UI)
+      if (!this.searchElements.header && !this.searchElements.sidebar) {
+        return; // Silent return - no logging
+      }
 
       // Load search data
       await this.loadSearchData();
@@ -36,10 +41,14 @@ class SiteSearch {
       this.setupEventListeners();
 
       this.isLoaded = true;
-      console.log('Site search initialized successfully');
+      // Only log if we have search elements
+      if (this.searchElements.header || this.searchElements.sidebar) {
+        console.log('Site search initialized successfully');
+      }
 
     } catch (error) {
-      console.error('Failed to initialize site search:', error);
+      // Silent failure - don't log search errors to console
+      this.isLoaded = false;
     }
   }
 

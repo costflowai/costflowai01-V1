@@ -50,18 +50,17 @@ class AnalyticsManager {
     const trackingId = this.getTrackingId();
     if (trackingId) {
       this.initializeGA4();
-    } else {
-      console.log('🔍 Analytics disabled - no valid tracking ID configured');
-    }
 
-    // Set up enhanced measurements
-    this.setupEnhancedMeasurements();
-    
-    console.log('🔍 Analytics Manager initialized', {
-      enabled: this.config.enabled,
-      consent: this.config.consentGiven,
-      trackingId: this.config.trackingId ? 'configured' : 'pending'
-    });
+      // Set up enhanced measurements
+      this.setupEnhancedMeasurements();
+
+      console.log('🔍 Analytics Manager initialized', {
+        enabled: this.config.enabled,
+        consent: this.config.consentGiven,
+        trackingId: 'configured'
+      });
+    }
+    // If no tracking ID, do nothing and stay silent
   }
 
   /**
@@ -84,8 +83,7 @@ class AnalyticsManager {
       return this.config.trackingId;
     }
 
-    // No valid tracking ID found - disable analytics in development
-    console.warn('🔍 No valid GA4 tracking ID found. Set GA4_TRACKING_ID environment variable or update meta tag for production.');
+    // No valid tracking ID found - disable analytics silently
     return null;
   }
 

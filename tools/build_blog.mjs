@@ -68,7 +68,8 @@ function ensureDirectories() {
     config.outputDir,
     path.join(config.outputDir, 'tags'),
     path.dirname(path.join(projectRoot, 'rss.xml')),
-    path.dirname(path.join(projectRoot, 'sitemap.xml'))
+    path.dirname(path.join(projectRoot, 'sitemap.xml')),
+    path.join(projectRoot, 'assets', 'images', 'blog')
   ];
 
   dirs.forEach(dir => {
@@ -76,6 +77,42 @@ function ensureDirectories() {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
+}
+
+// Copy blog images from content/images to assets/images/blog
+function copyBlogImages() {
+  const contentImagesDir = path.join(projectRoot, 'content', 'images');
+  const assetsImagesDir = path.join(projectRoot, 'assets', 'images', 'blog');
+
+  // Check if content/images exists
+  if (!fs.existsSync(contentImagesDir)) {
+    console.log('No content/images directory found, using existing placeholder images');
+    return;
+  }
+
+  try {
+    const imageFiles = fs.readdirSync(contentImagesDir).filter(file =>
+      /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file)
+    );
+
+    imageFiles.forEach(file => {
+      const srcPath = path.join(contentImagesDir, file);
+      const destPath = path.join(assetsImagesDir, file);
+
+      try {
+        fs.copyFileSync(srcPath, destPath);
+        console.log(`Copied blog image: ${file}`);
+      } catch (error) {
+        console.warn(`Failed to copy image ${file}:`, error.message);
+      }
+    });
+
+    if (imageFiles.length > 0) {
+      console.log(`Copied ${imageFiles.length} blog images`);
+    }
+  } catch (error) {
+    console.warn('Error copying blog images:', error.message);
+  }
 }
 
 // Parse markdown files with frontmatter
@@ -489,6 +526,10 @@ async function buildBlog() {
   try {
     // Ensure directories exist
     ensureDirectories();
+
+    // Copy blog images from content to assets
+    console.log('Copying blog images...');
+    copyBlogImages();
 
     // Parse posts
     console.log('Parsing posts...');

@@ -4,9 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}} - CostFlowAI</title>
-    <!-- Template placeholder -->
+    <meta name="description" content="{{description}}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{canonical_url}}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="{{og_type}}">
+    <meta property="og:title" content="{{title}} - CostFlowAI">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="{{canonical_url}}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{title}} - CostFlowAI">
+    <meta name="twitter:description" content="{{description}}">
+
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/assets/data/search.json">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+
+    <!-- Analytics Configuration -->
+    <meta name="ga-tracking-id" content="G-PLACEHOLDER123">
 </head>
 <body>
     {{content}}
+
+    <!-- Core site-wide modules (external only) -->
+    <script type="module" src="/assets/js/core/boot.js" nonce="{{nonce}}"></script>
+    <script type="module" src="/assets/js/core/analytics.js" nonce="{{nonce}}"></script>
 </body>
 </html>
