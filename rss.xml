@@ -6,9 +6,49 @@
     <link>https://costflowai.com/blog</link>
     <atom:link href="https://costflowai.com/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-US</language>
-    <lastBuildDate>Fri, 19 Sep 2025 10:29:56 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 19 Sep 2025 13:33:57 GMT</lastBuildDate>
     <generator>CostFlowAI Blog Generator</generator>
     
+    <item>
+      <title><![CDATA[Complete Drywall Estimation Guide - Materials, Labor, and Cost Calculations]]></title>
+      <description><![CDATA[Master drywall estimation with our comprehensive guide covering sheet calculations, fasteners, joint compound, labor costs, and regional pricing factors.]]></description>
+      <link>https://costflowai.com/blog/drywall-estimation-guide</link>
+      <guid>https://costflowai.com/blog/drywall-estimation-guide</guid>
+      <pubDate>Sat, 20 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>drywall</category><category>estimation</category><category>interior</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Electrical Cost Calculation Guide - Wiring, Conduit, and Labor Estimation]]></title>
+      <description><![CDATA[Complete guide to electrical cost estimation covering wire calculations, conduit sizing, panel requirements, labor rates, and regional cost factors.]]></description>
+      <link>https://costflowai.com/blog/electrical-cost-calculation-guide</link>
+      <guid>https://costflowai.com/blog/electrical-cost-calculation-guide</guid>
+      <pubDate>Thu, 18 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>electrical</category><category>MEP</category><category>estimation</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Complete Roofing Cost Estimation Guide - Materials, Labor, and Pricing Factors]]></title>
+      <description><![CDATA[Master roofing cost estimation with comprehensive coverage of material calculations, labor rates, waste factors, and regional pricing considerations.]]></description>
+      <link>https://costflowai.com/blog/roofing-cost-estimation</link>
+      <guid>https://costflowai.com/blog/roofing-cost-estimation</guid>
+      <pubDate>Wed, 17 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>roofing</category><category>exterior</category><category>estimation</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Plumbing Rough-In Calculation Guide - Pipe Sizing, Materials, and Cost Estimation]]></title>
+      <description><![CDATA[Complete guide to plumbing rough-in calculations covering fixture units, pipe sizing, DWV systems, water service, and regional cost factors.]]></description>
+      <link>https://costflowai.com/blog/plumbing-rough-in-guide</link>
+      <guid>https://costflowai.com/blog/plumbing-rough-in-guide</guid>
+      <pubDate>Tue, 16 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>plumbing</category><category>MEP</category><category>estimation</category><category>calculators</category>
+    </item>
+  
     <item>
       <title><![CDATA[Welcome to CostFlowAI - The Future of Construction Cost Estimation]]></title>
       <description><![CDATA[Introducing CostFlowAI, the most comprehensive suite of construction cost calculators powered by AI-driven insights and real-time pricing data.]]></description>
@@ -20,6 +60,26 @@
     </item>
   
     <item>
+      <title><![CDATA[Flooring Cost Estimation Methods - Materials, Labor, and Installation Factors]]></title>
+      <description><![CDATA[Complete guide to flooring cost estimation covering material calculations, subfloor preparation, installation labor rates, and finishing considerations.]]></description>
+      <link>https://costflowai.com/blog/flooring-cost-estimation</link>
+      <guid>https://costflowai.com/blog/flooring-cost-estimation</guid>
+      <pubDate>Sun, 14 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>flooring</category><category>interior</category><category>estimation</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[HVAC Cost Calculation Basics - Equipment Sizing, Ductwork, and Installation]]></title>
+      <description><![CDATA[Essential guide to HVAC cost estimation covering load calculations, equipment sizing, ductwork design, and installation labor rates.]]></description>
+      <link>https://costflowai.com/blog/hvac-cost-calculation-basics</link>
+      <guid>https://costflowai.com/blog/hvac-cost-calculation-basics</guid>
+      <pubDate>Sat, 13 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>HVAC</category><category>MEP</category><category>estimation</category><category>calculators</category>
+    </item>
+  
+    <item>
       <title><![CDATA[Complete Guide to Concrete Slab Calculations - From Volume to Cost]]></title>
       <description><![CDATA[Master concrete slab calculations with our comprehensive guide covering volume, rebar requirements, labor costs, and regional pricing factors.]]></description>
       <link>https://costflowai.com/blog/concrete-calculator-guide</link>
@@ -27,6 +87,16 @@
       <pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate>
       <author>noreply@costflowai.com (CostFlowAI Team)</author>
       <category>concrete</category><category>tutorial</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Masonry and Brick Calculation Guide - Materials, Mortar, and Labor Estimation]]></title>
+      <description><![CDATA[Complete masonry estimation guide covering brick calculations, mortar requirements, joint sizing, labor rates, and regional cost considerations.]]></description>
+      <link>https://costflowai.com/blog/masonry-brick-calculation-guide</link>
+      <guid>https://costflowai.com/blog/masonry-brick-calculation-guide</guid>
+      <pubDate>Thu, 11 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>masonry</category><category>exterior</category><category>estimation</category><category>calculators</category>
     </item>
   
     <item>
