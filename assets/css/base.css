@@ -89,6 +89,89 @@ p {
     color: #374151;
 }
 
+/* Print Styles */
+@media print {
+    @page {
+        margin: 1in;
+        size: letter;
+    }
+    
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+        background: white !important;
+        color: black !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+        color: black !important;
+    }
+    
+    .btn, .nav-links, .search-overlay, .no-print {
+        display: none !important;
+    }
+    
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        break-inside: avoid;
+    }
+    
+    th, td {
+        border: 1px solid #333;
+        padding: 8pt;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold;
+    }
+    
+    .print-header {
+        border-bottom: 3pt solid #1e40af;
+        margin-bottom: 20pt;
+        padding-bottom: 10pt;
+    }
+    
+    .print-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1pt solid #ccc;
+        padding-top: 5pt;
+        font-size: 9pt;
+        text-align: center;
+        background: white;
+    }
+    
+    .print-disclaimer {
+        margin-top: 20pt;
+        padding: 10pt;
+        border: 1pt solid #ccc;
+        font-size: 9pt;
+        background-color: #f9f9f9 !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .calculator-section {
+        break-inside: avoid;
+        margin-bottom: 20pt;
+    }
+    
+    .results-table {
+        break-inside: avoid;
+    }
+}
+
 /* Responsive Typography */
 @media (max-width: 768px) {
     h1 {
