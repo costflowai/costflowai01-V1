@@ -182,6 +182,22 @@ class BlogSearch {
 
       this.displayResults(searchResults, query);
 
+      // Track search query for analytics
+      if (window.CostFlowAnalytics) {
+        window.CostFlowAnalytics.trackEvent('search_query', {
+          search_term: query,
+          results_count: searchResults.length
+        });
+      }
+
+      // Emit custom event for analytics system
+      document.dispatchEvent(new CustomEvent('search:query', {
+        detail: {
+          query: query,
+          resultsCount: searchResults.length
+        }
+      }));
+
     } catch (error) {
       console.error('Search error:', error);
       this.displayError('Search failed. Please try again.');
@@ -346,13 +362,27 @@ class BlogSearch {
 
     results.forEach(link => {
       link.addEventListener('click', () => {
-        // Track search result clicks if analytics is available
-        if (window.gtag) {
-          window.gtag('event', 'search_result_click', {
+        // Find the result data
+        const resultElement = link.closest('.search-result');
+        const resultType = resultElement.dataset.type || 'unknown';
+        
+        // Track search result clicks using analytics manager
+        if (window.CostFlowAnalytics) {
+          window.CostFlowAnalytics.trackEvent('search_result_click', {
             search_term: this.searchInput.value,
-            result_url: link.href
+            result_url: link.href,
+            result_type: resultType
           });
         }
+
+        // Emit custom event for analytics system
+        document.dispatchEvent(new CustomEvent('search:result-click', {
+          detail: {
+            query: this.searchInput.value,
+            url: link.href,
+            type: resultType
+          }
+        }));
       });
     });
   }

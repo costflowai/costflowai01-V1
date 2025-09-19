@@ -54,6 +54,18 @@ export class FormBinder {
     this.isInitialized = true;
     bus.emit(EVENTS.FORM_CHANGED, { initialized: true, form: this.form.id });
 
+    // Emit calculator loaded event for analytics
+    const calculatorType = this.form.dataset.calculatorType || 'unknown';
+    const calculatorName = document.title || 'Unknown Calculator';
+    
+    document.dispatchEvent(new CustomEvent('calculator:loaded', {
+      detail: {
+        type: calculatorType,
+        name: calculatorName,
+        form: this.form.id
+      }
+    }));
+
     return true;
   }
 
@@ -141,6 +153,22 @@ export class FormBinder {
         data: formData,
         results
       });
+
+      // Emit analytics event for calculator calculation
+      const calculatorType = this.form.dataset.calculatorType || 'unknown';
+      const calculatorName = document.title || 'Unknown Calculator';
+      const totalCost = results.totalCost || results.total || 0;
+      const inputCount = Object.keys(formData).length;
+
+      document.dispatchEvent(new CustomEvent('calculator:calculated', {
+        detail: {
+          type: calculatorType,
+          name: calculatorName,
+          inputCount: inputCount,
+          totalCost: totalCost,
+          results: results
+        }
+      }));
 
     } catch (error) {
       console.error('Calculation error:', error);

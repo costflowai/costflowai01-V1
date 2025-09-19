@@ -84,6 +84,20 @@ export function exportToCsv(data, filename = 'export.csv') {
   downloadFile(blob, filename);
 
   bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'csv', filename });
+
+  // Emit analytics event for CSV export
+  document.dispatchEvent(new CustomEvent('calculator:exported', {
+    detail: {
+      type: 'csv',
+      format: 'csv',
+      totalCost: data.reduce((sum, row, index) => {
+        if (index === 0) return sum; // Skip header row
+        const costCell = row.find(cell => typeof cell === 'number' && cell > 0);
+        return sum + (costCell || 0);
+      }, 0),
+      filename: filename
+    }
+  }));
 }
 
 export async function exportToXlsx(data, filename = 'export.xlsx') {
@@ -204,6 +218,20 @@ export async function exportToPdf(data, title = 'Report', filename = 'export.pdf
     doc.save(filename);
 
     bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'pdf', filename });
+
+    // Emit analytics event for export
+    document.dispatchEvent(new CustomEvent('calculator:exported', {
+      detail: {
+        type: 'pdf',
+        format: 'pdf',
+        totalCost: data.reduce((sum, row, index) => {
+          if (index === 0) return sum; // Skip header row
+          const costCell = row.find(cell => typeof cell === 'number' && cell > 0);
+          return sum + (costCell || 0);
+        }, 0),
+        filename: filename
+      }
+    }));
 
   } catch (error) {
     console.error('PDF export error:', error);
@@ -399,6 +427,20 @@ export function exportToJson(data, filename = 'export.json') {
   const jsonContent = JSON.stringify(data, null, 2);
   const blob = new Blob([jsonContent], { type: 'application/json' });
   downloadFile(blob, filename);
+
+  bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'json', filename });
+
+  // Emit analytics event for JSON export
+  document.dispatchEvent(new CustomEvent('calculator:exported', {
+    detail: {
+      type: 'json',
+      format: 'json',
+      totalCost: typeof data === 'object' ? Object.values(data).reduce((sum, val) => {
+        return sum + (typeof val === 'number' && val > 0 ? val : 0);
+      }, 0) : 0,
+      filename: filename
+    }
+  }));
 }
 
 function downloadFile(blob, filename) {
