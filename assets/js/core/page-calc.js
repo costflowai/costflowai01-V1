@@ -76,6 +76,11 @@ class CalculatorPageLoader {
    */
   async loadCalculator(calculatorId) {
     try {
+      // Ensure DOM is ready before proceeding
+      if (document.readyState === 'loading') {
+        await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
+      }
+
       const modulePath = `/assets/js/calculators/${calculatorId}.js`;
 
       // Dynamic import

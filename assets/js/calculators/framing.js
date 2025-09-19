@@ -5,6 +5,12 @@ import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
 
 export function init(el) {
+  // Defensive check for DOM element
+  if (!el) {
+    console.error('Framing calculator: No container element provided');
+    return;
+  }
+
   const savedState = loadState('framing') || {};
 
   el.innerHTML = `

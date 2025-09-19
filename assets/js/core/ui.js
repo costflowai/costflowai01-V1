@@ -626,7 +626,10 @@ export async function bootCalculator(calculatorId, calculatorModule) {
 
     // Initialize the calculator if it has an init method
     if (typeof calculatorModule.init === 'function') {
-      await calculatorModule.init();
+      const calculatorRoot = document.createElement('div');
+      calculatorRoot.id = 'calculator-root';
+      app.appendChild(calculatorRoot);
+      await calculatorModule.init(calculatorRoot);
     }
 
     // Setup form binding
