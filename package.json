@@ -1,0 +1,23 @@
+{
+  "name": "costflowai",
+  "version": "1.0.0",
+  "description": "CostFlowAI - Professional cost calculation and analysis platform",
+  "type": "module",
+  "scripts": {
+    "build:nonce": "node tools/inject_nonce.mjs",
+    "build": "npm run build:nonce",
+    "test": "echo 'no tests yet'",
+    "dev": "echo 'Development server not configured yet'",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": [
+    "cost-calculation",
+    "analysis",
+    "financial-tools",
+    "netlify"
+  ],
+  "author": "CostFlowAI Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
