@@ -119,6 +119,20 @@ export async function exportToXlsx(data, filename = 'export.xlsx') {
 
     bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'xlsx', filename });
 
+    // Emit analytics event for XLSX export
+    document.dispatchEvent(new CustomEvent('calculator:exported', {
+      detail: {
+        type: 'xlsx',
+        format: 'xlsx',
+        totalCost: data.reduce((sum, row, index) => {
+          if (index === 0) return sum; // Skip header row
+          const costCell = row.find(cell => typeof cell === 'number' && cell > 0);
+          return sum + (costCell || 0);
+        }, 0),
+        filename: filename
+      }
+    }));
+
   } catch (error) {
     console.error('XLSX export error:', error);
     bus.emit(EVENTS.EXPORT_ERROR, { format: 'xlsx', error: error.message });

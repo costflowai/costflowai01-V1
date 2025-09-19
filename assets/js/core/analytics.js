@@ -46,9 +46,12 @@ class AnalyticsManager {
       wait_for_update: 500
     });
 
-    // Initialize GA4 if tracking ID is available
-    if (this.getTrackingId()) {
+    // Initialize GA4 if valid tracking ID is available
+    const trackingId = this.getTrackingId();
+    if (trackingId) {
       this.initializeGA4();
+    } else {
+      console.log('🔍 Analytics disabled - no valid tracking ID configured');
     }
 
     // Set up enhanced measurements
@@ -68,20 +71,22 @@ class AnalyticsManager {
     // Check for tracking ID in meta tag
     const metaTag = document.querySelector('meta[name="ga-tracking-id"]');
     if (metaTag) {
-      this.config.trackingId = metaTag.getAttribute('content');
-      return this.config.trackingId;
+      const trackingId = metaTag.getAttribute('content');
+      if (trackingId && trackingId !== 'G-PLACEHOLDER123') {
+        this.config.trackingId = trackingId;
+        return this.config.trackingId;
+      }
     }
 
     // Check for environment variable (development)
-    if (typeof ANALYTICS_ID !== 'undefined') {
+    if (typeof ANALYTICS_ID !== 'undefined' && ANALYTICS_ID !== 'G-PLACEHOLDER123') {
       this.config.trackingId = ANALYTICS_ID;
       return this.config.trackingId;
     }
 
-    // Default tracking ID for CostFlowAI (placeholder)
-    // In production, this should be set via environment variable
-    this.config.trackingId = 'G-PLACEHOLDER123';
-    return this.config.trackingId;
+    // No valid tracking ID found - disable analytics in development
+    console.warn('🔍 No valid GA4 tracking ID found. Set GA4_TRACKING_ID environment variable or update meta tag for production.');
+    return null;
   }
 
   /**
@@ -100,15 +105,20 @@ class AnalyticsManager {
 
     document.head.appendChild(script);
 
-    // Configure GA4
+    // Configure GA4 (defer page_view until consent granted)
     this.gtag('js', new Date());
     this.gtag('config', this.config.trackingId, {
       page_title: document.title,
       page_location: window.location.href,
       anonymize_ip: true, // Privacy compliance
       allow_google_signals: false, // Disable advertising features
-      send_page_view: true
+      send_page_view: false // Defer until consent granted
     });
+
+    // Send initial page_view only if consent already granted
+    if (this.config.consentGiven) {
+      this.trackPageView();
+    }
 
     this.config.enabled = true;
     window.gtag = this.gtag; // Make gtag globally available
@@ -233,10 +243,13 @@ class AnalyticsManager {
       });
     }
 
-    // Initialize GA4 if not already done
-    if (!this.config.enabled) {
+    // Initialize GA4 if not already done and valid tracking ID exists
+    if (!this.config.enabled && this.config.trackingId) {
       this.initializeGA4();
     }
+
+    // Send initial page view on consent grant
+    this.trackPageView();
 
     console.log('✅ Analytics consent granted');
   }
