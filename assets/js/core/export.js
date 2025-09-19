@@ -133,8 +133,11 @@ export async function exportToPdf(data, title = 'Report', filename = 'export.pdf
     const { jsPDF } = window.jsPDF;
     const doc = new jsPDF();
 
+    // Generate report ID once for consistency across pages
+    const reportId = generateReportId();
+
     // Professional header
-    addProfessionalHeader(doc, title);
+    addProfessionalHeader(doc, title, reportId);
     
     // Table configuration
     const startY = 80;
@@ -158,7 +161,7 @@ export async function exportToPdf(data, title = 'Report', filename = 'export.pdf
       // Check if we need a new page
       if (currentY > doc.internal.pageSize.height - 60) {
         doc.addPage();
-        addProfessionalHeader(doc, title);
+        addProfessionalHeader(doc, title, reportId);
         currentY = 80;
       }
 
@@ -214,7 +217,7 @@ export async function exportToPdf(data, title = 'Report', filename = 'export.pdf
 /**
  * Add professional header to PDF
  */
-function addProfessionalHeader(doc, title) {
+function addProfessionalHeader(doc, title, reportId) {
   const pageWidth = doc.internal.pageSize.width;
   
   // Company header
@@ -245,7 +248,7 @@ function addProfessionalHeader(doc, title) {
   doc.setFont(undefined, 'normal');
   const now = new Date();
   doc.text(`Generated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 20, 50);
-  doc.text(`Report ID: ${generateReportId()}`, 20, 58);
+  doc.text(`Report ID: ${reportId}`, 20, 58);
   
   // Separator line
   doc.setLineWidth(0.5);
