@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2025-09-19T16:29:44.651Z",
+  "generated": "2025-09-19T16:31:34.495Z",
   "count": 20,
   "items": [
     {
@@ -16,7 +16,7 @@
         "finishing"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-paint",
@@ -32,7 +32,7 @@
         "exterior"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-earthwork",
@@ -48,7 +48,7 @@
         "sitework"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-masonry",
@@ -65,7 +65,7 @@
         "structural"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-insulation",
@@ -81,7 +81,7 @@
         "energy"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-siteconcrete",
@@ -97,7 +97,7 @@
         "sidewalks"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "page-home",
@@ -112,7 +112,7 @@
         "construction"
       ],
       "category": "Page",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "page-calculators",
@@ -127,7 +127,7 @@
         "construction"
       ],
       "category": "Page",
-      "date": "2025-09-19T16:29:44.651Z"
+      "date": "2025-09-19T16:31:34.495Z"
     },
     {
       "id": "calc-concrete",
@@ -143,7 +143,7 @@
         "volume"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T16:29:44.650Z"
+      "date": "2025-09-19T16:31:34.494Z"
     },
     {
       "id": "post-drywall-estimation-guide",
