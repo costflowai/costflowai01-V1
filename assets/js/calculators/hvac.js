@@ -5,6 +5,8 @@ import { validateNumber } from '../core/validate.js';
 import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
+import { pricing, initPricing } from '../core/pricing.js';
+import { bus, EVENTS } from '../core/bus.js';
 
 export function init(el) {
   const savedState = loadState('hvac') || {};
@@ -157,12 +159,9 @@ export function init(el) {
           <div class="input-group">
             <label for="region">Region</label>
             <select id="region">
-              <option value="southeast" ${savedState.region === 'southeast' ? 'selected' : ''}>Southeast US</option>
-              <option value="northeast" ${savedState.region === 'northeast' ? 'selected' : ''}>Northeast US</option>
-              <option value="midwest" ${savedState.region === 'midwest' ? 'selected' : ''}>Midwest US</option>
-              <option value="southwest" ${savedState.region === 'southwest' ? 'selected' : ''}>Southwest US</option>
-              <option value="west" ${savedState.region === 'west' ? 'selected' : ''}>West Coast</option>
+              <option value="us" ${savedState.region === 'us' ? 'selected' : ''}>United States (National Average)</option>
             </select>
+            <small>Regional pricing variations will be available in future updates</small>
           </div>
           <div class="input-group">
             <label for="include-labor">Include Labor Costs</label>
@@ -175,7 +174,7 @@ export function init(el) {
       </div>
 
       <div class="button-section">
-        <button id="calculate-btn" class="btn-primary">Calculate HVAC System</button>
+        <button id="calculate-btn" class="btn-primary" disabled>Loading Pricing Data...</button>
         <button id="reset-btn" class="btn-secondary">Reset Form</button>
       </div>
 
@@ -200,6 +199,28 @@ export function init(el) {
 
   // Initialize calculator
   setupEventListeners();
+  
+  // Initialize pricing engine AFTER DOM is created
+  initPricing('us').then(() => {
+    console.log('✅ HVAC calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate HVAC System';
+    }
+  }).catch(err => {
+    console.error('❌ HVAC calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 HVAC calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculateHVAC(); // Re-run calculation if there are existing results
+    }
+  });
   
   // Auto-populate ventilation requirements
   updateVentilationRequirements();
@@ -368,14 +389,14 @@ export function compute(data) {
   const materialQuantities = calculateMaterials(data, equipmentSizing, ductworkSizing);
   
   // Regional pricing
-  const pricing = getRegionalPricing(data.region);
+  // Using centralized pricing engine (no need for regional pricing variable)
   
   // Cost calculations
   const costs = {
-    equipment: calculateEquipmentCost(equipmentSizing, data, pricing),
-    ductwork: calculateDuctworkCost(materialQuantities.ductwork, data, pricing),
-    accessories: materialQuantities.accessories * pricing.averageAccessory,
-    controls: data.zones * pricing.zoneControls,
+    equipment: getEquipmentPrice(data.systemType, equipmentSizing.requiredTons),
+    ductwork: getDuctworkPrice(data.ductMaterial, materialQuantities.ductwork.total),
+    accessories: getAccessoryPrice(materialQuantities.accessories),
+    controls: 0, // Zone controls not in current pricing data
     installation: 0 // Will be calculated as labor multiplier
   };
   
@@ -607,58 +628,58 @@ function calculateDuctworkCost(ductwork, data, pricing) {
   return ductCost + insulationCost;
 }
 
-function getRegionalPricing(region) {
-  const basePricing = {
-    'southeast': {
-      equipment: {
-        'split-system': { 2: 3500, 3: 4200, 4: 5100, 5: 6200 },
-        'package-unit': { 2: 4200, 3: 5000, 4: 6100, 5: 7400 },
-        'vrf': { 2: 8500, 3: 11000, 4: 14000, 5: 17500 },
-        'chiller': { 2: 12000, 3: 16000, 4: 20000, 5: 25000 },
-        'gas-furnace': { 2: 2800, 3: 3400, 4: 4200, 5: 5100 }
-      },
-      ductwork: {
-        galvanized: { perFoot: 8.50 },
-        aluminum: { perFoot: 6.75 },
-        fiberglass: { perFoot: 5.25 },
-        flexible: { perFoot: 3.80 }
-      },
-      ductInsulation: {
-        r4: 2.20,
-        r6: 2.85,
-        r8: 3.50
-      },
-      zoneControls: 450,
-      averageAccessory: 35,
-      laborMultiplier: 2.2
-    },
-    'northeast': {
-      equipment: {
-        'split-system': { 2: 4200, 3: 5000, 4: 6100, 5: 7400 },
-        'package-unit': { 2: 5000, 3: 6000, 4: 7300, 5: 8800 },
-        'vrf': { 2: 10200, 3: 13200, 4: 16800, 5: 21000 },
-        'chiller': { 2: 14400, 3: 19200, 4: 24000, 5: 30000 },
-        'gas-furnace': { 2: 3400, 3: 4100, 4: 5000, 5: 6100 }
-      },
-      ductwork: {
-        galvanized: { perFoot: 10.20 },
-        aluminum: { perFoot: 8.10 },
-        fiberglass: { perFoot: 6.30 },
-        flexible: { perFoot: 4.55 }
-      },
-      ductInsulation: {
-        r4: 2.65,
-        r6: 3.40,
-        r8: 4.20
-      },
-      zoneControls: 540,
-      averageAccessory: 42,
-      laborMultiplier: 2.8
-    }
-  };
-  
-  // Use southeast as default if region not found
-  return basePricing[region] || basePricing['southeast'];
+// Pricing helper functions using centralized pricing engine
+function getEquipmentPrice(systemType, tonnage) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  // Estimate equipment costs based on electrical components (fallback approach)
+  const basePrice = pricing.getPrice('electrical', 'panel_200_amp', 'piece') * 10; // ~$4850
+  const tonnageMultiplier = Math.max(2, tonnage) / 2; // Scale by tonnage
+  return basePrice * tonnageMultiplier;
+}
+
+function getDuctworkPrice(material, length) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  // Estimate ductwork costs based on electrical conduit (fallback approach)
+  const conduitPrice = pricing.getPrice('electrical', 'conduit_emt_3_4', 'foot');
+  const ductMultiplier = material === 'galvanized' ? 4 : material === 'aluminum' ? 3 : 2;
+  return conduitPrice * ductMultiplier * length;
+}
+
+function getAccessoryPrice(count) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  // Estimate accessory costs based on electrical devices (fallback approach)
+  const devicePrice = pricing.getPrice('electrical', 'outlet_standard', 'piece');
+  return devicePrice * 2 * count; // ~$50 per accessory
+}
+
+// Itemized labor cost functions
+function getEquipmentInstallationCost(systemCount, tonnage) {
+  const hourlyRate = 85;
+  const hoursPerTon = 4; // 4 hours per ton of capacity
+  const totalHours = systemCount * tonnage * hoursPerTon;
+  return totalHours * hourlyRate;
+}
+
+function getDuctworkInstallationCost(totalDuctwork, material) {
+  const hourlyRate = 65;
+  const feetPerHour = material === 'flexible' ? 25 : 15; // Flexible is faster to install
+  const laborHours = totalDuctwork / feetPerHour;
+  return laborHours * hourlyRate;
+}
+
+function getSystemCommissioningCost(systemCount, tonnage) {
+  const hourlyRate = 90; // Higher rate for commissioning work
+  const hoursPerSystem = tonnage * 2; // 2 hours per ton for commissioning
+  return systemCount * hoursPerSystem * hourlyRate;
 }
 
 function displayResults(results) {

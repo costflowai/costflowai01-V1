@@ -5,6 +5,8 @@ import { validateNumber } from '../core/validate.js';
 import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
+import { pricing, initPricing } from '../core/pricing.js';
+import { bus, EVENTS } from '../core/bus.js';
 
 export function init(el) {
   const savedState = loadState('flooring') || {};
@@ -156,12 +158,9 @@ export function init(el) {
           <div class="input-group">
             <label for="region">Region</label>
             <select id="region">
-              <option value="southeast" ${savedState.region === 'southeast' ? 'selected' : ''}>Southeast US</option>
-              <option value="northeast" ${savedState.region === 'northeast' ? 'selected' : ''}>Northeast US</option>
-              <option value="midwest" ${savedState.region === 'midwest' ? 'selected' : ''}>Midwest US</option>
-              <option value="southwest" ${savedState.region === 'southwest' ? 'selected' : ''}>Southwest US</option>
-              <option value="west" ${savedState.region === 'west' ? 'selected' : ''}>West Coast</option>
+              <option value="us" ${savedState.region === 'us' ? 'selected' : ''}>United States (National Average)</option>
             </select>
+            <small>Regional pricing variations will be available in future updates</small>
           </div>
           <div class="input-group">
             <label for="include-labor">Include Labor Costs</label>
@@ -174,7 +173,7 @@ export function init(el) {
       </div>
 
       <div class="button-section">
-        <button id="calculate-btn" class="btn-primary">Calculate Flooring Materials</button>
+        <button id="calculate-btn" class="btn-primary" disabled>Loading Pricing Data...</button>
         <button id="reset-btn" class="btn-secondary">Reset Form</button>
       </div>
 
@@ -199,6 +198,28 @@ export function init(el) {
 
   // Initialize calculator
   setupEventListeners();
+  
+  // Initialize pricing engine AFTER DOM is created
+  initPricing('us').then(() => {
+    console.log('✅ Flooring calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate Flooring Materials';
+    }
+  }).catch(err => {
+    console.error('❌ Flooring calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 Flooring calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculateFlooring(); // Re-run calculation if there are existing results
+    }
+  });
   
   // Auto-populate waste factors and material options
   updateMaterialOptions();
@@ -430,7 +451,7 @@ export function compute(data) {
     calculateGroutQuantities(data) : { bags: 0, coverage: 0 };
   
   // Regional pricing
-  const pricing = getRegionalPricing(data.region);
+  // Using centralized pricing engine (no need for regional pricing variable)
   
   // Cost calculations
   const costs = {
@@ -443,7 +464,13 @@ export function compute(data) {
   };
   
   const materialCost = Object.values(costs).reduce((sum, cost) => sum + cost, 0);
-  const laborCost = data.includeLabor ? materialCost * pricing.laborMultiplier[data.flooringType] : 0;
+  // Itemized labor cost calculations  
+  const laborComponents = {
+    installation: data.includeLabor ? getInstallationLaborCost(data.flooringType, materialQuantities.area) : 0,
+    preparation: data.includeLabor ? getPreparationLaborCost(data.subfloorPrep, data.totalArea) : 0
+  };
+  
+  const laborCost = Object.values(laborComponents).reduce((sum, cost) => sum + cost, 0);
   const totalCost = materialCost + laborCost;
   
   return {
@@ -605,67 +632,72 @@ function calculateSubfloorCost(data, pricing) {
   return subfloorCosts[data.subfloorPrep] || 0;
 }
 
-function getRegionalPricing(region) {
-  const basePricing = {
-    'southeast': {
-      materials: {
-        tile: { economy: 2.50, standard: 4.50, premium: 8.50, luxury: 15.00 },
-        hardwood: { economy: 4.50, standard: 7.50, premium: 12.50, luxury: 22.00 },
-        laminate: { economy: 1.50, standard: 3.50, premium: 6.50, luxury: 9.50 },
-        vinyl: { economy: 2.00, standard: 4.50, premium: 8.00, luxury: 14.00 },
-        carpet: { economy: 1.50, standard: 3.50, premium: 7.50, luxury: 15.00 },
-        bamboo: { economy: 3.50, standard: 6.50, premium: 10.50, luxury: 16.00 },
-        stone: { economy: 5.50, standard: 9.50, premium: 18.50, luxury: 35.00 }
-      },
-      adhesives: {
-        'glue-down': 45, // per gallon
-        'mortar': 25, // per 50lb bag
-        'mastic': 35 // per gallon
-      },
-      grout: {
-        '1/16': 18, '1/8': 18, '1/4': 22, '3/8': 22
-      },
-      transitionStrips: 15,
-      baseboard: 3.50,
-      quarterRound: 2.25,
-      doorThreshold: 25,
-      selfLeveling: 2.80,
-      underlayment: 1.25,
-      laborMultiplier: {
-        tile: 2.8, hardwood: 3.2, laminate: 1.8, vinyl: 2.0,
-        carpet: 1.5, bamboo: 3.0, stone: 3.5
-      }
-    },
-    'northeast': {
-      materials: {
-        tile: { economy: 3.00, standard: 5.50, premium: 10.00, luxury: 18.00 },
-        hardwood: { economy: 5.50, standard: 9.00, premium: 15.00, luxury: 26.00 },
-        laminate: { economy: 1.80, standard: 4.20, premium: 7.80, luxury: 11.50 },
-        vinyl: { economy: 2.40, standard: 5.40, premium: 9.60, luxury: 16.80 },
-        carpet: { economy: 1.80, standard: 4.20, premium: 9.00, luxury: 18.00 },
-        bamboo: { economy: 4.20, standard: 7.80, premium: 12.60, luxury: 19.20 },
-        stone: { economy: 6.60, standard: 11.40, premium: 22.20, luxury: 42.00 }
-      },
-      adhesives: {
-        'glue-down': 55, 'mortar': 30, 'mastic': 42
-      },
-      grout: {
-        '1/16': 22, '1/8': 22, '1/4': 26, '3/8': 26
-      },
-      transitionStrips: 18,
-      baseboard: 4.20,
-      quarterRound: 2.70,
-      doorThreshold: 30,
-      selfLeveling: 3.40,
-      underlayment: 1.50,
-      laborMultiplier: {
-        tile: 3.5, hardwood: 4.0, laminate: 2.2, vinyl: 2.5,
-        carpet: 1.8, bamboo: 3.8, stone: 4.2
-      }
-    }
+// Pricing helper functions using centralized pricing engine
+function getFlooringMaterialPrice(flooringType, materialGrade, area) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  
+  // Map flooring types to pricing.base.json keys
+  const materialKeys = {
+    'hardwood': 'hardwood_oak',
+    'tile': 'ceramic_tile', 
+    'vinyl': 'vinyl_plank',
+    'laminate': 'laminate',
+    'carpet': 'carpet_basic',
+    'bamboo': 'engineered_wood', // Close equivalent
+    'stone': 'ceramic_tile' // Use ceramic as fallback for stone
   };
   
-  return basePricing[region] || basePricing['southeast'];
+  const materialKey = materialKeys[flooringType] || 'laminate';
+  const basePrice = pricing.getPrice('flooring', materialKey, 'square foot');
+  
+  // Apply grade multipliers
+  const gradeMultipliers = {
+    'economy': 0.7,
+    'standard': 1.0,
+    'premium': 1.8,
+    'luxury': 2.5
+  };
+  
+  const multiplier = gradeMultipliers[materialGrade] || 1.0;
+  return basePrice * multiplier * area;
+}
+
+function getInstallationLaborCost(flooringType, area) {
+  const hourlyRate = 75;
+  
+  // Square feet per hour by flooring type (installation speed)
+  const installationRates = {
+    'vinyl': 40,    // Fastest
+    'laminate': 35,
+    'carpet': 30,
+    'tile': 20,     // Slower due to cutting/grouting
+    'hardwood': 25,
+    'bamboo': 25,
+    'stone': 15     // Slowest due to precision needed
+  };
+  
+  const sqftPerHour = installationRates[flooringType] || 25;
+  const laborHours = area / sqftPerHour;
+  return laborHours * hourlyRate;
+}
+
+function getPreparationLaborCost(subfloorPrep, area) {
+  if (subfloorPrep === 'none' || subfloorPrep === 'clean') return 0;
+  
+  const hourlyRate = 65;
+  
+  // Preparation rates by type
+  const prepRates = {
+    'self-leveling': 15, // sq ft per hour
+    'underlayment': 50   // sq ft per hour
+  };
+  
+  const sqftPerHour = prepRates[subfloorPrep] || 25;
+  const laborHours = area / sqftPerHour;
+  return laborHours * hourlyRate;
 }
 
 function displayResults(results) {

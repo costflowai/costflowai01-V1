@@ -11,28 +11,6 @@ import { bus, EVENTS } from '../core/bus.js';
 export function init(el) {
   const savedState = loadState('electrical') || {};
   
-  // Initialize pricing engine
-  initPricing('us').then(() => {
-    console.log('✅ Electrical calculator: Pricing engine initialized');
-    // Enable calculate button
-    const calcBtn = el.querySelector('#calculate-btn');
-    if (calcBtn) {
-      calcBtn.disabled = false;
-      calcBtn.textContent = 'Calculate Electrical Materials';
-    }
-  }).catch(err => {
-    console.error('❌ Electrical calculator: Failed to initialize pricing:', err);
-  });
-  
-  // Listen for pricing updates (region changes)
-  bus.on(EVENTS.PRICING_UPDATED, () => {
-    console.log('🔄 Electrical calculator: Pricing updated, recalculating...');
-    const currentResults = document.getElementById('results-content');
-    if (currentResults && currentResults.innerHTML.trim()) {
-      calculateElectrical(); // Re-run calculation if there are existing results
-    }
-  });
-
   el.innerHTML = `
     <div class="calculator-container">
       <div class="calculator-header">
@@ -221,6 +199,28 @@ export function init(el) {
 
   // Initialize calculator
   setupEventListeners();
+  
+  // Initialize pricing engine AFTER DOM is created
+  initPricing('us').then(() => {
+    console.log('✅ Electrical calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate Electrical Materials';
+    }
+  }).catch(err => {
+    console.error('❌ Electrical calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 Electrical calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculateElectrical(); // Re-run calculation if there are existing results
+    }
+  });
   
   // Auto-populate lighting loads based on occupancy type
   updateLightingLoads();

@@ -5,6 +5,8 @@ import { validateNumber } from '../core/validate.js';
 import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
+import { pricing, initPricing } from '../core/pricing.js';
+import { bus, EVENTS } from '../core/bus.js';
 
 export function init(el) {
   const savedState = loadState('plumbing') || {};
@@ -157,12 +159,9 @@ export function init(el) {
           <div class="input-group">
             <label for="region">Region</label>
             <select id="region">
-              <option value="southeast" ${savedState.region === 'southeast' ? 'selected' : ''}>Southeast US</option>
-              <option value="northeast" ${savedState.region === 'northeast' ? 'selected' : ''}>Northeast US</option>
-              <option value="midwest" ${savedState.region === 'midwest' ? 'selected' : ''}>Midwest US</option>
-              <option value="southwest" ${savedState.region === 'southwest' ? 'selected' : ''}>Southwest US</option>
-              <option value="west" ${savedState.region === 'west' ? 'selected' : ''}>West Coast</option>
+              <option value="us" ${savedState.region === 'us' ? 'selected' : ''}>United States (National Average)</option>
             </select>
+            <small>Regional pricing variations will be available in future updates</small>
           </div>
           <div class="input-group">
             <label for="include-labor">Include Labor Costs</label>
@@ -175,7 +174,7 @@ export function init(el) {
       </div>
 
       <div class="button-section">
-        <button id="calculate-btn" class="btn-primary">Calculate Plumbing Materials</button>
+        <button id="calculate-btn" class="btn-primary" disabled>Loading Pricing Data...</button>
         <button id="reset-btn" class="btn-secondary">Reset Form</button>
       </div>
 
@@ -200,6 +199,28 @@ export function init(el) {
 
   // Initialize calculator
   setupEventListeners();
+  
+  // Initialize pricing engine AFTER DOM is created
+  initPricing('us').then(() => {
+    console.log('✅ Plumbing calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate Plumbing Materials';
+    }
+  }).catch(err => {
+    console.error('❌ Plumbing calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 Plumbing calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculatePlumbing(); // Re-run calculation if there are existing results
+    }
+  });
   
   // Auto-populate fixtures based on building type
   updateFixtureRecommendations();
@@ -391,21 +412,33 @@ export function compute(data) {
   const fittingsCount = calculateFittings(data);
   
   // Regional pricing
-  const pricing = getRegionalPricing(data.region);
+  // Using centralized pricing engine (no need for regional pricing variable)
   
-  // Cost calculations
+  // Cost calculations using centralized pricing
+  const totalPipeLength = Object.values(supplyPipeLengths).reduce((sum, length) => sum + length, 0) +
+                         Object.values(drainagePipeLengths).reduce((sum, length) => sum + length, 0);
+  const totalFixtures = data.toilets + data.sinks + data.showers + data.bathtubs + data.kitchenSinks + data.washingMachines + data.dishwashers;
+  
   const costs = {
-    supplyPipe: calculatePipeCost(supplyPipeLengths, data.supplyMaterial, pricing),
-    drainagePipe: calculatePipeCost(drainagePipeLengths, data.drainageMaterial, pricing),
-    fittings: fittingsCount.total * pricing.averageFitting,
-    fixtures: calculateFixtureCosts(data, pricing),
-    waterHeater: data.waterHeaters * pricing.waterHeater[data.buildingType] || 0,
-    insulation: data.pipeInsulation !== 'none' ? calculateInsulationCost(data, pricing) : 0,
-    valves: calculateValveCost(data, pricing)
+    supplyPipe: getPipePrice(data.supplyMaterial, Object.values(supplyPipeLengths).reduce((sum, length) => sum + length, 0)),
+    drainagePipe: getPipePrice(data.drainageMaterial, Object.values(drainagePipeLengths).reduce((sum, length) => sum + length, 0)),
+    fittings: getFittingsPrice(fittingsCount.total),
+    fixtures: getFixturePrice('toilet', data.toilets) + getFixturePrice('sink', data.sinks) + getFixturePrice('shower', data.showers) + getFixturePrice('bathtub', data.bathtubs) + getFixturePrice('kitchenSink', data.kitchenSinks),
+    waterHeater: 0, // Not in current pricing data
+    insulation: 0,  // Not in current pricing data
+    valves: calculateValveCost(data)
   };
   
   const materialCost = Object.values(costs).reduce((sum, cost) => sum + cost, 0);
-  const laborCost = data.includeLabor ? materialCost * pricing.laborMultiplier : 0;
+  
+  // Itemized labor cost calculations
+  const laborComponents = {
+    pipeInstallation: data.includeLabor ? getPipeInstallationCost(totalPipeLength, data.supplyMaterial) : 0,
+    fixtureInstallation: data.includeLabor ? getFixtureInstallationCost(totalFixtures) : 0,
+    fittingInstallation: data.includeLabor ? getFittingInstallationCost(fittingsCount.total, data.supplyMaterial) : 0
+  };
+  
+  const laborCost = Object.values(laborComponents).reduce((sum, cost) => sum + cost, 0);
   const totalCost = materialCost + laborCost;
   
   return {
@@ -426,7 +459,6 @@ export function compute(data) {
     laborCost: laborCost,
     totalCost: totalCost,
     
-    pricing: pricing
   };
 }
 
@@ -536,116 +568,108 @@ function calculateFittings(data) {
   };
 }
 
-function calculatePipeCost(lengths, material, pricing) {
-  const pipePricing = pricing.pipe[material] || pricing.pipe.copper;
-  let totalCost = 0;
-  
-  if (typeof lengths === 'object') {
-    Object.values(lengths).forEach(length => {
-      if (typeof length === 'number') {
-        totalCost += length * pipePricing.perFoot;
-      }
-    });
-  } else {
-    totalCost = lengths * pipePricing.perFoot;
-  }
-  
-  return totalCost;
+function calculatePipeCost(lengths, material) {
+  // This function is now deprecated - costs are handled by getPipePrice helper
+  // Keeping for backward compatibility but returning 0
+  return 0;
 }
 
-function calculateFixtureCosts(data, pricing) {
-  return (
-    data.toilets * pricing.fixtures.toilet +
-    data.sinks * pricing.fixtures.sink +
-    data.showers * pricing.fixtures.shower +
-    data.bathtubs * pricing.fixtures.bathtub +
-    data.kitchenSinks * pricing.fixtures.kitchenSink +
-    data.washingMachines * pricing.fixtures.washingMachine +
-    data.dishwashers * pricing.fixtures.dishwasher
-  );
+function calculateFixtureCosts(data) {
+  // This function is now deprecated - costs are handled by getFixturePrice helper
+  // Keeping for backward compatibility but returning 0
+  return 0;
 }
 
-function calculateInsulationCost(data, pricing) {
-  const pipesToInsulate = data.pipeInsulation === 'all-pipes' ? 
-    (data.hotWaterRuns + data.coldWaterRuns) : data.hotWaterRuns;
-  
-  return pipesToInsulate * pricing.pipeInsulation;
+function calculateInsulationCost(data) {
+  // This function is now deprecated - insulation not in current pricing data
+  // Keeping for backward compatibility but returning 0
+  return 0;
 }
 
-function calculateValveCost(data, pricing) {
+function calculateValveCost(data) {
   // Estimate valves: 1 shutoff per 3 fixtures + main shutoffs
   const totalFixtures = data.toilets + data.sinks + data.showers + data.bathtubs + data.kitchenSinks;
   const valveCount = Math.ceil(totalFixtures / 3) + 2; // +2 for main water and main drain
   
-  return valveCount * pricing.averageValve;
+  return getValvePrice(valveCount);
 }
 
-function getRegionalPricing(region) {
-  const basePricing = {
-    'southeast': {
-      pipe: {
-        copper: { perFoot: 4.50 },
-        pex: { perFoot: 1.25 },
-        cpvc: { perFoot: 1.50 },
-        pvc: { perFoot: 1.20 },
-        abs: { perFoot: 1.30 },
-        'cast-iron': { perFoot: 8.50 }
-      },
-      fixtures: {
-        toilet: 185,
-        sink: 120,
-        shower: 250,
-        bathtub: 450,
-        kitchenSink: 280,
-        washingMachine: 0, // Customer supplied
-        dishwasher: 0 // Customer supplied
-      },
-      waterHeater: {
-        residential: 850,
-        office: 1200,
-        restaurant: 2500,
-        hospital: 3500,
-        hotel: 1800
-      },
-      averageFitting: 12,
-      averageValve: 35,
-      pipeInsulation: 2.50,
-      laborMultiplier: 2.8
-    },
-    'northeast': {
-      pipe: {
-        copper: { perFoot: 5.20 },
-        pex: { perFoot: 1.45 },
-        cpvc: { perFoot: 1.75 },
-        pvc: { perFoot: 1.40 },
-        abs: { perFoot: 1.50 },
-        'cast-iron': { perFoot: 9.50 }
-      },
-      fixtures: {
-        toilet: 220,
-        sink: 145,
-        shower: 295,
-        bathtub: 520,
-        kitchenSink: 325,
-        washingMachine: 0,
-        dishwasher: 0
-      },
-      waterHeater: {
-        residential: 950,
-        office: 1350,
-        restaurant: 2800,
-        hospital: 4000,
-        hotel: 2100
-      },
-      averageFitting: 14,
-      averageValve: 42,
-      pipeInsulation: 2.90,
-      laborMultiplier: 3.5
-    }
+// Pricing helper functions using centralized pricing engine
+function getPipePrice(material, length) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  
+  const keyMap = {
+    'copper': 'copper_pipe_3_4', // Use 3/4" as standard
+    'pex': 'pex_pipe_1_2',       // Use 1/2" as standard  
+    'cpvc': 'pex_pipe_1_2',      // Fallback to PEX pricing
+    'pvc': 'pvc_pipe_4',         // Use 4" for drainage
+    'abs': 'pvc_pipe_4',         // Fallback to PVC pricing
+    'cast-iron': 'pvc_pipe_4'    // Fallback to PVC pricing (expensive alternative)
   };
   
-  // Use southeast as default if region not found
-  return basePricing[region] || basePricing['southeast'];
+  const pipeKey = keyMap[material] || 'pex_pipe_1_2';
+  return pricing.getPrice('plumbing', pipeKey, 'linear foot') * length;
+}
+
+function getFittingsPrice(count) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('plumbing', 'fittings_pex', 'piece') * count;
+}
+
+function getValvePrice(count) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('plumbing', 'shut_off_valve', 'piece') * count;
+}
+
+function getFixturePrice(fixtureType, count) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  
+  // Estimate fixture costs as multiple of pipe cost (fallback approach)
+  const basePipePrice = pricing.getPrice('plumbing', 'copper_pipe_3_4', 'linear foot');
+  const fixtureMultipliers = {
+    'toilet': 50,      // ~$225 (50 * $4.50)
+    'sink': 30,        // ~$135 (30 * $4.50)
+    'shower': 60,      // ~$270 (60 * $4.50) 
+    'bathtub': 110,    // ~$495 (110 * $4.50)
+    'kitchenSink': 65, // ~$293 (65 * $4.50)
+    'washingMachine': 0, // Customer supplied
+    'dishwasher': 0      // Customer supplied
+  };
+  
+  return (basePipePrice * (fixtureMultipliers[fixtureType] || 30)) * count;
+}
+
+// Itemized labor cost functions  
+function getPipeInstallationCost(totalLinearFeet, material) {
+  const hourlyRate = 65;
+  const feetPerHour = material === 'copper' ? 15 : material === 'pex' ? 25 : 20;
+  const laborHours = totalLinearFeet / feetPerHour;
+  return laborHours * hourlyRate;
+}
+
+function getFixtureInstallationCost(totalFixtures) {
+  const hourlyRate = 75;
+  const hoursPerFixture = 2.5; // Average 2.5 hours per fixture
+  return totalFixtures * hoursPerFixture * hourlyRate;
+}
+
+function getFittingInstallationCost(fittingCount, material) {
+  const hourlyRate = 65;
+  const fittingsPerHour = material === 'copper' ? 8 : 12;
+  const laborHours = fittingCount / fittingsPerHour;
+  return laborHours * hourlyRate;
 }
 
 function displayResults(results) {
