@@ -1,4 +1,141 @@
-<!-- Blog post template -->
-<article>
-    {{post_content}}
-</article>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - CostFlowAI Blog</title>
+    <meta name="description" content="{{description}}">
+    <link rel="canonical" href="{{canonical_url}}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="{{canonical_url}}">
+    <meta property="og:image" content="{{cover}}">
+    <meta property="article:published_time" content="{{date_iso}}">
+    <meta property="article:author" content="CostFlowAI Team">
+    {{#each tags}}
+    <meta property="article:tag" content="{{this}}">
+    {{/each}}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{cover}}">
+
+    <!-- JSON-LD BlogPosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{title}}",
+        "description": "{{description}}",
+        "image": "{{cover}}",
+        "author": {
+            "@type": "Organization",
+            "name": "CostFlowAI"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "CostFlowAI",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://costflowai.com/assets/images/logo.png"
+            }
+        },
+        "datePublished": "{{date_iso}}",
+        "dateModified": "{{date_iso}}",
+        "url": "{{canonical_url}}",
+        "keywords": "{{tags_string}}"
+    }
+    </script>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header>
+        <nav>
+            <a href="/" class="logo">CostFlowAI</a>
+            <ul>
+                <li><a href="/calculators">Calculators</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <article class="blog-post">
+            <header class="post-header">
+                <h1>{{title}}</h1>
+                <div class="post-meta">
+                    <time datetime="{{date_iso}}">{{date_formatted}}</time>
+                    <div class="post-tags">
+                        {{#each tags}}
+                        <a href="/blog/tags/{{this}}" class="tag">{{this}}</a>
+                        {{/each}}
+                    </div>
+                </div>
+                {{#if cover}}
+                <img src="{{cover}}" alt="{{title}}" class="post-cover">
+                {{/if}}
+            </header>
+
+            <div class="post-content">
+                {{post_content}}
+            </div>
+
+            <footer class="post-footer">
+                <div class="post-navigation">
+                    {{#if prev_post}}
+                    <a href="{{prev_post.url}}" class="nav-prev">
+                        ← {{prev_post.title}}
+                    </a>
+                    {{/if}}
+                    {{#if next_post}}
+                    <a href="{{next_post.url}}" class="nav-next">
+                        {{next_post.title}} →
+                    </a>
+                    {{/if}}
+                </div>
+
+                <div class="post-share">
+                    <h3>Share this post</h3>
+                    <a href="https://twitter.com/intent/tweet?url={{canonical_url}}&text={{title}}" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{canonical_url}}" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+            </footer>
+        </article>
+
+        <aside class="blog-sidebar">
+            <div class="sidebar-section">
+                <h3>Related Posts</h3>
+                <ul class="related-posts">
+                    {{#each related_posts}}
+                    <li><a href="{{url}}">{{title}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Popular Calculators</h3>
+                <ul class="popular-calculators">
+                    <li><a href="/calculators/concrete">Concrete Slab Pro</a></li>
+                    <li><a href="/calculators/drywall">Drywall Calculator</a></li>
+                    <li><a href="/calculators/paint">Paint Calculator</a></li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,3 +1,598 @@
 {
-  "placeholder": "Pricing data structure placeholder"
+  "concrete": {
+    "ready_mix_3000psi": {
+      "per_cubic_yard": 135.00,
+      "description": "3000 PSI ready-mix concrete",
+      "unit": "cubic yard"
+    },
+    "ready_mix_4000psi": {
+      "per_cubic_yard": 145.00,
+      "description": "4000 PSI ready-mix concrete",
+      "unit": "cubic yard"
+    },
+    "ready_mix_5000psi": {
+      "per_cubic_yard": 155.00,
+      "description": "5000 PSI ready-mix concrete",
+      "unit": "cubic yard"
+    },
+    "fiber_mesh": {
+      "per_cubic_yard": 8.50,
+      "description": "Fiber mesh additive",
+      "unit": "cubic yard"
+    },
+    "accelerator": {
+      "per_cubic_yard": 12.00,
+      "description": "Concrete accelerator additive",
+      "unit": "cubic yard"
+    },
+    "delivery": {
+      "per_load": 85.00,
+      "description": "Concrete delivery fee",
+      "unit": "per load"
+    },
+    "short_load_fee": {
+      "per_yard_under": 25.00,
+      "description": "Short load fee per yard under minimum",
+      "unit": "per yard under minimum"
+    }
+  },
+  "rebar": {
+    "grade60_3": {
+      "per_linear_foot": 0.85,
+      "description": "#3 Grade 60 rebar",
+      "unit": "linear foot"
+    },
+    "grade60_4": {
+      "per_linear_foot": 1.20,
+      "description": "#4 Grade 60 rebar",
+      "unit": "linear foot"
+    },
+    "grade60_5": {
+      "per_linear_foot": 1.65,
+      "description": "#5 Grade 60 rebar",
+      "unit": "linear foot"
+    },
+    "grade60_6": {
+      "per_linear_foot": 2.40,
+      "description": "#6 Grade 60 rebar",
+      "unit": "linear foot"
+    },
+    "mesh_6x6": {
+      "per_square_foot": 0.35,
+      "description": "6x6 welded wire mesh",
+      "unit": "square foot"
+    },
+    "mesh_4x4": {
+      "per_square_foot": 0.45,
+      "description": "4x4 welded wire mesh",
+      "unit": "square foot"
+    },
+    "tie_wire": {
+      "per_pound": 2.25,
+      "description": "Rebar tie wire",
+      "unit": "pound"
+    },
+    "chairs": {
+      "per_piece": 0.75,
+      "description": "Rebar chairs/supports",
+      "unit": "piece"
+    }
+  },
+  "labor": {
+    "excavation": {
+      "per_square_foot": 0.65,
+      "description": "Excavation and grading",
+      "unit": "square foot"
+    },
+    "gravel_base": {
+      "per_square_foot": 0.85,
+      "description": "Gravel base preparation",
+      "unit": "square foot"
+    },
+    "forming": {
+      "per_linear_foot": 4.50,
+      "description": "Form setup and stripping",
+      "unit": "linear foot"
+    },
+    "rebar_placement": {
+      "per_pound": 0.25,
+      "description": "Rebar placement and tying",
+      "unit": "pound"
+    },
+    "concrete_placement": {
+      "per_cubic_yard": 25.00,
+      "description": "Concrete placement and screeding",
+      "unit": "cubic yard"
+    },
+    "finishing": {
+      "per_square_foot": 1.25,
+      "description": "Concrete finishing (float/trowel)",
+      "unit": "square foot"
+    },
+    "curing": {
+      "per_square_foot": 0.35,
+      "description": "Curing compound application",
+      "unit": "square foot"
+    },
+    "sawcut": {
+      "per_linear_foot": 2.80,
+      "description": "Control joint sawcutting",
+      "unit": "linear foot"
+    }
+  },
+  "materials": {
+    "gravel_base": {
+      "per_cubic_yard": 28.00,
+      "description": "3/4\" crushed gravel base",
+      "unit": "cubic yard"
+    },
+    "sand_base": {
+      "per_cubic_yard": 32.00,
+      "description": "Sand base leveling course",
+      "unit": "cubic yard"
+    },
+    "vapor_barrier": {
+      "per_square_foot": 0.15,
+      "description": "6-mil polyethylene vapor barrier",
+      "unit": "square foot"
+    },
+    "isolation_joint": {
+      "per_linear_foot": 1.85,
+      "description": "1/2\" isolation joint material",
+      "unit": "linear foot"
+    },
+    "expansion_joint": {
+      "per_linear_foot": 2.25,
+      "description": "Expansion joint filler",
+      "unit": "linear foot"
+    },
+    "curing_compound": {
+      "per_gallon": 28.00,
+      "description": "Concrete curing compound",
+      "unit": "gallon"
+    },
+    "form_lumber": {
+      "per_linear_foot": 3.25,
+      "description": "2x8 form lumber",
+      "unit": "linear foot"
+    },
+    "form_stakes": {
+      "per_piece": 1.50,
+      "description": "Form stakes and bracing",
+      "unit": "piece"
+    }
+  },
+  "equipment": {
+    "concrete_pump": {
+      "per_cubic_yard": 8.50,
+      "description": "Concrete pump rental",
+      "unit": "cubic yard"
+    },
+    "laser_screed": {
+      "per_square_foot": 0.25,
+      "description": "Laser screed equipment",
+      "unit": "square foot"
+    },
+    "power_float": {
+      "per_square_foot": 0.18,
+      "description": "Power float rental",
+      "unit": "square foot"
+    },
+    "concrete_saw": {
+      "per_linear_foot": 0.85,
+      "description": "Concrete sawcutting",
+      "unit": "linear foot"
+    }
+  },
+  "overhead": {
+    "general_contractor": {
+      "percentage": 15.0,
+      "description": "General contractor markup",
+      "unit": "percentage"
+    },
+    "profit": {
+      "percentage": 10.0,
+      "description": "Contractor profit margin",
+      "unit": "percentage"
+    },
+    "bond_insurance": {
+      "percentage": 2.5,
+      "description": "Bond and insurance costs",
+      "unit": "percentage"
+    },
+    "permits": {
+      "per_project": 125.00,
+      "description": "Typical permit fees",
+      "unit": "per project"
+    }
+  },
+  "drywall": {
+    "gypsum_board_1_2": {
+      "per_square_foot": 0.65,
+      "description": "1/2\" standard gypsum drywall",
+      "unit": "square foot"
+    },
+    "gypsum_board_5_8": {
+      "per_square_foot": 0.75,
+      "description": "5/8\" fire-rated gypsum drywall",
+      "unit": "square foot"
+    },
+    "moisture_resistant": {
+      "per_square_foot": 0.85,
+      "description": "Moisture-resistant drywall",
+      "unit": "square foot"
+    },
+    "joint_compound": {
+      "per_square_foot": 0.25,
+      "description": "Joint compound/mud",
+      "unit": "square foot"
+    },
+    "joint_tape": {
+      "per_square_foot": 0.15,
+      "description": "Paper joint tape",
+      "unit": "square foot"
+    },
+    "mesh_tape": {
+      "per_square_foot": 0.18,
+      "description": "Fiberglass mesh tape",
+      "unit": "square foot"
+    },
+    "corner_bead": {
+      "per_linear_foot": 1.25,
+      "description": "Metal corner bead",
+      "unit": "linear foot"
+    },
+    "screws": {
+      "per_square_foot": 0.08,
+      "description": "Drywall screws",
+      "unit": "square foot"
+    }
+  },
+
+  "paint": {
+    "interior_latex": {
+      "per_gallon": 45.00,
+      "description": "Interior latex paint, standard quality",
+      "unit": "gallon"
+    },
+    "interior_premium": {
+      "per_gallon": 65.00,
+      "description": "Premium interior latex paint",
+      "unit": "gallon"
+    },
+    "exterior_latex": {
+      "per_gallon": 55.00,
+      "description": "Exterior latex paint, standard quality",
+      "unit": "gallon"
+    },
+    "exterior_premium": {
+      "per_gallon": 75.00,
+      "description": "Premium exterior latex paint",
+      "unit": "gallon"
+    },
+    "primer_interior": {
+      "per_gallon": 35.00,
+      "description": "Interior primer/sealer",
+      "unit": "gallon"
+    },
+    "primer_exterior": {
+      "per_gallon": 40.00,
+      "description": "Exterior primer/sealer",
+      "unit": "gallon"
+    },
+    "stain_blocking": {
+      "per_gallon": 50.00,
+      "description": "Stain-blocking primer",
+      "unit": "gallon"
+    }
+  },
+
+  "roofing": {
+    "asphalt_shingles": {
+      "per_square": 125.00,
+      "description": "Standard 3-tab asphalt shingles",
+      "unit": "square"
+    },
+    "architectural_shingles": {
+      "per_square": 175.00,
+      "description": "Architectural asphalt shingles",
+      "unit": "square"
+    },
+    "underlayment": {
+      "per_square": 45.00,
+      "description": "Roofing underlayment felt",
+      "unit": "square"
+    },
+    "ice_barrier": {
+      "per_square": 65.00,
+      "description": "Ice and water barrier",
+      "unit": "square"
+    },
+    "drip_edge": {
+      "per_linear_foot": 2.50,
+      "description": "Aluminum drip edge",
+      "unit": "linear foot"
+    },
+    "ridge_cap": {
+      "per_linear_foot": 8.50,
+      "description": "Ridge cap shingles",
+      "unit": "linear foot"
+    },
+    "roof_nails": {
+      "per_square": 15.00,
+      "description": "Roofing nails",
+      "unit": "square"
+    }
+  },
+
+  "flooring": {
+    "hardwood_oak": {
+      "per_square_foot": 8.50,
+      "description": "Solid oak hardwood flooring",
+      "unit": "square foot"
+    },
+    "engineered_wood": {
+      "per_square_foot": 6.25,
+      "description": "Engineered wood flooring",
+      "unit": "square foot"
+    },
+    "laminate": {
+      "per_square_foot": 3.75,
+      "description": "Laminate flooring",
+      "unit": "square foot"
+    },
+    "ceramic_tile": {
+      "per_square_foot": 4.50,
+      "description": "Standard ceramic tile",
+      "unit": "square foot"
+    },
+    "porcelain_tile": {
+      "per_square_foot": 6.75,
+      "description": "Porcelain tile",
+      "unit": "square foot"
+    },
+    "carpet_basic": {
+      "per_square_foot": 2.25,
+      "description": "Basic carpet with pad",
+      "unit": "square foot"
+    },
+    "vinyl_plank": {
+      "per_square_foot": 4.25,
+      "description": "Luxury vinyl plank",
+      "unit": "square foot"
+    },
+    "underlayment": {
+      "per_square_foot": 0.85,
+      "description": "Flooring underlayment",
+      "unit": "square foot"
+    }
+  },
+
+  "electrical": {
+    "romex_12_2": {
+      "per_linear_foot": 0.85,
+      "description": "12-2 Romex cable",
+      "unit": "linear foot"
+    },
+    "romex_14_2": {
+      "per_linear_foot": 0.65,
+      "description": "14-2 Romex cable",
+      "unit": "linear foot"
+    },
+    "conduit_emt_1_2": {
+      "per_linear_foot": 1.25,
+      "description": "1/2\" EMT conduit",
+      "unit": "linear foot"
+    },
+    "conduit_emt_3_4": {
+      "per_linear_foot": 1.65,
+      "description": "3/4\" EMT conduit",
+      "unit": "linear foot"
+    },
+    "outlet_standard": {
+      "per_piece": 12.50,
+      "description": "Standard electrical outlet",
+      "unit": "piece"
+    },
+    "outlet_gfci": {
+      "per_piece": 25.00,
+      "description": "GFCI electrical outlet",
+      "unit": "piece"
+    },
+    "switch_single": {
+      "per_piece": 8.50,
+      "description": "Single pole switch",
+      "unit": "piece"
+    },
+    "switch_three_way": {
+      "per_piece": 15.00,
+      "description": "Three-way switch",
+      "unit": "piece"
+    },
+    "panel_200_amp": {
+      "per_piece": 485.00,
+      "description": "200-amp electrical panel",
+      "unit": "piece"
+    },
+    "breaker_20_amp": {
+      "per_piece": 18.50,
+      "description": "20-amp circuit breaker",
+      "unit": "piece"
+    }
+  },
+
+  "plumbing": {
+    "copper_pipe_1_2": {
+      "per_linear_foot": 3.25,
+      "description": "1/2\" copper pipe",
+      "unit": "linear foot"
+    },
+    "copper_pipe_3_4": {
+      "per_linear_foot": 4.50,
+      "description": "3/4\" copper pipe",
+      "unit": "linear foot"
+    },
+    "pex_pipe_1_2": {
+      "per_linear_foot": 0.85,
+      "description": "1/2\" PEX pipe",
+      "unit": "linear foot"
+    },
+    "pex_pipe_3_4": {
+      "per_linear_foot": 1.25,
+      "description": "3/4\" PEX pipe",
+      "unit": "linear foot"
+    },
+    "pvc_pipe_4": {
+      "per_linear_foot": 4.25,
+      "description": "4\" PVC drain pipe",
+      "unit": "linear foot"
+    },
+    "fittings_copper": {
+      "per_piece": 2.85,
+      "description": "Copper pipe fittings (average)",
+      "unit": "piece"
+    },
+    "fittings_pex": {
+      "per_piece": 1.50,
+      "description": "PEX pipe fittings (average)",
+      "unit": "piece"
+    },
+    "shut_off_valve": {
+      "per_piece": 15.50,
+      "description": "Water shut-off valve",
+      "unit": "piece"
+    }
+  },
+
+  "masonry": {
+    "cmu_8_standard": {
+      "per_piece": 2.85,
+      "description": "8\" standard CMU block",
+      "unit": "piece"
+    },
+    "cmu_8_lightweight": {
+      "per_piece": 3.25,
+      "description": "8\" lightweight CMU block",
+      "unit": "piece"
+    },
+    "cmu_6_standard": {
+      "per_piece": 2.45,
+      "description": "6\" standard CMU block",
+      "unit": "piece"
+    },
+    "brick_common": {
+      "per_piece": 0.85,
+      "description": "Common building brick",
+      "unit": "piece"
+    },
+    "brick_face": {
+      "per_piece": 1.25,
+      "description": "Face brick",
+      "unit": "piece"
+    },
+    "mortar_type_n": {
+      "per_bag": 8.50,
+      "description": "Type N mortar mix (80 lb bag)",
+      "unit": "bag"
+    },
+    "mortar_type_s": {
+      "per_bag": 9.25,
+      "description": "Type S mortar mix (80 lb bag)",
+      "unit": "bag"
+    },
+    "masonry_sand": {
+      "per_ton": 45.00,
+      "description": "Mason sand",
+      "unit": "ton"
+    }
+  },
+
+  "insulation": {
+    "fiberglass_r13": {
+      "per_square_foot": 0.85,
+      "description": "R-13 fiberglass batt insulation",
+      "unit": "square foot"
+    },
+    "fiberglass_r19": {
+      "per_square_foot": 1.25,
+      "description": "R-19 fiberglass batt insulation",
+      "unit": "square foot"
+    },
+    "fiberglass_r30": {
+      "per_square_foot": 1.65,
+      "description": "R-30 fiberglass batt insulation",
+      "unit": "square foot"
+    },
+    "blown_cellulose": {
+      "per_square_foot": 0.75,
+      "description": "Blown cellulose insulation",
+      "unit": "square foot"
+    },
+    "rigid_foam_1": {
+      "per_square_foot": 1.85,
+      "description": "1\" rigid foam insulation",
+      "unit": "square foot"
+    },
+    "rigid_foam_2": {
+      "per_square_foot": 3.25,
+      "description": "2\" rigid foam insulation",
+      "unit": "square foot"
+    },
+    "spray_foam": {
+      "per_square_foot": 2.85,
+      "description": "Spray foam insulation per inch",
+      "unit": "square foot per inch"
+    }
+  },
+
+  "earthwork": {
+    "excavation": {
+      "per_cubic_yard": 8.50,
+      "description": "General excavation",
+      "unit": "cubic yard"
+    },
+    "fill_material": {
+      "per_cubic_yard": 15.00,
+      "description": "Engineered fill material",
+      "unit": "cubic yard"
+    },
+    "topsoil": {
+      "per_cubic_yard": 25.00,
+      "description": "Screened topsoil",
+      "unit": "cubic yard"
+    },
+    "gravel_3_4": {
+      "per_cubic_yard": 28.00,
+      "description": "3/4\" crushed gravel",
+      "unit": "cubic yard"
+    },
+    "trucking_10_miles": {
+      "per_cubic_yard": 12.00,
+      "description": "Trucking within 10 miles",
+      "unit": "cubic yard"
+    },
+    "trucking_per_mile": {
+      "per_cubic_yard_mile": 1.25,
+      "description": "Additional cost per mile",
+      "unit": "cubic yard per mile"
+    },
+    "compaction": {
+      "per_cubic_yard": 3.50,
+      "description": "Mechanical compaction",
+      "unit": "cubic yard"
+    }
+  },
+
+  "meta": {
+    "currency": "USD",
+    "last_updated": "2024-01-15",
+    "version": "2.0",
+    "source": "National construction cost averages",
+    "notes": [
+      "Prices are national averages and may vary significantly by region",
+      "Labor rates reflect prevailing wage standards",
+      "Material costs subject to market fluctuations",
+      "Coverage rates include typical waste factors"
+    ]
+  }
 }

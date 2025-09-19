@@ -1,4 +1,69 @@
 // Export functionality (CSV, XLSX, PDF, print)
+// Enhanced with vendored jsPDF and SheetJS libraries
+
+import { bus, EVENTS } from './bus.js';
+
+// Library loading state
+let jsPDFLoaded = false;
+let xlsxLoaded = false;
+
+/**
+ * Load jsPDF library if not already loaded
+ */
+async function loadJsPDF() {
+  if (jsPDFLoaded || window.jsPDF) {
+    return true;
+  }
+
+  try {
+    const script = document.createElement('script');
+    script.src = '/vendor/jspdf/jspdf.min.js';
+    script.async = true;
+
+    const loadPromise = new Promise((resolve, reject) => {
+      script.onload = () => {
+        jsPDFLoaded = true;
+        resolve(true);
+      };
+      script.onerror = () => reject(new Error('Failed to load jsPDF'));
+    });
+
+    document.head.appendChild(script);
+    return await loadPromise;
+  } catch (error) {
+    console.error('Error loading jsPDF:', error);
+    return false;
+  }
+}
+
+/**
+ * Load SheetJS library if not already loaded
+ */
+async function loadXLSX() {
+  if (xlsxLoaded || window.XLSX) {
+    return true;
+  }
+
+  try {
+    const script = document.createElement('script');
+    script.src = '/vendor/xlsx/xlsx.min.js';
+    script.async = true;
+
+    const loadPromise = new Promise((resolve, reject) => {
+      script.onload = () => {
+        xlsxLoaded = true;
+        resolve(true);
+      };
+      script.onerror = () => reject(new Error('Failed to load XLSX'));
+    });
+
+    document.head.appendChild(script);
+    return await loadPromise;
+  } catch (error) {
+    console.error('Error loading XLSX:', error);
+    return false;
+  }
+}
 
 export function exportToCsv(data, filename = 'export.csv') {
   const csvContent = data.map(row =>
@@ -7,23 +72,117 @@ export function exportToCsv(data, filename = 'export.csv') {
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   downloadFile(blob, filename);
+
+  bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'csv', filename });
 }
 
-export function exportToXlsx(data, filename = 'export.xlsx') {
-  // Simple XLSX implementation using CSV format for compatibility
-  // In a real implementation, you'd use a library like xlsx or exceljs
-  const csvContent = data.map(row =>
-    row.map(cell => String(cell)).join('\t')
-  ).join('\n');
+export async function exportToXlsx(data, filename = 'export.xlsx') {
+  try {
+    const loaded = await loadXLSX();
+    if (!loaded || !window.XLSX) {
+      throw new Error('XLSX library not available');
+    }
 
-  const blob = new Blob([csvContent], { type: 'application/vnd.ms-excel' });
-  downloadFile(blob, filename);
+    // Convert data array to worksheet
+    const worksheet = window.XLSX.utils.aoa_to_sheet(data);
+
+    // Create workbook and add worksheet
+    const workbook = window.XLSX.utils.book_new();
+    window.XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Generate XLSX file and download
+    window.XLSX.writeFile(workbook, filename);
+
+    bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'xlsx', filename });
+
+  } catch (error) {
+    console.error('XLSX export error:', error);
+    bus.emit(EVENTS.EXPORT_ERROR, { format: 'xlsx', error: error.message });
+
+    // Fallback to CSV
+    exportToCsv(data, filename.replace('.xlsx', '.csv'));
+  }
 }
 
-export function exportToPdf(data, title = 'Report', filename = 'export.pdf') {
-  // Simple PDF export using HTML print functionality
-  // In a real implementation, you'd use a library like jsPDF
+export async function exportToPdf(data, title = 'Report', filename = 'export.pdf') {
+  try {
+    const loaded = await loadJsPDF();
+    if (!loaded || !window.jsPDF) {
+      throw new Error('jsPDF library not available');
+    }
 
+    const { jsPDF } = window.jsPDF;
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text(title, 20, 20);
+
+    // Add date
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 20, 30);
+
+    // Table configuration
+    const startY = 40;
+    const cellPadding = 5;
+    const cellHeight = 8;
+    const pageWidth = doc.internal.pageSize.width;
+    const margins = 20;
+    const tableWidth = pageWidth - (margins * 2);
+
+    let currentY = startY;
+
+    // Calculate column widths
+    const numCols = data[0] ? data[0].length : 0;
+    const colWidth = tableWidth / numCols;
+
+    // Add table data
+    data.forEach((row, rowIndex) => {
+      // Check if we need a new page
+      if (currentY > doc.internal.pageSize.height - 30) {
+        doc.addPage();
+        currentY = 20;
+      }
+
+      let currentX = margins;
+
+      row.forEach((cell, colIndex) => {
+        const cellText = String(cell);
+
+        // Draw cell border
+        doc.rect(currentX, currentY, colWidth, cellHeight);
+
+        // Add text (truncate if too long)
+        const maxWidth = colWidth - (cellPadding * 2);
+        const truncatedText = doc.getTextWidth(cellText) > maxWidth
+          ? cellText.substring(0, Math.floor(cellText.length * maxWidth / doc.getTextWidth(cellText))) + '...'
+          : cellText;
+
+        doc.text(truncatedText, currentX + cellPadding, currentY + cellHeight - 2);
+        currentX += colWidth;
+      });
+
+      currentY += cellHeight;
+    });
+
+    // Save the PDF
+    doc.save(filename);
+
+    bus.emit(EVENTS.EXPORT_COMPLETED, { format: 'pdf', filename });
+
+  } catch (error) {
+    console.error('PDF export error:', error);
+    bus.emit(EVENTS.EXPORT_ERROR, { format: 'pdf', error: error.message });
+
+    // Fallback to print
+    exportToPrintFallback(data, title);
+  }
+}
+
+/**
+ * Fallback PDF export using print
+ */
+function exportToPrintFallback(data, title) {
   const printWindow = window.open('', '_blank');
   const htmlContent = `
     <!DOCTYPE html>
