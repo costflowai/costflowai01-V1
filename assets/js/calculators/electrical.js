@@ -14,8 +14,23 @@ export function init(el) {
   // Initialize pricing engine
   initPricing('us').then(() => {
     console.log('✅ Electrical calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate Electrical Materials';
+    }
   }).catch(err => {
     console.error('❌ Electrical calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 Electrical calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculateElectrical(); // Re-run calculation if there are existing results
+    }
   });
 
   el.innerHTML = `
@@ -166,12 +181,9 @@ export function init(el) {
           <div class="input-group">
             <label for="region">Region</label>
             <select id="region">
-              <option value="southeast" ${savedState.region === 'southeast' ? 'selected' : ''}>Southeast US</option>
-              <option value="northeast" ${savedState.region === 'northeast' ? 'selected' : ''}>Northeast US</option>
-              <option value="midwest" ${savedState.region === 'midwest' ? 'selected' : ''}>Midwest US</option>
-              <option value="southwest" ${savedState.region === 'southwest' ? 'selected' : ''}>Southwest US</option>
-              <option value="west" ${savedState.region === 'west' ? 'selected' : ''}>West Coast</option>
+              <option value="us" ${savedState.region === 'us' ? 'selected' : ''}>United States (National Average)</option>
             </select>
+            <small>Regional pricing variations will be available in future updates</small>
           </div>
           <div class="input-group">
             <label for="include-labor">Include Labor Costs</label>
@@ -184,7 +196,7 @@ export function init(el) {
       </div>
 
       <div class="button-section">
-        <button id="calculate-btn" class="btn-primary">Calculate Electrical Materials</button>
+        <button id="calculate-btn" class="btn-primary" disabled>Loading Pricing Data...</button>
         <button id="reset-btn" class="btn-secondary">Reset Form</button>
       </div>
 
@@ -381,21 +393,35 @@ export function compute(data) {
   
   // Cost calculations
   const costs = {
-    mainPanel: pricingData.panels[data.mainPanelSize] || 0,
-    subPanel: data.subPanelSize > 0 ? (pricingData.panels[data.subPanelSize] || 0) : 0,
-    feederWire: getWireCost(feederWireSize, feederWireLength * 4, data.wireType, pricingData), // 4 conductors
-    branchWire: (totalWire12AWG / 1000) * pricingData.wire['12AWG'][data.wireType], // Per 1000ft
-    conduit: (totalConduitEMT / 10) * (pricingData.conduit[data.conduitType] && pricingData.conduit[data.conduitType]['3/4'] || 25), // Per 10ft stick
-    breakers: data.branchCircuits * pricingData.breaker20A,
-    outlets: data.outletsCount * pricingData.duplexOutlet,
-    switches: data.switchesCount * pricingData.lightSwitch,
-    gfci: data.gfciCount * pricingData.gfciOutlet,
-    fixtures: data.fixtureCount * pricingData.lightFixture,
-    fittings: totalConduitEMT * 0.5 * pricingData.conduitFittings // Estimate 0.5 fittings per foot
+    mainPanel: getPanelPrice(data.mainPanelSize),
+    subPanel: data.subPanelSize > 0 ? getPanelPrice(data.subPanelSize) : 0,
+    feederWire: getFeederWireCost(feederWireSize, feederWireLength * 4, data.wireType), // 4 conductors
+    branchWire: (totalWire12AWG / 1000) * getWirePrice('12AWG', data.wireType), // Per 1000ft
+    conduit: (totalConduitEMT / 10) * getConduitPrice(data.conduitType, '3/4'), // Per 10ft stick
+    breakers: data.branchCircuits * (pricing.isLoaded ? pricing.getPrice('electrical', 'breaker_20_amp', 'per_piece') : 25),
+    outlets: data.outletsCount * (pricing.isLoaded ? pricing.getPrice('electrical', 'outlet_standard', 'per_piece') : 12.50),
+    switches: data.switchesCount * (pricing.isLoaded ? pricing.getPrice('electrical', 'switch_single', 'per_piece') : 8.50),
+    gfci: data.gfciCount * (pricing.isLoaded ? pricing.getPrice('electrical', 'outlet_gfci', 'per_piece') : 25),
+    fixtures: data.fixtureCount * 45, // Standard fixture estimate
+    fittings: totalConduitEMT * 0.5 * 4.50 // Estimate 0.5 fittings per foot
   };
   
   const materialCost = Object.values(costs).reduce((sum, cost) => sum + cost, 0);
-  const laborCost = data.includeLabor ? materialCost * pricingData.laborMultiplier : 0;
+  // Calculate itemized labor costs
+  let laborCost = 0;
+  if (data.includeLabor && pricing.isLoaded) {
+    // Use actual labor rates from pricing engine
+    laborCost = (
+      getPanelInstallationCost(data.mainPanelSize) +
+      (data.subPanelSize > 0 ? getPanelInstallationCost(data.subPanelSize) : 0) +
+      getWireInstallationCost(totalWire12AWG) +
+      getConduitInstallationCost(totalConduitEMT) +
+      getDeviceInstallationCost(data.outletsCount + data.switchesCount + data.gfciCount)
+    );
+  } else if (data.includeLabor) {
+    // Fallback to multiplier if pricing engine not loaded
+    laborCost = materialCost * 2.5;
+  }
   const totalCost = materialCost + laborCost;
   
   return {
@@ -498,9 +524,9 @@ function getPanelSpaces(amperage) {
   return panelSpaces[amperage] || 20;
 }
 
-function getWireCost(wireSize, totalFeet, wireType, pricingData) {
+function getFeederWireCost(wireSize, totalFeet, wireType) {
   const priceKey = wireSize.replace('AWG', 'AWG');
-  const basePrice = pricingData.wire[priceKey] ? pricingData.wire[priceKey][wireType] : pricingData.wire['12AWG'][wireType];
+  const basePrice = getWirePrice(priceKey, wireType);
   return (totalFeet / 1000) * basePrice; // Price per 1000ft
 }
 
