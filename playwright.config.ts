@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:5000',
     trace: 'on-first-retry',
   },
 
@@ -29,8 +29,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'python -m http.server 8080',
-    port: 8080,
+    command: 'node server.js',
+    port: 5000,
     reuseExistingServer: !process.env.CI,
   },
 });

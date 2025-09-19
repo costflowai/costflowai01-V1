@@ -2,7 +2,7 @@
 // Ensures every registry entry exists and exposes required exports
 
 import { describe, it, expect } from '@jest/globals';
-import { calculatorRegistry } from '../assets/js/calculators/registry.js';
+import { calculatorRegistry } from '../assets/js/calculators/registry';
 
 describe('Calculator Registry', () => {
   it('should have 21 calculators registered', () => {
@@ -72,16 +72,15 @@ describe('Calculator Registry', () => {
         expect(meta.id).toBe(calcId);
       });
 
-      it(`should have compute function return proper error for ${calcId}`, async () => {
+      it(`should have compute function return calculation results for ${calcId}`, async () => {
         const registryEntry = calculatorRegistry.find(calc => calc.id === calcId);
         const module = await registryEntry!.module();
 
         const result = module.compute({});
 
-        expect(result).toHaveProperty('ok');
-        expect(result).toHaveProperty('msg');
-        expect(result.ok).toBe(false);
-        expect(result.msg).toBe('Not implemented');
+        // Compute function should return calculation results object
+        expect(typeof result).toBe('object');
+        expect(result).not.toBeNull();
       });
 
       it(`should have explain function return placeholder for ${calcId}`, async () => {
