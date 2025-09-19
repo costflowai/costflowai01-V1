@@ -61,6 +61,7 @@ class BlogSearch {
       const script = document.createElement('script');
       script.src = '/vendor/lunr/lunr.min.js';
       script.async = true;
+      script.nonce = 'ZXmBngRGKvFl+S0+m0eMxQ==';
 
       script.onload = () => {
         if (window.lunr) {

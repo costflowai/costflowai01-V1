@@ -19,6 +19,7 @@ async function loadJsPDF() {
     const script = document.createElement('script');
     script.src = '/vendor/jspdf/jspdf.min.js';
     script.async = true;
+    script.nonce = 'ZXmBngRGKvFl+S0+m0eMxQ==';
 
     const loadPromise = new Promise((resolve, reject) => {
       script.onload = () => {
@@ -48,6 +49,7 @@ async function loadXLSX() {
     const script = document.createElement('script');
     script.src = '/vendor/xlsx/xlsx.min.js';
     script.async = true;
+    script.nonce = 'ZXmBngRGKvFl+S0+m0eMxQ==';
 
     const loadPromise = new Promise((resolve, reject) => {
       script.onload = () => {
