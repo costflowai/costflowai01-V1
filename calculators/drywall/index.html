@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}} - CostFlowAI</title>
-    <meta name="description" content="{{description}}">
+    <title>Drywall Calculator - CostFlowAI</title>
+    <meta name="description" content="Calculate drywall sheets, mud, tape, and finishing materials">
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/layout.css">
     <link rel="stylesheet" href="/assets/css/calculators.css">
@@ -41,20 +41,20 @@
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
 
-    <script nonce="{{nonce}}">
+    <script nonce="PLACEHOLDER_NONCE">
         function toggleSearch() {
             // Simple search redirect for now
             window.location.href = '/blog/';
         }
     </script>
 
-    <script type="module" nonce="{{nonce}}">
+    <script type="module" nonce="PLACEHOLDER_NONCE">
         import { bootCalculator } from '/assets/js/core/ui.js';
-        import calculator from '/assets/js/calculators/{{calculator_id}}.js';
+        import calculator from '/assets/js/calculators/drywall.js';
 
         // Boot the calculator when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
-            bootCalculator('{{calculator_id}}', calculator);
+            bootCalculator('drywall', calculator);
         });
     </script>
 </body>

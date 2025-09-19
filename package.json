@@ -6,8 +6,9 @@
   "scripts": {
     "build:blog": "node tools/build_blog.mjs",
     "build:search": "node tools/build_search_index.mjs",
+    "build:calculators": "node tools/build_calculator_pages.mjs",
     "build:nonce": "node tools/inject_nonce.mjs",
-    "build": "npm run build:blog && npm run build:search && npm run build:nonce",
+    "build": "npm run build:blog && npm run build:search && npm run build:calculators && npm run build:nonce",
     "test": "npx jest",
     "test:registry": "npx jest tests/registry.spec.ts",
     "test:e2e": "npx playwright test",

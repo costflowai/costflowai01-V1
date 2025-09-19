@@ -566,3 +566,100 @@ function handleToggle(element) {
     }
   }
 }
+
+/**
+ * Boot calculator - Initialize calculator app on dedicated pages
+ * @param {string} calculatorId - Calculator ID
+ * @param {object} calculatorModule - Calculator module with meta, compute, etc.
+ */
+export async function bootCalculator(calculatorId, calculatorModule) {
+  try {
+    // Remove loading indicator
+    const loadingDiv = document.getElementById('calculator-loading');
+    if (loadingDiv) {
+      loadingDiv.remove();
+    }
+
+    // Get calculator metadata
+    const meta = calculatorModule.meta();
+
+    // Update page title
+    document.title = `${meta.name} - CostFlowAI`;
+
+    // Create calculator UI
+    const app = document.getElementById('app');
+    if (!app) {
+      throw new Error('App container not found');
+    }
+
+    // Build calculator HTML
+    const calculatorHTML = `
+      <div class="calculator-container">
+        <header class="calculator-header">
+          <h1>${meta.name}</h1>
+          <p class="calculator-description">${meta.description}</p>
+        </header>
+
+        <div class="calculator-content">
+          <form id="calculator-form" class="calculator-form">
+            <div id="form-inputs">
+              <!-- Form inputs will be populated by calculator module -->
+            </div>
+            <div class="form-actions">
+              <button type="button" data-action="calculate" class="btn-primary" id="calculate-btn">
+                Calculate
+              </button>
+              <button type="button" data-action="reset" class="btn-secondary">
+                Reset
+              </button>
+            </div>
+          </form>
+
+          <div id="results" class="results-container">
+            <!-- Results will be populated after calculation -->
+          </div>
+        </div>
+      </div>
+    `;
+
+    app.innerHTML = calculatorHTML;
+
+    // Initialize the calculator if it has an init method
+    if (typeof calculatorModule.init === 'function') {
+      await calculatorModule.init();
+    }
+
+    // Setup form binding
+    const form = document.getElementById('calculator-form');
+    const formBinder = new FormBinder(form, calculatorModule);
+
+    // Initialize form with calculator schema if available
+    if (typeof calculatorModule.getSchema === 'function') {
+      const schema = calculatorModule.getSchema();
+      formBinder.init({ schema });
+    } else {
+      formBinder.init();
+    }
+
+    // Setup export handlers
+    setupExportHandlers(calculatorModule);
+
+    console.log(`Calculator ${calculatorId} booted successfully`);
+
+  } catch (error) {
+    console.error(`Failed to boot calculator ${calculatorId}:`, error);
+
+    // Show error message
+    const app = document.getElementById('app');
+    if (app) {
+      app.innerHTML = `
+        <div class="error-container">
+          <h1>Calculator Error</h1>
+          <p>Failed to load the ${calculatorId} calculator.</p>
+          <p class="error-details">${error.message}</p>
+          <a href="/calculators/" class="btn-primary">Back to Calculators</a>
+        </div>
+      `;
+    }
+  }
+}
