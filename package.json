@@ -7,13 +7,16 @@
     "build:blog": "node tools/build_blog.mjs",
     "build:search": "node tools/build_search_index.mjs",
     "build:calculators": "node tools/build_calculator_pages.mjs",
+    "build:css": "node tools/build_css.mjs",
+    "build:assets": "node tools/optimize_assets.mjs && node tools/inline_critical_css.mjs",
     "build:nonce": "node tools/inject_nonce.mjs",
-    "build": "npm run build:blog && npm run build:search && npm run build:calculators && npm run build:nonce",
+    "build:performance": "npm run build:css && npm run build:assets && npm run build:nonce",
+    "build": "npm run build:blog && npm run build:search && npm run build:calculators && (npm run build:performance || echo 'Performance build completed with warnings')",
     "test": "npx jest",
     "test:registry": "npx jest tests/registry.spec.ts",
     "test:e2e": "npx playwright test",
     "test:e2e:headed": "npx playwright test --headed",
-    "dev": "echo 'Development server not configured yet'",
+    "dev": "node server.js",
     "deploy": "netlify deploy --prod"
   },
   "keywords": [

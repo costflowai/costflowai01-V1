@@ -1,0 +1,66 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "CostFlowAI" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - list [ref=e5]:
+        - listitem [ref=e6]:
+          - link "Home" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e8]:
+          - link "Calculators" [ref=e9] [cursor=pointer]:
+            - /url: /calculators/
+        - listitem [ref=e10]:
+          - link "Blog" [ref=e11] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e12]:
+          - link "Search" [ref=e13] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e14]:
+          - link "Contact" [ref=e15] [cursor=pointer]:
+            - /url: mailto:contact@costflowai.com
+      - searchbox "Search" [ref=e17]
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - heading "Professional Construction Cost Estimation" [level=1] [ref=e21]
+      - paragraph [ref=e22]: CostFlowAI delivers accurate, data-driven cost calculations for construction professionals. Get instant estimates, detailed material breakdowns, and professional reports with regional pricing precision.
+      - generic [ref=e23]:
+        - link "Open Calculators" [ref=e24] [cursor=pointer]:
+          - /url: /calculators/
+        - link "Read the Blog" [ref=e25] [cursor=pointer]:
+          - /url: /blog/
+    - heading "CostFlowAI is under active development—thanks for your patience." [level=2] [ref=e27]
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - img [ref=e32]
+        - heading "Transparent Estimates" [level=3] [ref=e35]
+        - paragraph [ref=e36]: Detailed material breakdowns, labor calculations, and clear cost justification. Know exactly where every dollar goes in your construction budget.
+      - generic [ref=e37]:
+        - img [ref=e39]
+        - heading "Professional Exports" [level=3] [ref=e42]
+        - paragraph [ref=e43]: Generate polished PDF reports, Excel spreadsheets, and CSV files. Professional formatting with your branding for client presentations.
+      - generic [ref=e44]:
+        - img [ref=e46]
+        - heading "Regional Pricing" [level=3] [ref=e49]
+        - paragraph [ref=e50]: Accurate cost data for your specific location. Automatically adjusted pricing based on local market conditions, labor rates, and material costs.
+  - contentinfo [ref=e51]:
+    - navigation [ref=e52]:
+      - list [ref=e53]:
+        - listitem [ref=e54]:
+          - link "Calculators" [ref=e55] [cursor=pointer]:
+            - /url: /calculators/
+        - listitem [ref=e56]:
+          - link "Blog" [ref=e57] [cursor=pointer]:
+            - /url: /blog/
+    - paragraph [ref=e58]: © 2024 CostFlowAI. All rights reserved.
+  - generic [ref=e60]:
+    - paragraph [ref=e61]: We use analytics to improve your experience and understand how our calculators help construction professionals.
+    - generic [ref=e62]:
+      - button "Accept Analytics" [ref=e63] [cursor=pointer]
+      - button "Decline" [ref=e64]
+      - link "Privacy Policy" [ref=e65] [cursor=pointer]:
+        - /url: /privacy
+```

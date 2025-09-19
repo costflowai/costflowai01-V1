@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2025-09-19T10:04:48.042Z",
+  "generated": "2025-09-19T20:19:55.601Z",
   "count": 12,
   "items": [
     {
@@ -17,7 +17,7 @@
         "volume"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-drywall",
@@ -32,7 +32,7 @@
         "finishing"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-paint",
@@ -48,7 +48,7 @@
         "exterior"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-earthwork",
@@ -64,7 +64,7 @@
         "sitework"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-masonry",
@@ -81,7 +81,7 @@
         "structural"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-insulation",
@@ -97,7 +97,7 @@
         "energy"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "calc-siteconcrete",
@@ -113,7 +113,7 @@
         "sidewalks"
       ],
       "category": "Calculator",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "page-home",
@@ -128,7 +128,7 @@
         "construction"
       ],
       "category": "Page",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "page-calculators",
@@ -143,7 +143,7 @@
         "construction"
       ],
       "category": "Page",
-      "date": "2025-09-19T10:04:48.042Z"
+      "date": "2025-09-19T20:19:55.601Z"
     },
     {
       "id": "post-welcome-to-costflowai",
