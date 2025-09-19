@@ -5,6 +5,8 @@ import { validateNumber } from '../core/validate.js';
 import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
+import { pricing, initPricing } from '../core/pricing.js';
+import { bus, EVENTS } from '../core/bus.js';
 
 export function init(el) {
   const savedState = loadState('roofing') || {};
@@ -110,12 +112,9 @@ export function init(el) {
           <div class="input-group">
             <label for="region">Region</label>
             <select id="region">
-              <option value="southeast" ${savedState.region === 'southeast' ? 'selected' : ''}>Southeast US</option>
-              <option value="northeast" ${savedState.region === 'northeast' ? 'selected' : ''}>Northeast US</option>
-              <option value="midwest" ${savedState.region === 'midwest' ? 'selected' : ''}>Midwest US</option>
-              <option value="southwest" ${savedState.region === 'southwest' ? 'selected' : ''}>Southwest US</option>
-              <option value="west" ${savedState.region === 'west' ? 'selected' : ''}>West Coast</option>
+              <option value="us" ${savedState.region === 'us' ? 'selected' : ''}>United States (National Average)</option>
             </select>
+            <small>Regional pricing variations will be available in future updates</small>
           </div>
           <div class="input-group">
             <label for="include-labor">Include Labor Costs</label>
@@ -128,7 +127,7 @@ export function init(el) {
       </div>
 
       <div class="button-section">
-        <button id="calculate-btn" class="btn-primary">Calculate Roofing Materials</button>
+        <button id="calculate-btn" class="btn-primary" disabled>Loading Pricing Data...</button>
         <button id="reset-btn" class="btn-secondary">Reset Form</button>
       </div>
 
@@ -153,6 +152,28 @@ export function init(el) {
 
   // Initialize calculator
   setupEventListeners();
+  
+  // Initialize pricing engine AFTER DOM is created
+  initPricing('us').then(() => {
+    console.log('✅ Roofing calculator: Pricing engine initialized');
+    // Enable calculate button
+    const calcBtn = el.querySelector('#calculate-btn');
+    if (calcBtn) {
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'Calculate Roofing Materials';
+    }
+  }).catch(err => {
+    console.error('❌ Roofing calculator: Failed to initialize pricing:', err);
+  });
+  
+  // Listen for pricing updates (region changes)
+  bus.on(EVENTS.PRICING_UPDATED, () => {
+    console.log('🔄 Roofing calculator: Pricing updated, recalculating...');
+    const currentResults = document.getElementById('results-content');
+    if (currentResults && currentResults.innerHTML.trim()) {
+      calculateRoofing(); // Re-run calculation if there are existing results
+    }
+  });
   
   // Load saved state into form
   const inputs = el.querySelectorAll('input, select');
@@ -283,24 +304,36 @@ export function compute(data) {
   const nailsPerBundle = 20; // pounds per bundle average
   const totalNails = totalShingleBundles * nailsPerBundle;
   
-  // Regional pricing
-  const pricing = getRegionalPricing(data.region);
+  // Using centralized pricing engine (no need for regional pricing variable)
   
-  // Cost calculations
+  // Cost calculations using centralized pricing with correct units
+  const wastedSquares = squares * (1 + (data.shingleWaste / 100));
+  const underlaymentSquares = Math.ceil(data.roofArea / 100); // Convert sq ft to squares
+  const iceDamSquares = data.iceDamProtection ? Math.ceil((data.iceDamProtection * data.rakeLength) / 100) : 0;
+  
   const costs = {
-    shingleBundles: totalShingleBundles * pricing.shingleBundle[data.shingleType],
-    ridgeCap: ridgeCapBundles * pricing.ridgeCapBundle,
-    underlayment: totalUnderlaymentRolls * pricing.underlayment[data.underlaymentType],
-    iceDam: iceDamRolls * pricing.iceDamShield,
-    dripEdge: dripEdgePieces * pricing.dripEdge,
-    valleyFlashing: valleyFlashing * pricing.valleyFlashing,
-    vents: data.ventCount * pricing.roofVent,
-    ridgeVent: (data.ridgeVent / 4) * pricing.ridgeVentSection, // 4 ft sections
-    nails: Math.ceil(totalNails / 50) * pricing.roofingNails // 50 lb boxes
+    shingleBundles: getShinglePrice(data.shingleType, wastedSquares),
+    ridgeCap: getRidgeCapPrice(data.ridgeLength),
+    underlayment: getUnderlaymentPrice(underlaymentSquares),
+    iceDam: iceDamSquares > 0 ? getIceBarrierPrice(iceDamSquares) : 0,
+    dripEdge: getDripEdgePrice(data.dripEdgeLength),
+    valleyFlashing: 0, // Valley flashing not in pricing data, set to 0 for now
+    vents: data.ventCount > 0 ? getVentPrice(data.ventCount, squares) : 0,
+    ridgeVent: 0, // Ridge vent handled in main vents calculation
+    nails: getNailsPrice(wastedSquares)
   };
   
   const materialCost = Object.values(costs).reduce((sum, cost) => sum + cost, 0);
-  const laborCost = data.includeLabor ? materialCost * pricing.laborMultiplier : 0;
+  
+  // Itemized labor cost calculations
+  const laborComponents = {
+    shingleInstallation: data.includeLabor ? getShingleInstallationCost(squares) : 0,
+    underlaymentInstallation: data.includeLabor ? getUnderlaymentInstallationCost(data.roofArea) : 0,
+    flashingInstallation: data.includeLabor ? getFlashingInstallationCost(data.ridgeLength + data.rakeLength) : 0,
+    ventInstallation: data.includeLabor ? getVentInstallationCost(data.ventCount) : 0
+  };
+  
+  const laborCost = Object.values(laborComponents).reduce((sum, cost) => sum + cost, 0);
   const totalCost = materialCost + laborCost;
   
   return {
@@ -326,8 +359,7 @@ export function compute(data) {
     wasteAmounts: {
       shingleWaste: shingleWasteAmount,
       underlaymentWaste: underlaymentWaste
-    },
-    pricing: pricing
+    }
   };
 }
 
@@ -341,72 +373,89 @@ function getUnderlaymentCoverage(type) {
   return coverage[type] || 432;
 }
 
-function getRegionalPricing(region) {
-  const basePricing = {
-    'southeast': {
-      shingleBundle: { '3tab': 35, 'architectural': 45, 'luxury': 65, 'cedar': 95 },
-      ridgeCapBundle: 42,
-      underlayment: { 'felt15': 28, 'felt30': 35, 'synthetic': 85, 'ice-water': 65 },
-      iceDamShield: 65,
-      dripEdge: 12,
-      valleyFlashing: 15,
-      roofVent: 25,
-      ridgeVentSection: 18,
-      roofingNails: 45,
-      laborMultiplier: 1.8
-    },
-    'northeast': {
-      shingleBundle: { '3tab': 42, 'architectural': 52, 'luxury': 75, 'cedar': 110 },
-      ridgeCapBundle: 48,
-      underlayment: { 'felt15': 32, 'felt30': 42, 'synthetic': 95, 'ice-water': 75 },
-      iceDamShield: 75,
-      dripEdge: 14,
-      valleyFlashing: 18,
-      roofVent: 28,
-      ridgeVentSection: 22,
-      roofingNails: 52,
-      laborMultiplier: 2.2
-    },
-    'midwest': {
-      shingleBundle: { '3tab': 38, 'architectural': 48, 'luxury': 68, 'cedar': 98 },
-      ridgeCapBundle: 45,
-      underlayment: { 'felt15': 30, 'felt30': 38, 'synthetic': 88, 'ice-water': 68 },
-      iceDamShield: 68,
-      dripEdge: 13,
-      valleyFlashing: 16,
-      roofVent: 26,
-      ridgeVentSection: 20,
-      roofingNails: 48,
-      laborMultiplier: 1.9
-    },
-    'southwest': {
-      shingleBundle: { '3tab': 40, 'architectural': 50, 'luxury': 70, 'cedar': 100 },
-      ridgeCapBundle: 46,
-      underlayment: { 'felt15': 31, 'felt30': 39, 'synthetic': 90, 'ice-water': 70 },
-      iceDamShield: 70,
-      dripEdge: 13,
-      valleyFlashing: 17,
-      roofVent: 27,
-      ridgeVentSection: 21,
-      roofingNails: 50,
-      laborMultiplier: 2.0
-    },
-    'west': {
-      shingleBundle: { '3tab': 45, 'architectural': 55, 'luxury': 80, 'cedar': 115 },
-      ridgeCapBundle: 52,
-      underlayment: { 'felt15': 35, 'felt30': 45, 'synthetic': 100, 'ice-water': 80 },
-      iceDamShield: 80,
-      dripEdge: 15,
-      valleyFlashing: 20,
-      roofVent: 30,
-      ridgeVentSection: 25,
-      roofingNails: 55,
-      laborMultiplier: 2.4
-    }
-  };
-  
-  // Use southeast as default if region not found
-  return basePricing[region] || basePricing['southeast'];
+// Pricing helper functions using centralized pricing engine
+function getShinglePrice(shingleType, squares) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  const keyMap = {'3tab': 'asphalt_shingles', 'architectural': 'architectural_shingles', 'luxury': 'architectural_shingles', 'cedar': 'architectural_shingles'};
+  return pricing.getPrice('roofing', keyMap[shingleType] || 'asphalt_shingles', 'square') * squares;
+}
+
+function getUnderlaymentPrice(squares) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('roofing', 'underlayment', 'square') * squares;
+}
+
+function getRidgeCapPrice(linearFeet) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('roofing', 'ridge_cap', 'linear foot') * linearFeet;
+}
+
+function getDripEdgePrice(linearFeet) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('roofing', 'drip_edge', 'linear foot') * linearFeet;
+}
+
+function getIceBarrierPrice(squares) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('roofing', 'ice_barrier', 'square') * squares;
+}
+
+function getVentPrice(ventCount, shingleSquares) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  // Vents cost approximately $25 each (estimate as percentage of shingle cost per square)
+  const shingleCostPerSquare = pricing.getPrice('roofing', 'asphalt_shingles', 'square');
+  return (shingleCostPerSquare * 0.2) * ventCount; // ~$25 per vent
+}
+
+function getNailsPrice(squares) {
+  if (!pricing.isLoaded) {
+    console.warn('⚠️ Pricing engine not loaded, using fallback');
+    return 0;
+  }
+  return pricing.getPrice('roofing', 'roof_nails', 'square') * squares;
+}
+
+// Itemized labor cost functions
+function getShingleInstallationCost(squares) {
+  const laborHours = squares * 3; // 3 hours per square for shingle installation
+  const hourlyRate = 45; // Base rate per hour
+  return laborHours * hourlyRate;
+}
+
+function getUnderlaymentInstallationCost(roofArea) {
+  const laborHours = roofArea / 100; // 1 hour per 100 sq ft
+  const hourlyRate = 35;
+  return laborHours * hourlyRate;
+}
+
+function getFlashingInstallationCost(flashingLength) {
+  const laborHours = flashingLength / 50; // 1 hour per 50 linear feet
+  const hourlyRate = 40;
+  return laborHours * hourlyRate;
+}
+
+function getVentInstallationCost(ventCount) {
+  const laborHours = ventCount * 0.5; // 30 minutes per vent
+  const hourlyRate = 40;
+  return laborHours * hourlyRate;
 }
 
 function displayResults(results) {
