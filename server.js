@@ -30,21 +30,45 @@ const server = createServer((req, res) => {
   const url = req.url.split('?')[0];
   let filePath = join(__dirname, url === '/' ? 'index.html' : url.substring(1));
   
-  // Try to find the file or fallback to index.html for SPA routing
-  if (!existsSync(filePath)) {
-    // Check if it's a directory, then try index.html
-    if (existsSync(filePath) && statSync(filePath).isDirectory()) {
-      filePath = join(filePath, 'index.html');
-    } else {
-      // If still not found, try adding .html extension
-      const htmlPath = filePath + '.html';
-      if (existsSync(htmlPath)) {
-        filePath = htmlPath;
+  // Handle directory requests and file resolution
+  if (existsSync(filePath)) {
+    // If it's a directory, try to serve index.html from that directory
+    if (statSync(filePath).isDirectory()) {
+      const indexPath = join(filePath, 'index.html');
+      if (existsSync(indexPath)) {
+        filePath = indexPath;
       } else {
-        // Fallback to main index.html for SPA routing
-        filePath = join(__dirname, 'index.html');
+        // Directory exists but no index.html, show 404
+        filePath = null;
       }
     }
+    // If it's a file, use it as-is
+  } else {
+    // File doesn't exist, try adding .html extension
+    const htmlPath = filePath + '.html';
+    if (existsSync(htmlPath)) {
+      filePath = htmlPath;
+    } else {
+      // Still not found, show 404
+      filePath = null;
+    }
+  }
+
+  // If filePath is null, serve 404
+  if (!filePath) {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'text/html');
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+        <head><title>404 Not Found</title></head>
+        <body>
+          <h1>404 Not Found</h1>
+          <p>The requested resource was not found.</p>
+        </body>
+      </html>
+    `);
+    return;
   }
 
   try {
