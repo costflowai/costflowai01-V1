@@ -34,10 +34,12 @@ Professional cost calculation and analysis platform built as a secure, SEO-optim
 
 ## 📦 Build Process
 
-The build process includes security hardening through CSP nonce injection:
+The build process includes blog generation, search indexing, and security hardening:
 
+- `npm run build:blog` - Generates static blog from markdown content
+- `npm run build:search` - Creates search index for blog posts and calculators
 - `npm run build:nonce` - Injects security nonces into all script tags
-- `npm run build` - Full build pipeline (includes nonce injection)
+- `npm run build` - Full build pipeline (blog + search + nonce injection)
 
 ### Security Features
 
@@ -59,14 +61,20 @@ netlify deploy --prod
 ### Option 2: Git Integration
 1. Push your code to GitHub/GitLab
 2. Connect repository to Netlify
-3. Set build command: `npm run build`
+3. Set build command: `npm ci && npm run build`
 4. Set publish directory: `.` (root)
 5. Deploy automatically on git push
 
 ### Environment Configuration
-- Build command: `npm run build`
-- Publish directory: `.`
-- Node version: 18.x (recommended)
+**IMPORTANT**: Use these exact settings in Netlify:
+- **Build command**: `npm ci && npm run build`
+- **Publish directory**: `.` (root directory)
+- **Node version**: 18.x (recommended)
+
+The build will generate:
+- `blog/index.html` - Static blog pages
+- `assets/data/search.json` - Search index
+- Updated templates with security nonces
 
 ## 📁 Project Structure
 
@@ -92,7 +100,9 @@ netlify deploy --prod
 
 ## 🔧 Development Scripts
 
-- `npm run build` - Build for production
+- `npm run build` - Build for production (blog + search + nonces)
+- `npm run build:blog` - Generate static blog from markdown
+- `npm run build:search` - Build search index
 - `npm run build:nonce` - Inject security nonces
 - `npm test` - Run test suite
 - `npm run deploy` - Deploy to Netlify

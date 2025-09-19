@@ -1,0 +1,45 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "CostFlowAI" [ref=e4]:
+        - /url: /
+      - list [ref=e5]:
+        - listitem [ref=e6]:
+          - link "Home" [ref=e7]:
+            - /url: /
+        - listitem [ref=e8]:
+          - link "Calculators" [ref=e9]:
+            - /url: /calculators/
+        - listitem [ref=e10]:
+          - link "Blog" [ref=e11]:
+            - /url: /blog/
+        - listitem [ref=e12]:
+          - link "Search" [ref=e13]:
+            - /url: "#"
+        - listitem [ref=e14]:
+          - link "Contact" [ref=e15]:
+            - /url: mailto:contact@costflowai.com
+  - main [ref=e16]:
+    - generic [ref=e18]:
+      - heading "Professional Cost Calculation Platform" [level=1] [ref=e19]
+      - paragraph [ref=e20]: Accurate construction cost estimation and analysis tools for professionals
+      - generic [ref=e21]:
+        - link "Open Calculators" [ref=e22]:
+          - /url: /calculators/
+        - link "Read the Blog" [ref=e23]:
+          - /url: /blog/
+    - heading "CostFlowAI is under active development—thanks for your patience." [level=2] [ref=e25]
+  - contentinfo [ref=e26]:
+    - navigation [ref=e27]:
+      - list [ref=e28]:
+        - listitem [ref=e29]:
+          - link "Calculators" [ref=e30]:
+            - /url: /calculators/
+        - listitem [ref=e31]:
+          - link "Blog" [ref=e32]:
+            - /url: /blog/
+    - paragraph [ref=e33]: © 2024 CostFlowAI. All rights reserved.
+```

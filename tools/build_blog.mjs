@@ -367,7 +367,7 @@ async function buildBlog() {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}` || process.argv[1].endsWith('build_blog.mjs')) {
   buildBlog();
 }
 

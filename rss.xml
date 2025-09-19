@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CostFlowAI Blog</title>
+    <description>Professional construction cost estimation guides and tutorials</description>
+    <link>https://costflowai.com/blog</link>
+    <atom:link href="https://costflowai.com/rss.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Fri, 19 Sep 2025 09:53:09 GMT</lastBuildDate>
+    <generator>CostFlowAI Blog Generator</generator>
+    
+    <item>
+      <title><![CDATA[Welcome to CostFlowAI - The Future of Construction Cost Estimation]]></title>
+      <description><![CDATA[Introducing CostFlowAI, the most comprehensive suite of construction cost calculators powered by AI-driven insights and real-time pricing data.]]></description>
+      <link>https://costflowai.com/blog/welcome-to-costflowai</link>
+      <guid>https://costflowai.com/blog/welcome-to-costflowai</guid>
+      <pubDate>Mon, 15 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>announcement</category><category>features</category><category>construction</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Complete Guide to Concrete Slab Calculations - From Volume to Cost]]></title>
+      <description><![CDATA[Master concrete slab calculations with our comprehensive guide covering volume, rebar requirements, labor costs, and regional pricing factors.]]></description>
+      <link>https://costflowai.com/blog/concrete-calculator-guide</link>
+      <guid>https://costflowai.com/blog/concrete-calculator-guide</guid>
+      <pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>concrete</category><category>tutorial</category><category>calculators</category>
+    </item>
+  
+    <item>
+      <title><![CDATA[Understanding Regional Pricing in Construction Cost Estimation]]></title>
+      <description><![CDATA[Learn how regional pricing factors affect construction costs and why accurate local market data is crucial for competitive bidding.]]></description>
+      <link>https://costflowai.com/blog/regional-pricing-explained</link>
+      <guid>https://costflowai.com/blog/regional-pricing-explained</guid>
+      <pubDate>Wed, 10 Jan 2024 00:00:00 GMT</pubDate>
+      <author>noreply@costflowai.com (CostFlowAI Team)</author>
+      <category>pricing</category><category>regional</category><category>estimation</category>
+    </item>
+  
+  </channel>
+</rss>

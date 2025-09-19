@@ -4,8 +4,10 @@
   "description": "CostFlowAI - Professional cost calculation and analysis platform",
   "type": "module",
   "scripts": {
+    "build:blog": "node tools/build_blog.mjs",
+    "build:search": "node tools/build_search_index.mjs",
     "build:nonce": "node tools/inject_nonce.mjs",
-    "build": "npm run build:nonce",
+    "build": "npm run build:blog && npm run build:search && npm run build:nonce",
     "test": "npx jest",
     "test:registry": "npx jest tests/registry.spec.ts",
     "test:e2e": "npx playwright test",
@@ -29,10 +31,16 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "marked": "^9.1.2",
+    "gray-matter": "^4.0.3"
+  },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
     "extensionsToTreatAsEsm": [".ts"],
+    "testPathIgnorePatterns": [
+      "tests/e2e/"
+    ],
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },

@@ -4,24 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CostFlowAI - Professional Cost Calculation Platform</title>
-    <meta name="description" content="CostFlowAI - Professional cost calculation and analysis platform">
+    <meta name="description" content="CostFlowAI - Professional cost calculation and analysis platform for construction and engineering">
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/layout.css">
     <link rel="stylesheet" href="/assets/css/components.css">
 </head>
 <body>
     <header>
-        <h1>CostFlowAI</h1>
+        <nav class="main-nav">
+            <a href="/" class="logo">CostFlowAI</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/calculators/">Calculators</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="#" onclick="toggleSearch()">Search</a></li>
+                <li><a href="mailto:contact@costflowai.com">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Professional Cost Calculation Platform</h1>
+                <p>Accurate construction cost estimation and analysis tools for professionals</p>
+                <div class="hero-actions">
+                    <a href="/calculators/" class="btn btn-primary">Open Calculators</a>
+                    <a href="/blog/" class="btn btn-secondary">Read the Blog</a>
+                </div>
+            </div>
+        </section>
+
         <div class="banner">
             <h2>CostFlowAI is under active development—thanks for your patience.</h2>
+        </div>
+
+        <div id="search-overlay" class="search-overlay" style="display: none;">
+            <div class="search-container">
+                <input type="text" id="global-search" placeholder="Search calculators and blog posts..." />
+                <button onclick="toggleSearch()">Close</button>
+            </div>
         </div>
     </main>
 
     <footer>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="/calculators/">Calculators</a></li>
+                <li><a href="/blog/">Blog</a></li>
+            </ul>
+        </nav>
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
+
+    <script nonce="ZXmBngRGKvFl+S0+m0eMxQ==">
+        function toggleSearch() {
+            const overlay = document.getElementById('search-overlay');
+            const searchInput = document.getElementById('global-search');
+
+            if (overlay.style.display === 'none' || overlay.style.display === '') {
+                overlay.style.display = 'block';
+                searchInput.focus();
+            } else {
+                overlay.style.display = 'none';
+                searchInput.value = '';
+            }
+        }
+    </script>
 </body>
 </html>
