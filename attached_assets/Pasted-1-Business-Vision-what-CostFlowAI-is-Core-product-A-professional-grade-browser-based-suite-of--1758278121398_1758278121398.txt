@@ -1,0 +1,86 @@
+1️⃣ Business Vision (what CostFlowAI is)
+
+Core product
+A professional-grade, browser-based suite of construction cost-estimation calculators.
+Features:
+
+Transparent math (“Show how it’s calculated”)
+
+Regional pricing factors
+
+Professional exports (PDF/Excel/CSV/Print)
+
+State saving for repeat use
+
+Blog & search to attract organic traffic
+
+Target users
+
+GC/CM estimators, project managers, subcontractors
+
+Small contractors and homeowners who need quick ROM pricing
+
+Revenue model
+
+Free access to core calculators to drive traffic
+
+Paid “Pro” tier: additional calculators, custom exports (branding, multi-scenario), saved projects, API access
+
+Affiliate or advertising from suppliers/training programs (optional)
+
+Sponsored calculators/blog posts from vendors
+
+2️⃣ Where you stand now (MVP status)
+
+✅ Platform scaffolded: secure, modular, CSP-compliant codebase
+
+✅ Calculator engine: concrete, framing, drywall, paint, insulation, earthwork, masonry, site concrete implemented
+
+✅ Per-calculator pages: each tool has its own URL, loads properly
+
+✅ Blog system: Markdown → static pages + RSS + sitemap
+
+✅ Search index: generated at build time
+
+✅ Netlify deploy pipeline: automatic builds with nonce injection
+
+✅ Tests: Playwright smoke tests for calculators & navigation
+
+Right now you have a functioning MVP with real calculators and a blog framework, but the public-facing polish and monetization hooks are not yet added.
+
+3️⃣ What’s missing before launch
+
+UI polish: styled homepage hero, navigation, blog listing, search box on all pages
+
+Professional exports: styled headers/footers, disclaimers in PDF/Print
+
+Initial content: populate blog with 10–15 SEO-friendly posts to drive inbound traffic
+
+Analytics: GA4/Plausible to see usage
+
+Monetization hooks: Stripe test mode for Pro features (saved projects, branded reports)
+
+Beta feedback loop: lightweight feedback form or Google Sheets integration to capture user suggestions
+
+4️⃣ Roadmap (phased)
+Phase	Deliverable	Goal
+M0 (done)	Secure scaffold + Netlify pipeline	A clean, working repo
+M1 (done)	Calculator engine + first batch	Prove template
+M2 (done)	Blog + search + pricing data	Organic traffic base
+M3 (now)	UI polish + search UX + export styling	Visitor-ready MVP
+M4	Populate blog with SEO content; GA4 analytics	Traffic & tracking
+M5	Stripe “Pro” tier, user accounts/saved projects	Monetization
+M6	Marketing push: LinkedIn, Reddit, partnerships	Growth
+5️⃣ Your immediate next steps
+
+Merge and deploy the Blog UI + Search + Export Styling + Homepage Content PR.
+
+Add real content to /content/posts/.
+
+Run Lighthouse on production, fix anything <90.
+
+Set up GA4 or Plausible in Netlify environment variables.
+
+Draft your first “Pro” feature list for Stripe (what’s free vs paid).
+
+Once that’s in place, you can soft-launch as a free tool, begin collecting traffic and feedback, and then layer on the paid features.

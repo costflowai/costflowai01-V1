@@ -28,8 +28,10 @@ class BlogSearch {
         return;
       }
 
-      // Load Lunr.js
-      await this.loadLunr();
+      // Check if Lunr.js is available
+      if (!window.lunr) {
+        throw new Error('Lunr.js not loaded. Make sure lunr.min.js is included before this script.');
+      }
 
       // Load search data
       await this.loadSearchData();
@@ -48,34 +50,6 @@ class BlogSearch {
     }
   }
 
-  /**
-   * Load Lunr.js library
-   */
-  async loadLunr() {
-    return new Promise((resolve, reject) => {
-      if (window.lunr) {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = '/vendor/lunr/lunr.min.js';
-      script.async = true;
-      script.nonce = 'ZXmBngRGKvFl+S0+m0eMxQ==';
-
-      script.onload = () => {
-        if (window.lunr) {
-          resolve();
-        } else {
-          reject(new Error('Lunr failed to load'));
-        }
-      };
-
-      script.onerror = () => reject(new Error('Failed to load Lunr script'));
-
-      document.head.appendChild(script);
-    });
-  }
 
   /**
    * Load search data from JSON file
@@ -104,6 +78,8 @@ class BlogSearch {
       throw new Error('Cannot build search index: missing dependencies');
     }
 
+    const items = this.searchData.items;
+    
     this.lunrIndex = window.lunr(function () {
       // Configure fields and their boost values
       this.field('title', { boost: 10 });
@@ -117,18 +93,18 @@ class BlogSearch {
       this.ref('id');
 
       // Add documents to the index
-      this.searchData.items.forEach(item => {
+      items.forEach(item => {
         this.add({
           id: item.id,
-          title: item.title,
+          title: item.title || '',
           headings: item.headings || '',
-          excerpt: item.excerpt,
-          content: item.content,
-          tags: item.tags.join(' '),
-          category: item.category
+          excerpt: item.excerpt || '',
+          content: item.content || '',
+          tags: (item.tags || []).join(' '),
+          category: item.category || ''
         });
-      }, this);
-    }.bind(this));
+      });
+    });
 
     console.log('Search index built successfully');
   }
@@ -231,6 +207,9 @@ class BlogSearch {
       const highlightedTitle = this.highlightSearchTerms(result.title, query);
       const highlightedExcerpt = this.highlightSearchTerms(result.excerpt, query);
 
+      const tags = Array.isArray(result.tags) ? result.tags : [];
+      const category = result.category || 'Unknown';
+      
       return `
         <div class="search-result" data-index="${index}">
           <h3 class="search-result-title">
@@ -238,10 +217,10 @@ class BlogSearch {
           </h3>
           <p class="search-result-excerpt">${highlightedExcerpt}</p>
           <div class="search-result-meta">
-            <span class="search-result-category">${result.category}</span>
-            ${result.tags.length > 0 ? `
+            <span class="search-result-category">${category}</span>
+            ${tags.length > 0 ? `
               <span class="search-result-tags">
-                ${result.tags.slice(0, 3).map(tag => `<span class="tag-mini">${tag}</span>`).join('')}
+                ${tags.slice(0, 3).map(tag => `<span class="tag-mini">${tag}</span>`).join('')}
               </span>
             ` : ''}
           </div>
@@ -395,13 +374,84 @@ class BlogSearch {
   }
 }
 
-// Initialize search when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize search when both DOM and Lunr are ready
+function initializeSearch() {
+  if (document.readyState === 'loading' || !window.lunr) {
+    // Wait a bit more if DOM is still loading or Lunr isn't ready
+    setTimeout(initializeSearch, 50);
+    return;
+  }
+
   const search = new BlogSearch();
   search.init();
 
+  // Wire up search controls (CSP-safe)
+  const searchTrigger = document.getElementById('search-trigger');
+  const searchClose = document.getElementById('search-close');
+  
+  if (searchTrigger) {
+    searchTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleSearch();
+    });
+  }
+  
+  if (searchClose) {
+    searchClose.addEventListener('click', () => {
+      toggleSearch();
+    });
+  }
+
   // Make search available globally for debugging
   window.blogSearch = search;
-});
+}
+
+// Global search toggle function
+function toggleSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('blog-search');
+
+  if (overlay.style.display === 'none' || overlay.style.display === '') {
+    // Open search
+    document.body.style.overflow = 'hidden'; // Prevent body scroll
+    overlay.style.display = 'block';
+    searchInput.focus();
+    
+    // Add escape key listener
+    document.addEventListener('keydown', handleSearchEscape);
+  } else {
+    // Close search
+    document.body.style.overflow = ''; // Restore body scroll
+    overlay.style.display = 'none';
+    searchInput.value = '';
+    
+    // Clear search results when closing
+    const searchResults = document.getElementById('search-results');
+    if (searchResults) {
+      searchResults.innerHTML = '';
+      searchResults.classList.remove('visible');
+    }
+    
+    // Remove escape key listener
+    document.removeEventListener('keydown', handleSearchEscape);
+    
+    // Return focus to search trigger
+    const searchTrigger = document.getElementById('search-trigger');
+    if (searchTrigger) searchTrigger.focus();
+  }
+}
+
+function handleSearchEscape(e) {
+  if (e.key === 'Escape') {
+    toggleSearch();
+  }
+}
+
+// Start initialization
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeSearch);
+} else {
+  initializeSearch();
+}
 
 export { BlogSearch };

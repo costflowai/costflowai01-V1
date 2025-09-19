@@ -17,7 +17,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/calculators/">Calculators</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="#" onclick="toggleSearch()">Search</a></li>
+                <li><a href="#" id="search-trigger">Search</a></li>
                 <li><a href="mailto:contact@costflowai.com">Contact</a></li>
             </ul>
         </nav>
@@ -39,10 +39,14 @@
             <h2>CostFlowAI is under active development—thanks for your patience.</h2>
         </div>
 
-        <div id="search-overlay" class="search-overlay" style="display: none;">
+        <div id="search-overlay" class="search-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-title">
             <div class="search-container">
-                <input type="text" id="global-search" placeholder="Search calculators and blog posts..." />
-                <button onclick="toggleSearch()">Close</button>
+                <form class="search-form">
+                    <h2 id="search-title" class="sr-only">Search</h2>
+                    <input type="text" id="blog-search" placeholder="Search calculators and blog posts..." aria-label="Search calculators and blog posts" />
+                    <button type="button" id="search-close" aria-label="Close search">Close</button>
+                </form>
+                <div id="search-results" class="search-results" role="region" aria-live="polite" aria-label="Search results"></div>
             </div>
         </div>
     </main>
@@ -57,19 +61,7 @@
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
 
-    <script nonce="ZXmBngRGKvFl+S0+m0eMxQ==">
-        function toggleSearch() {
-            const overlay = document.getElementById('search-overlay');
-            const searchInput = document.getElementById('global-search');
-
-            if (overlay.style.display === 'none' || overlay.style.display === '') {
-                overlay.style.display = 'block';
-                searchInput.focus();
-            } else {
-                overlay.style.display = 'none';
-                searchInput.value = '';
-            }
-        }
-    </script>
+    <script src="/vendor/lunr/lunr.min.js" defer nonce="jTDX8LismPRbFNuj2+rR1w=="></script>
+    <script type="module" src="/assets/js/blog-search.js" nonce="jTDX8LismPRbFNuj2+rR1w=="></script>
 </body>
 </html>
