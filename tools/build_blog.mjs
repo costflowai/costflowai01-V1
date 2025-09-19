@@ -129,25 +129,90 @@ function loadTemplates() {
   return { postTemplate, indexTemplate };
 }
 
-// Simple templating function
+// Enhanced templating function with proper Handlebars support
 function renderTemplate(template, data) {
   let result = template;
+  let iterations = 0;
+  const maxIterations = 20; // Prevent infinite loops
 
-  // Handle each blocks {{#each items}}
-  result = result.replace(/\{\{#each\s+(\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (match, arrayName, content) => {
-    const array = data[arrayName] || [];
-    return array.map(item => renderTemplate(content, { ...data, ...item })).join('');
-  });
+  // Keep processing until no more Handlebars patterns remain
+  while (result.includes('{{') && iterations < maxIterations) {
+    const previousResult = result;
 
-  // Handle if blocks {{#if condition}}
-  result = result.replace(/\{\{#if\s+(\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g, (match, condition, content) => {
-    return data[condition] ? renderTemplate(content, data) : '';
-  });
+    // Handle {{#if}} blocks (including nested conditions)
+    result = result.replace(/\{\{#if\s+(\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g, (match, condition, content) => {
+      const conditionValue = data[condition];
+      if (conditionValue && (Array.isArray(conditionValue) ? conditionValue.length > 0 : true)) {
+        return renderTemplate(content, data);
+      }
+      return '';
+    });
 
-  // Handle simple variables {{variable}}
-  result = result.replace(/\{\{(\w+)\}\}/g, (match, key) => {
-    return data[key] !== undefined ? data[key] : '';
-  });
+    // Handle {{#each}} blocks with proper scoping
+    result = result.replace(/\{\{#each\s+(\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (match, arrayName, content) => {
+      const array = data[arrayName] || [];
+      if (!Array.isArray(array)) {
+        return '';
+      }
+      return array.map((item, index) => {
+        const itemData = {
+          ...data,
+          ...(typeof item === 'object' ? item : { this: item }),
+          '@index': index,
+          '@first': index === 0,
+          '@last': index === array.length - 1
+        };
+        return renderTemplate(content, itemData);
+      }).join('');
+    });
+
+    // Handle {{else}} within {{#if}} blocks
+    result = result.replace(/\{\{#if\s+(\w+)\}\}([\s\S]*?)\{\{else\}\}([\s\S]*?)\{\{\/if\}\}/g, (match, condition, ifContent, elseContent) => {
+      const conditionValue = data[condition];
+      if (conditionValue && (Array.isArray(conditionValue) ? conditionValue.length > 0 : true)) {
+        return renderTemplate(ifContent, data);
+      } else {
+        return renderTemplate(elseContent, data);
+      }
+    });
+
+    // Handle {{this}} references (for array iteration)
+    result = result.replace(/\{\{this\}\}/g, (match) => {
+      return data.this !== undefined ? data.this : '';
+    });
+
+    // Handle simple variables {{variable}}
+    result = result.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+      const value = data[key];
+      if (value === undefined || value === null) {
+        return '';
+      }
+      // Handle arrays by joining with commas
+      if (Array.isArray(value)) {
+        return value.join(', ');
+      }
+      return String(value);
+    });
+
+    // Handle nested property access {{object.property}}
+    result = result.replace(/\{\{(\w+)\.(\w+)\}\}/g, (match, objName, propName) => {
+      const obj = data[objName];
+      if (obj && typeof obj === 'object' && obj[propName] !== undefined) {
+        return String(obj[propName]);
+      }
+      return '';
+    });
+
+    // Break if no changes made (prevent infinite loop)
+    if (result === previousResult) {
+      break;
+    }
+
+    iterations++;
+  }
+
+  // Final cleanup: remove any remaining unprocessed handlebars
+  result = result.replace(/\{\{[^}]*\}\}/g, '');
 
   return result;
 }
