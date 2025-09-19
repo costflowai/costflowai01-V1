@@ -13,7 +13,7 @@
     "test:registry": "npx jest tests/registry.spec.ts",
     "test:e2e": "npx playwright test",
     "test:e2e:headed": "npx playwright test --headed",
-    "dev": "echo 'Development server not configured yet'",
+    "dev": "node server.js",
     "deploy": "netlify deploy --prod"
   },
   "keywords": [
