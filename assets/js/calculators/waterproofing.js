@@ -1,15 +1,14 @@
-class FirestopCalculator {
+class WaterproofingCalculator {
     constructor() {
         this.container = null;
         this.state = {
-            projectType: 'commercial',
-            buildingHeight: 'low_rise',
-            penetrationCount: 0,
-            linearFeet: 0,
-            systemType: 'standard',
-            inspectionRequired: true,
+            projectType: 'foundation',
+            area: 0,
+            method: 'membrane',
+            drainageSystem: false,
+            sumpPump: false,
             region: 'national',
-            laborRate: 75
+            laborRate: 65
         };
         this.results = {};
         this.pricing = {};
@@ -18,10 +17,10 @@ class FirestopCalculator {
 
     async init(container) {
         if (!container) {
-            console.warn('Firestop calculator: No container element provided');
+            console.warn('Waterproofing calculator: No container element provided');
             container = document.getElementById('calculator-root') || document.querySelector('.calculator-container');
             if (!container) {
-                console.error('Firestop calculator: No suitable container found');
+                console.error('Waterproofing calculator: No suitable container found');
                 return;
             }
         }
@@ -38,64 +37,55 @@ class FirestopCalculator {
         try {
             const response = await fetch('/assets/data/pricing.base.json');
             const data = await response.json();
-            this.pricing = data.firestop || {};
+            this.pricing = data.waterproofing || {};
         } catch (error) {
-            console.error('Failed to load firestop pricing data:', error);
+            console.error('Failed to load waterproofing pricing data:', error);
             this.pricing = this.getDefaultPricing();
         }
     }
 
     getDefaultPricing() {
         return {
-            penetration_types: {
-                standard: { per_each: 25.00, labor_minutes: 30, name: 'Standard Penetration Seal' },
-                large: { per_each: 45.00, labor_minutes: 45, name: 'Large Penetration Seal' },
-                complex: { per_each: 85.00, labor_minutes: 75, name: 'Complex Penetration System' }
+            methods: {
+                membrane: { material: 3.50, labor: 4.25, name: 'Membrane System' },
+                coating: { material: 2.75, labor: 2.50, name: 'Liquid Coating' },
+                crystalline: { material: 4.50, labor: 3.75, name: 'Crystalline' },
+                injection: { material: 8.50, labor: 12.00, name: 'Crack Injection' }
             },
-            linear_systems: {
-                standard: { per_lf: 12.50, labor_minutes_per_lf: 8, name: 'Standard Linear Joint Seal' },
-                fire_rated: { per_lf: 18.75, labor_minutes_per_lf: 12, name: 'Fire-Rated Linear System' },
-                structural: { per_lf: 25.00, labor_minutes_per_lf: 15, name: 'Structural Movement Joint' }
+            drainage: {
+                interior: { material: 15.00, labor: 25.00, name: 'Interior Drain System' },
+                exterior: { material: 18.00, labor: 35.00, name: 'Exterior French Drain' }
+            },
+            equipment: {
+                sump_pump: { material: 450, labor: 350, name: 'Sump Pump System' },
+                dehumidifier: { material: 275, labor: 150, name: 'Dehumidifier' }
             },
             project_factors: {
-                residential: 0.8,
-                commercial: 1.0,
-                industrial: 1.3,
-                healthcare: 1.5,
-                high_rise: 1.2
-            },
-            building_height_factors: {
-                low_rise: 1.0,
-                mid_rise: 1.15,
-                high_rise: 1.35,
-                super_tall: 1.6
-            },
-            system_complexity: {
-                standard: 1.0,
-                rated_2hr: 1.25,
-                rated_4hr: 1.5,
-                specialty: 1.8
-            },
-            inspection_cost: 150.00
+                foundation: 1.0,
+                basement: 1.2,
+                crawlspace: 0.85,
+                commercial: 1.4,
+                renovation: 1.3
+            }
         };
     }
 
     loadState() {
-        const saved = localStorage.getItem('firestop_calculator_state');
+        const saved = localStorage.getItem('waterproofing_calculator_state');
         if (saved) {
             try {
                 this.state = { ...this.state, ...JSON.parse(saved) };
             } catch (error) {
-                console.error('Failed to load firestop calculator state:', error);
+                console.error('Failed to load waterproofing calculator state:', error);
             }
         }
     }
 
     saveState() {
         try {
-            localStorage.setItem('firestop_calculator_state', JSON.stringify(this.state));
+            localStorage.setItem('waterproofing_calculator_state', JSON.stringify(this.state));
         } catch (error) {
-            console.error('Failed to save firestop calculator state:', error);
+            console.error('Failed to save waterproofing calculator state:', error);
         }
     }
 
@@ -103,10 +93,10 @@ class FirestopCalculator {
         if (!this.container) return;
 
         this.container.innerHTML = `
-            <div class="firestop-calculator">
+            <div class="waterproofing-calculator">
                 <div class="calc-header">
-                    <h1>Firestop Cost Calculator</h1>
-                    <p>Calculate costs for firestop systems and penetration sealing</p>
+                    <h1>Waterproofing Cost Calculator</h1>
+                    <p>Calculate costs for foundation and basement waterproofing projects</p>
                 </div>
 
                 <div class="calc-form">
@@ -116,60 +106,45 @@ class FirestopCalculator {
                         <div class="form-group">
                             <label for="projectType">Project Type:</label>
                             <select id="projectType" data-field="projectType">
-                                <option value="residential" ${this.state.projectType === 'residential' ? 'selected' : ''}>Residential</option>
-                                <option value="commercial" ${this.state.projectType === 'commercial' ? 'selected' : ''}>Commercial</option>
-                                <option value="industrial" ${this.state.projectType === 'industrial' ? 'selected' : ''}>Industrial</option>
-                                <option value="healthcare" ${this.state.projectType === 'healthcare' ? 'selected' : ''}>Healthcare</option>
-                                <option value="high_rise" ${this.state.projectType === 'high_rise' ? 'selected' : ''}>High-Rise</option>
+                                <option value="foundation" ${this.state.projectType === 'foundation' ? 'selected' : ''}>Foundation Waterproofing</option>
+                                <option value="basement" ${this.state.projectType === 'basement' ? 'selected' : ''}>Basement Waterproofing</option>
+                                <option value="crawlspace" ${this.state.projectType === 'crawlspace' ? 'selected' : ''}>Crawlspace Waterproofing</option>
+                                <option value="commercial" ${this.state.projectType === 'commercial' ? 'selected' : ''}>Commercial Waterproofing</option>
+                                <option value="renovation" ${this.state.projectType === 'renovation' ? 'selected' : ''}>Renovation/Repair</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="buildingHeight">Building Height:</label>
-                            <select id="buildingHeight" data-field="buildingHeight">
-                                <option value="low_rise" ${this.state.buildingHeight === 'low_rise' ? 'selected' : ''}>Low-Rise (1-3 floors)</option>
-                                <option value="mid_rise" ${this.state.buildingHeight === 'mid_rise' ? 'selected' : ''}>Mid-Rise (4-7 floors)</option>
-                                <option value="high_rise" ${this.state.buildingHeight === 'high_rise' ? 'selected' : ''}>High-Rise (8-20 floors)</option>
-                                <option value="super_tall" ${this.state.buildingHeight === 'super_tall' ? 'selected' : ''}>Super Tall (20+ floors)</option>
-                            </select>
+                            <label for="area">Area to Waterproof (sq ft):</label>
+                            <input type="number" id="area" data-field="area" value="${this.state.area}" min="0" step="1">
                         </div>
 
                         <div class="form-group">
-                            <label for="systemType">System Complexity:</label>
-                            <select id="systemType" data-field="systemType">
-                                <option value="standard" ${this.state.systemType === 'standard' ? 'selected' : ''}>Standard Systems</option>
-                                <option value="rated_2hr" ${this.state.systemType === 'rated_2hr' ? 'selected' : ''}>2-Hour Fire Rated</option>
-                                <option value="rated_4hr" ${this.state.systemType === 'rated_4hr' ? 'selected' : ''}>4-Hour Fire Rated</option>
-                                <option value="specialty" ${this.state.systemType === 'specialty' ? 'selected' : ''}>Specialty Systems</option>
+                            <label for="method">Waterproofing Method:</label>
+                            <select id="method" data-field="method">
+                                <option value="membrane" ${this.state.method === 'membrane' ? 'selected' : ''}>Membrane System</option>
+                                <option value="coating" ${this.state.method === 'coating' ? 'selected' : ''}>Liquid Coating</option>
+                                <option value="crystalline" ${this.state.method === 'crystalline' ? 'selected' : ''}>Crystalline Treatment</option>
+                                <option value="injection" ${this.state.method === 'injection' ? 'selected' : ''}>Crack Injection</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h3>Quantities</h3>
-
-                        <div class="form-group">
-                            <label for="penetrationCount">Number of Penetrations:</label>
-                            <input type="number" id="penetrationCount" data-field="penetrationCount" value="${this.state.penetrationCount}" min="0" step="1">
-                            <small>Individual pipe, conduit, or cable penetrations through fire-rated assemblies</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="linearFeet">Linear Feet of Joints:</label>
-                            <input type="number" id="linearFeet" data-field="linearFeet" value="${this.state.linearFeet}" min="0" step="1">
-                            <small>Linear joints between fire-rated assemblies requiring sealing</small>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h3>Additional Requirements</h3>
+                        <h3>Additional Systems</h3>
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" id="inspectionRequired" data-field="inspectionRequired" ${this.state.inspectionRequired ? 'checked' : ''}>
-                                Third-Party Inspection Required
+                                <input type="checkbox" id="drainageSystem" data-field="drainageSystem" ${this.state.drainageSystem ? 'checked' : ''}>
+                                Include Drainage System
                             </label>
-                            <small>Required for most commercial and high-rise projects</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="sumpPump" data-field="sumpPump" ${this.state.sumpPump ? 'checked' : ''}>
+                                Include Sump Pump Installation
+                            </label>
                         </div>
                     </div>
 
@@ -190,7 +165,6 @@ class FirestopCalculator {
                         <div class="form-group">
                             <label for="laborRate">Labor Rate ($/hour):</label>
                             <input type="number" id="laborRate" data-field="laborRate" value="${this.state.laborRate}" min="0" step="5">
-                            <small>Specialized firestop technician rate</small>
                         </div>
                     </div>
                 </div>
@@ -208,8 +182,8 @@ class FirestopCalculator {
                                 <span class="cost-value" id="laborCost">$0</span>
                             </div>
                             <div class="cost-line">
-                                <span>Inspection:</span>
-                                <span class="cost-value" id="inspectionCost">$0</span>
+                                <span>Equipment/Systems:</span>
+                                <span class="cost-value" id="equipmentCost">$0</span>
                             </div>
                             <div class="cost-line subtotal">
                                 <span>Subtotal:</span>
@@ -276,101 +250,47 @@ class FirestopCalculator {
     }
 
     calculate() {
-        if ((!this.state.penetrationCount || this.state.penetrationCount <= 0) &&
-            (!this.state.linearFeet || this.state.linearFeet <= 0)) {
+        if (!this.state.area || this.state.area <= 0) {
             this.clearResults();
             return;
         }
 
-        // Get pricing factors
+        const method = this.pricing.methods[this.state.method] || this.pricing.methods.membrane;
         const projectFactor = this.pricing.project_factors[this.state.projectType] || 1.0;
-        const heightFactor = this.pricing.building_height_factors[this.state.buildingHeight] || 1.0;
-        const systemFactor = this.pricing.system_complexity[this.state.systemType] || 1.0;
         const regionalFactor = this.getRegionalFactor();
 
-        // Calculate penetration costs
-        let penetrationMaterialCost = 0;
-        let penetrationLaborHours = 0;
+        // Base waterproofing costs
+        const materialCost = this.state.area * method.material * projectFactor * regionalFactor;
+        const laborHours = this.state.area * (method.labor / this.state.laborRate) * projectFactor;
+        const laborCost = laborHours * this.state.laborRate * regionalFactor;
 
-        if (this.state.penetrationCount > 0) {
-            // Assume mix of standard (60%), large (30%), complex (10%) penetrations
-            const standardCount = Math.floor(this.state.penetrationCount * 0.6);
-            const largeCount = Math.floor(this.state.penetrationCount * 0.3);
-            const complexCount = this.state.penetrationCount - standardCount - largeCount;
-
-            const standardPricing = this.pricing.penetration_types.standard;
-            const largePricing = this.pricing.penetration_types.large;
-            const complexPricing = this.pricing.penetration_types.complex;
-
-            penetrationMaterialCost =
-                (standardCount * standardPricing.per_each) +
-                (largeCount * largePricing.per_each) +
-                (complexCount * complexPricing.per_each);
-
-            penetrationLaborHours =
-                (standardCount * standardPricing.labor_minutes +
-                 largeCount * largePricing.labor_minutes +
-                 complexCount * complexPricing.labor_minutes) / 60;
+        // Equipment costs
+        let equipmentCost = 0;
+        if (this.state.drainageSystem) {
+            const drainageType = this.state.projectType === 'foundation' ? 'exterior' : 'interior';
+            const drainage = this.pricing.drainage[drainageType] || this.pricing.drainage.interior;
+            const linearFeet = Math.sqrt(this.state.area) * 4; // Perimeter estimate
+            equipmentCost += (drainage.material + (drainage.labor / this.state.laborRate) * this.state.laborRate) * linearFeet * regionalFactor;
         }
 
-        // Calculate linear joint costs
-        let linearMaterialCost = 0;
-        let linearLaborHours = 0;
-
-        if (this.state.linearFeet > 0) {
-            // Use appropriate linear system based on project complexity
-            let linearPricing = this.pricing.linear_systems.standard;
-            if (this.state.systemType === 'rated_2hr' || this.state.systemType === 'rated_4hr') {
-                linearPricing = this.pricing.linear_systems.fire_rated;
-            } else if (this.state.systemType === 'specialty') {
-                linearPricing = this.pricing.linear_systems.structural;
-            }
-
-            linearMaterialCost = this.state.linearFeet * linearPricing.per_lf;
-            linearLaborHours = (this.state.linearFeet * linearPricing.labor_minutes_per_lf) / 60;
+        if (this.state.sumpPump) {
+            const pump = this.pricing.equipment.sump_pump;
+            equipmentCost += (pump.material + pump.labor) * regionalFactor;
         }
 
-        // Apply factors to material costs
-        const totalMaterialCost = (penetrationMaterialCost + linearMaterialCost) *
-                                 projectFactor * heightFactor * systemFactor * regionalFactor;
-
-        // Calculate labor costs
-        const totalLaborHours = (penetrationLaborHours + linearLaborHours) *
-                               projectFactor * heightFactor * systemFactor;
-        const totalLaborCost = totalLaborHours * this.state.laborRate * regionalFactor;
-
-        // Calculate inspection costs
-        let inspectionCost = 0;
-        if (this.state.inspectionRequired) {
-            // Base inspection cost plus additional for complex projects
-            inspectionCost = this.pricing.inspection_cost * systemFactor * regionalFactor;
-
-            // Additional inspection visits for large projects
-            const totalItems = this.state.penetrationCount + (this.state.linearFeet / 10);
-            if (totalItems > 100) {
-                const additionalVisits = Math.ceil((totalItems - 100) / 50);
-                inspectionCost += additionalVisits * (this.pricing.inspection_cost * 0.5) * regionalFactor;
-            }
-        }
-
-        const subtotal = totalMaterialCost + totalLaborCost + inspectionCost;
+        const subtotal = materialCost + laborCost + equipmentCost;
         const total = subtotal;
 
         this.results = {
-            materialsCost: totalMaterialCost,
-            laborCost: totalLaborCost,
-            inspectionCost: inspectionCost,
+            materialCost,
+            laborCost,
+            equipmentCost,
             subtotal,
             total,
-            totalLaborHours,
+            laborHours,
+            method: method.name,
             projectFactor,
-            heightFactor,
-            systemFactor,
-            regionalFactor,
-            penetrationMaterialCost,
-            penetrationLaborHours,
-            linearMaterialCost,
-            linearLaborHours
+            regionalFactor
         };
 
         this.updateDisplay();
@@ -390,9 +310,9 @@ class FirestopCalculator {
     updateDisplay() {
         if (!this.container || !this.results) return;
 
-        this.container.querySelector('#materialsCost').textContent = `$${this.results.materialsCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        this.container.querySelector('#materialsCost').textContent = `$${this.results.materialCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         this.container.querySelector('#laborCost').textContent = `$${this.results.laborCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-        this.container.querySelector('#inspectionCost').textContent = `$${this.results.inspectionCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        this.container.querySelector('#equipmentCost').textContent = `$${this.results.equipmentCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         this.container.querySelector('#subtotal').textContent = `$${this.results.subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         this.container.querySelector('#totalCost').textContent = `$${this.results.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
@@ -402,7 +322,7 @@ class FirestopCalculator {
 
         this.container.querySelector('#materialsCost').textContent = '$0';
         this.container.querySelector('#laborCost').textContent = '$0';
-        this.container.querySelector('#inspectionCost').textContent = '$0';
+        this.container.querySelector('#equipmentCost').textContent = '$0';
         this.container.querySelector('#subtotal').textContent = '$0';
         this.container.querySelector('#totalCost').textContent = '$0';
     }
@@ -424,44 +344,40 @@ class FirestopCalculator {
     showMathBreakdown() {
         if (!this.results) return;
 
+        const method = this.pricing.methods[this.state.method];
         const breakdown = `
             <h4>Calculation Breakdown</h4>
             <div class="math-section">
                 <h5>Project Details</h5>
-                <p>Project Type: ${this.state.projectType}</p>
-                <p>Building Height: ${this.state.buildingHeight}</p>
-                <p>System Complexity: ${this.state.systemType}</p>
-                <p>Penetrations: ${this.state.penetrationCount}</p>
-                <p>Linear Feet: ${this.state.linearFeet}</p>
-                <p>Inspection Required: ${this.state.inspectionRequired ? 'Yes' : 'No'}</p>
+                <p>Area: ${this.state.area.toLocaleString()} sq ft</p>
+                <p>Method: ${this.results.method}</p>
+                <p>Project Type: ${this.state.projectType} (${this.results.projectFactor}x factor)</p>
+                <p>Region: ${this.state.region} (${this.results.regionalFactor}x factor)</p>
             </div>
 
             <div class="math-section">
-                <h5>Cost Factors</h5>
-                <p>Project Factor: ${this.results.projectFactor}x</p>
-                <p>Height Factor: ${this.results.heightFactor}x</p>
-                <p>System Factor: ${this.results.systemFactor}x</p>
-                <p>Regional Factor: ${this.results.regionalFactor}x</p>
+                <h5>Material Costs</h5>
+                <p>${this.state.area} sq ft × $${method.material}/sq ft × ${this.results.projectFactor} × ${this.results.regionalFactor} = $${this.results.materialCost.toFixed(2)}</p>
             </div>
 
             <div class="math-section">
-                <h5>Penetration Costs</h5>
-                <p>Base Material Cost: $${this.results.penetrationMaterialCost.toFixed(2)}</p>
-                <p>Labor Hours: ${this.results.penetrationLaborHours.toFixed(2)} hours</p>
+                <h5>Labor Costs</h5>
+                <p>Labor Hours: ${this.results.laborHours.toFixed(2)} hours</p>
+                <p>${this.results.laborHours.toFixed(2)} hours × $${this.state.laborRate}/hour × ${this.results.regionalFactor} = $${this.results.laborCost.toFixed(2)}</p>
             </div>
 
+            ${this.results.equipmentCost > 0 ? `
             <div class="math-section">
-                <h5>Linear Joint Costs</h5>
-                <p>Base Material Cost: $${this.results.linearMaterialCost.toFixed(2)}</p>
-                <p>Labor Hours: ${this.results.linearLaborHours.toFixed(2)} hours</p>
+                <h5>Equipment/Systems</h5>
+                <p>Additional systems cost: $${this.results.equipmentCost.toFixed(2)}</p>
+                ${this.state.drainageSystem ? '<p>• Drainage system included</p>' : ''}
+                ${this.state.sumpPump ? '<p>• Sump pump included</p>' : ''}
             </div>
+            ` : ''}
 
             <div class="math-section">
-                <h5>Final Calculations</h5>
-                <p>Total Materials: $${this.results.materialsCost.toFixed(2)}</p>
-                <p>Total Labor: ${this.results.totalLaborHours.toFixed(2)} hours × $${this.state.laborRate}/hr = $${this.results.laborCost.toFixed(2)}</p>
-                <p>Inspection: $${this.results.inspectionCost.toFixed(2)}</p>
-                <p><strong>Total: $${this.results.total.toFixed(2)}</strong></p>
+                <h5>Total</h5>
+                <p>Materials + Labor + Equipment = $${this.results.total.toFixed(2)}</p>
             </div>
         `;
 
@@ -472,11 +388,10 @@ class FirestopCalculator {
         return {
             project: {
                 type: this.state.projectType,
-                buildingHeight: this.state.buildingHeight,
-                systemType: this.state.systemType,
-                penetrationCount: this.state.penetrationCount,
-                linearFeet: this.state.linearFeet,
-                inspectionRequired: this.state.inspectionRequired,
+                area: this.state.area,
+                method: this.state.method,
+                drainageSystem: this.state.drainageSystem,
+                sumpPump: this.state.sumpPump,
                 region: this.state.region,
                 laborRate: this.state.laborRate
             },
@@ -488,22 +403,21 @@ class FirestopCalculator {
     exportCSV() {
         const data = this.getExportData();
         const rows = [
-            ['Firestop Cost Estimate'],
+            ['Waterproofing Cost Estimate'],
             [''],
             ['Project Details'],
             ['Type', data.project.type],
-            ['Building Height', data.project.buildingHeight],
-            ['System Type', data.project.systemType],
-            ['Penetrations', data.project.penetrationCount],
-            ['Linear Feet', data.project.linearFeet],
-            ['Inspection Required', data.project.inspectionRequired ? 'Yes' : 'No'],
+            ['Area (sq ft)', data.project.area],
+            ['Method', data.project.method],
+            ['Drainage System', data.project.drainageSystem ? 'Yes' : 'No'],
+            ['Sump Pump', data.project.sumpPump ? 'Yes' : 'No'],
             ['Region', data.project.region],
             ['Labor Rate ($/hour)', data.project.laborRate],
             [''],
             ['Cost Breakdown'],
-            ['Materials', `$${data.costs.materialsCost.toFixed(2)}`],
+            ['Materials', `$${data.costs.materialCost.toFixed(2)}`],
             ['Labor', `$${data.costs.laborCost.toFixed(2)}`],
-            ['Inspection', `$${data.costs.inspectionCost.toFixed(2)}`],
+            ['Equipment/Systems', `$${data.costs.equipmentCost.toFixed(2)}`],
             ['Subtotal', `$${data.costs.subtotal.toFixed(2)}`],
             ['Total', `$${data.costs.total.toFixed(2)}`],
             [''],
@@ -511,7 +425,7 @@ class FirestopCalculator {
         ];
 
         const csvContent = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-        this.downloadFile(csvContent, 'firestop-estimate.csv', 'text/csv');
+        this.downloadFile(csvContent, 'waterproofing-estimate.csv', 'text/csv');
     }
 
     exportXLSX() {
@@ -519,22 +433,21 @@ class FirestopCalculator {
         const workbook = XLSX.utils.book_new();
 
         const wsData = [
-            ['Firestop Cost Estimate'],
+            ['Waterproofing Cost Estimate'],
             [],
             ['Project Details'],
             ['Type', data.project.type],
-            ['Building Height', data.project.buildingHeight],
-            ['System Type', data.project.systemType],
-            ['Penetrations', data.project.penetrationCount],
-            ['Linear Feet', data.project.linearFeet],
-            ['Inspection Required', data.project.inspectionRequired ? 'Yes' : 'No'],
+            ['Area (sq ft)', data.project.area],
+            ['Method', data.project.method],
+            ['Drainage System', data.project.drainageSystem ? 'Yes' : 'No'],
+            ['Sump Pump', data.project.sumpPump ? 'Yes' : 'No'],
             ['Region', data.project.region],
             ['Labor Rate ($/hour)', data.project.laborRate],
             [],
             ['Cost Breakdown'],
-            ['Materials', data.costs.materialsCost],
+            ['Materials', data.costs.materialCost],
             ['Labor', data.costs.laborCost],
-            ['Inspection', data.costs.inspectionCost],
+            ['Equipment/Systems', data.costs.equipmentCost],
             ['Subtotal', data.costs.subtotal],
             ['Total', data.costs.total],
             [],
@@ -542,8 +455,8 @@ class FirestopCalculator {
         ];
 
         const worksheet = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Firestop Estimate');
-        XLSX.writeFile(workbook, 'firestop-estimate.xlsx');
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Waterproofing Estimate');
+        XLSX.writeFile(workbook, 'waterproofing-estimate.xlsx');
     }
 
     exportPDF() {
@@ -552,7 +465,7 @@ class FirestopCalculator {
         const data = this.getExportData();
 
         doc.setFontSize(20);
-        doc.text('Firestop Cost Estimate', 20, 30);
+        doc.text('Waterproofing Cost Estimate', 20, 30);
 
         doc.setFontSize(14);
         doc.text('Project Details', 20, 50);
@@ -560,11 +473,10 @@ class FirestopCalculator {
         doc.setFontSize(10);
         let yPos = 65;
         doc.text(`Type: ${data.project.type}`, 20, yPos);
-        doc.text(`Building Height: ${data.project.buildingHeight}`, 20, yPos += 10);
-        doc.text(`System Type: ${data.project.systemType}`, 20, yPos += 10);
-        doc.text(`Penetrations: ${data.project.penetrationCount}`, 20, yPos += 10);
-        doc.text(`Linear Feet: ${data.project.linearFeet}`, 20, yPos += 10);
-        doc.text(`Inspection: ${data.project.inspectionRequired ? 'Yes' : 'No'}`, 20, yPos += 10);
+        doc.text(`Area: ${data.project.area.toLocaleString()} sq ft`, 20, yPos += 10);
+        doc.text(`Method: ${data.project.method}`, 20, yPos += 10);
+        doc.text(`Drainage System: ${data.project.drainageSystem ? 'Yes' : 'No'}`, 20, yPos += 10);
+        doc.text(`Sump Pump: ${data.project.sumpPump ? 'Yes' : 'No'}`, 20, yPos += 10);
         doc.text(`Region: ${data.project.region}`, 20, yPos += 10);
         doc.text(`Labor Rate: $${data.project.laborRate}/hour`, 20, yPos += 10);
 
@@ -572,9 +484,9 @@ class FirestopCalculator {
         doc.text('Cost Breakdown', 20, yPos += 25);
 
         doc.setFontSize(10);
-        doc.text(`Materials: $${data.costs.materialsCost.toFixed(2)}`, 20, yPos += 15);
+        doc.text(`Materials: $${data.costs.materialCost.toFixed(2)}`, 20, yPos += 15);
         doc.text(`Labor: $${data.costs.laborCost.toFixed(2)}`, 20, yPos += 10);
-        doc.text(`Inspection: $${data.costs.inspectionCost.toFixed(2)}`, 20, yPos += 10);
+        doc.text(`Equipment/Systems: $${data.costs.equipmentCost.toFixed(2)}`, 20, yPos += 10);
         doc.text(`Subtotal: $${data.costs.subtotal.toFixed(2)}`, 20, yPos += 10);
 
         doc.setFontSize(12);
@@ -583,7 +495,7 @@ class FirestopCalculator {
         doc.setFontSize(8);
         doc.text(`Generated: ${new Date().toLocaleString()}`, 20, yPos += 20);
 
-        doc.save('firestop-estimate.pdf');
+        doc.save('waterproofing-estimate.pdf');
     }
 
     printResults() {
@@ -592,7 +504,7 @@ class FirestopCalculator {
         printWindow.document.write(`
             <html>
                 <head>
-                    <title>Firestop Cost Estimate</title>
+                    <title>Waterproofing Cost Estimate</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 40px; }
                         h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
@@ -604,30 +516,29 @@ class FirestopCalculator {
                     </style>
                 </head>
                 <body>
-                    <h1>Firestop Cost Estimate</h1>
+                    <h1>Waterproofing Cost Estimate</h1>
 
                     <h2>Project Details</h2>
                     <div class="detail-line"><strong>Type:</strong> ${data.project.type}</div>
-                    <div class="detail-line"><strong>Building Height:</strong> ${data.project.buildingHeight}</div>
-                    <div class="detail-line"><strong>System Type:</strong> ${data.project.systemType}</div>
-                    <div class="detail-line"><strong>Penetrations:</strong> ${data.project.penetrationCount}</div>
-                    <div class="detail-line"><strong>Linear Feet:</strong> ${data.project.linearFeet}</div>
-                    <div class="detail-line"><strong>Inspection:</strong> ${data.project.inspectionRequired ? 'Yes' : 'No'}</div>
+                    <div class="detail-line"><strong>Area:</strong> ${data.project.area.toLocaleString()} sq ft</div>
+                    <div class="detail-line"><strong>Method:</strong> ${data.project.method}</div>
+                    <div class="detail-line"><strong>Drainage System:</strong> ${data.project.drainageSystem ? 'Yes' : 'No'}</div>
+                    <div class="detail-line"><strong>Sump Pump:</strong> ${data.project.sumpPump ? 'Yes' : 'No'}</div>
                     <div class="detail-line"><strong>Region:</strong> ${data.project.region}</div>
                     <div class="detail-line"><strong>Labor Rate:</strong> $${data.project.laborRate}/hour</div>
 
                     <h2>Cost Breakdown</h2>
                     <div class="cost-line">
                         <span>Materials:</span>
-                        <span>$${data.costs.materialsCost.toFixed(2)}</span>
+                        <span>$${data.costs.materialCost.toFixed(2)}</span>
                     </div>
                     <div class="cost-line">
                         <span>Labor:</span>
                         <span>$${data.costs.laborCost.toFixed(2)}</span>
                     </div>
                     <div class="cost-line">
-                        <span>Inspection:</span>
-                        <span>$${data.costs.inspectionCost.toFixed(2)}</span>
+                        <span>Equipment/Systems:</span>
+                        <span>$${data.costs.equipmentCost.toFixed(2)}</span>
                     </div>
                     <div class="cost-line">
                         <span>Subtotal:</span>
@@ -650,24 +561,23 @@ class FirestopCalculator {
 
     emailResults() {
         const data = this.getExportData();
-        const subject = encodeURIComponent('Firestop Cost Estimate');
+        const subject = encodeURIComponent('Waterproofing Cost Estimate');
         const body = encodeURIComponent(`
-Firestop Cost Estimate
+Waterproofing Cost Estimate
 
 Project Details:
 - Type: ${data.project.type}
-- Building Height: ${data.project.buildingHeight}
-- System Type: ${data.project.systemType}
-- Penetrations: ${data.project.penetrationCount}
-- Linear Feet: ${data.project.linearFeet}
-- Inspection: ${data.project.inspectionRequired ? 'Yes' : 'No'}
+- Area: ${data.project.area.toLocaleString()} sq ft
+- Method: ${data.project.method}
+- Drainage System: ${data.project.drainageSystem ? 'Yes' : 'No'}
+- Sump Pump: ${data.project.sumpPump ? 'Yes' : 'No'}
 - Region: ${data.project.region}
 - Labor Rate: $${data.project.laborRate}/hour
 
 Cost Breakdown:
-- Materials: $${data.costs.materialsCost.toFixed(2)}
+- Materials: $${data.costs.materialCost.toFixed(2)}
 - Labor: $${data.costs.laborCost.toFixed(2)}
-- Inspection: $${data.costs.inspectionCost.toFixed(2)}
+- Equipment/Systems: $${data.costs.equipmentCost.toFixed(2)}
 - Subtotal: $${data.costs.subtotal.toFixed(2)}
 - Total: $${data.costs.total.toFixed(2)}
 
@@ -680,7 +590,7 @@ Generated: ${new Date().toLocaleString()}
     saveProject() {
         const data = this.getExportData();
         const projectData = JSON.stringify(data, null, 2);
-        this.downloadFile(projectData, 'firestop-project.json', 'application/json');
+        this.downloadFile(projectData, 'waterproofing-project.json', 'application/json');
     }
 
     downloadFile(content, filename, mimeType) {
@@ -696,34 +606,38 @@ Generated: ${new Date().toLocaleString()}
     }
 }
 
-// Singleton instance for legacy API compatibility
+// Create a singleton instance for the legacy API
 let calculatorInstance = null;
 
 // Legacy API compatibility functions
 export function init(el) {
     if (!calculatorInstance) {
-        calculatorInstance = new FirestopCalculator();
+        calculatorInstance = new WaterproofingCalculator();
     }
     return calculatorInstance.init(el);
 }
 
-export function compute() {
+export function compute(state) {
     return { ok: false, msg: "Not implemented" };
 }
 
-export function explain() {
+export function explain(state) {
     return "TBD";
 }
 
 export function meta() {
     return {
-        id: 'firestop',
-        title: 'Firestop Calculator',
-        category: 'safety',
-        description: 'Calculate costs for firestop systems and penetration sealing projects',
+        id: 'waterproofing',
+        title: 'Waterproofing Calculator',
+        category: 'structural',
+        description: 'Calculate costs for foundation and basement waterproofing projects',
         version: '1.0.0'
     };
 }
 
-// Export for use by the calculator loader
-export default FirestopCalculator;
+// Export for module loading
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = WaterproofingCalculator;
+} else {
+    window.WaterproofingCalculator = WaterproofingCalculator;
+}

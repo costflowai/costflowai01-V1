@@ -20,14 +20,19 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/calculators/">Calculators</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="#" onclick="toggleSearch()">Search</a></li>
+                <li><a href="#" class="search-trigger">Search</a></li>
                 <li><a href="mailto:contact@costflowai.com">Contact</a></li>
             </ul>
+            <div class="search-container">
+                <input type="search" id="site-search" placeholder="Search calculators and blog posts..." aria-label="Search calculators and blog">
+                <div id="search-results" class="search-dropdown hidden" role="listbox" aria-label="Search results"></div>
+            </div>
         </nav>
     </header>
 
-    <main id="app">
-        <div id="calculator-loading">
+    <main id="app" data-calc-id="drywall">
+        <div class="calculator-loading">
+            <div class="loading-spinner"></div>
             <p>Loading calculator...</p>
         </div>
     </main>
@@ -42,21 +47,8 @@
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
 
-    <script nonce="PLACEHOLDER_NONCE">
-        function toggleSearch() {
-            // Simple search redirect for now
-            window.location.href = '/blog/';
-        }
-    </script>
-
-    <script type="module" nonce="PLACEHOLDER_NONCE">
-        import { bootCalculator } from '/assets/js/core/ui.js';
-        import calculator from '/assets/js/calculators/drywall.js';
-
-        // Boot the calculator when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            bootCalculator('drywall', calculator);
-        });
-    </script>
+    <!-- CSP-compliant external script loading -->
+    <script type="module" src="/assets/js/core/page-calc.js" nonce="PLACEHOLDER_NONCE"></script>
+    <script type="module" src="/assets/js/core/search.js" nonce="PLACEHOLDER_NONCE"></script>
 </body>
 </html>

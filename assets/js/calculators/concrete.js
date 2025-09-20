@@ -625,7 +625,7 @@ ${window.location.href}`;
 }
 
 // Legacy API for compatibility with existing system
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   const calculator = new ConcreteSlabCalculator();
   calculator.init().then(success => {
     if (success) {
@@ -635,12 +635,11 @@ export function init(el) {
 }
 
 export function compute(state) {
-  // For now, return placeholder - full implementation uses new class
-  return { ok: false, msg: "Use new ConcreteSlabCalculator class" };
+  return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  return "Professional concrete slab calculator with material quantities, rebar layout, and comprehensive cost breakdown including labor, overhead, and regional pricing.";
+  return "TBD";
 }
 
 export function meta() {
@@ -660,8 +659,9 @@ export function meta() {
   };
 }
 
-// Initialize calculator when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
+// Initialize calculator when DOM is ready (only in browser environment)
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', async () => {
   const calculator = new ConcreteSlabCalculator();
   const initialized = await calculator.init();
 
@@ -672,6 +672,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     console.error('Failed to initialize Concrete Slab Pro Calculator');
   }
-});
+  });
+}
 
 export { ConcreteSlabCalculator };

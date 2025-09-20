@@ -583,6 +583,559 @@
     }
   },
 
+  "roofing": {
+    "asphalt_shingles_arch": {
+      "per_square": 125.00,
+      "description": "Architectural asphalt shingles",
+      "unit": "square"
+    },
+    "asphalt_shingles_3tab": {
+      "per_square": 95.00,
+      "description": "3-tab asphalt shingles",
+      "unit": "square"
+    },
+    "underlayment_felt": {
+      "per_roll": 35.00,
+      "description": "Felt underlayment (400 SF roll)",
+      "unit": "roll",
+      "coverage": 400
+    },
+    "underlayment_synthetic": {
+      "per_roll": 65.00,
+      "description": "Synthetic underlayment (1000 SF roll)",
+      "unit": "roll",
+      "coverage": 1000
+    },
+    "drip_edge": {
+      "per_linear_foot": 2.80,
+      "description": "Aluminum drip edge",
+      "unit": "linear foot"
+    },
+    "ridge_cap": {
+      "per_linear_foot": 4.50,
+      "description": "Ridge cap shingles",
+      "unit": "linear foot"
+    },
+    "roof_vents": {
+      "per_each": 15.00,
+      "description": "Static roof vents",
+      "unit": "each"
+    }
+  },
+
+  "flooring": {
+    "lvp_luxury": {
+      "per_square_foot": 4.80,
+      "description": "Luxury vinyl plank (premium)",
+      "unit": "square foot"
+    },
+    "lvp_standard": {
+      "per_square_foot": 2.95,
+      "description": "Luxury vinyl plank (standard)",
+      "unit": "square foot"
+    },
+    "ceramic_tile": {
+      "per_square_foot": 3.25,
+      "description": "Ceramic floor tile",
+      "unit": "square foot"
+    },
+    "porcelain_tile": {
+      "per_square_foot": 5.50,
+      "description": "Porcelain floor tile",
+      "unit": "square foot"
+    },
+    "carpet_residential": {
+      "per_square_foot": 2.80,
+      "description": "Residential carpet",
+      "unit": "square foot"
+    },
+    "transition_strips": {
+      "per_linear_foot": 8.50,
+      "description": "Transition strips",
+      "unit": "linear foot"
+    },
+    "underlayment": {
+      "per_square_foot": 0.65,
+      "description": "Flooring underlayment",
+      "unit": "square foot"
+    }
+  },
+
+  "electrical": {
+    "receptacle_outlet": {
+      "per_each": 12.50,
+      "description": "Standard receptacle outlet",
+      "unit": "each"
+    },
+    "light_switch": {
+      "per_each": 8.50,
+      "description": "Single pole light switch",
+      "unit": "each"
+    },
+    "light_fixture_basic": {
+      "per_each": 45.00,
+      "description": "Basic light fixture",
+      "unit": "each"
+    },
+    "romex_12awg": {
+      "per_linear_foot": 0.85,
+      "description": "12 AWG Romex cable",
+      "unit": "linear foot"
+    },
+    "romex_14awg": {
+      "per_linear_foot": 0.68,
+      "description": "14 AWG Romex cable",
+      "unit": "linear foot"
+    },
+    "outlet_box": {
+      "per_each": 2.85,
+      "description": "Electrical outlet box",
+      "unit": "each"
+    },
+    "circuit_breaker_20a": {
+      "per_each": 18.50,
+      "description": "20 amp circuit breaker",
+      "unit": "each"
+    }
+  },
+
+  "plumbing": {
+    "pex_half_inch": {
+      "per_linear_foot": 0.95,
+      "description": "1/2\" PEX tubing",
+      "unit": "linear foot"
+    },
+    "pex_three_quarter": {
+      "per_linear_foot": 1.35,
+      "description": "3/4\" PEX tubing",
+      "unit": "linear foot"
+    },
+    "pvc_4inch": {
+      "per_linear_foot": 4.50,
+      "description": "4\" PVC drain pipe",
+      "unit": "linear foot"
+    },
+    "pvc_3inch": {
+      "per_linear_foot": 3.20,
+      "description": "3\" PVC drain pipe",
+      "unit": "linear foot"
+    },
+    "toilet_standard": {
+      "per_each": 185.00,
+      "description": "Standard toilet",
+      "unit": "each"
+    },
+    "vanity_sink": {
+      "per_each": 125.00,
+      "description": "Vanity sink",
+      "unit": "each"
+    },
+    "faucet_kitchen": {
+      "per_each": 145.00,
+      "description": "Kitchen faucet",
+      "unit": "each"
+    },
+    "faucet_bath": {
+      "per_each": 85.00,
+      "description": "Bathroom faucet",
+      "unit": "each"
+    }
+  },
+
+  "steel": {
+    "wide_flange_w12": {
+      "per_pound": 1.25,
+      "description": "W12 wide flange beam",
+      "unit": "pound"
+    },
+    "wide_flange_w16": {
+      "per_pound": 1.22,
+      "description": "W16 wide flange beam",
+      "unit": "pound"
+    },
+    "wide_flange_w21": {
+      "per_pound": 1.18,
+      "description": "W21 wide flange beam",
+      "unit": "pound"
+    },
+    "angle_steel": {
+      "per_pound": 1.35,
+      "description": "Steel angle",
+      "unit": "pound"
+    },
+    "bolts_connections": {
+      "per_pound_steel": 0.15,
+      "description": "Bolts and connections",
+      "unit": "per pound of steel"
+    }
+  },
+
+  "asphalt": {
+    "hot_mix_asphalt": {
+      "per_ton": 95.00,
+      "description": "Hot mix asphalt",
+      "unit": "ton"
+    },
+    "crushed_stone_base": {
+      "per_ton": 28.00,
+      "description": "Crushed stone base",
+      "unit": "ton"
+    },
+    "tack_coat": {
+      "per_gallon": 4.50,
+      "description": "Asphalt tack coat",
+      "unit": "gallon"
+    },
+    "line_striping": {
+      "per_linear_foot": 0.85,
+      "description": "Traffic line striping",
+      "unit": "linear foot"
+    }
+  },
+
+  "doors_windows": {
+    "entry_door_std": {
+      "per_each": 285.00,
+      "description": "Standard entry door",
+      "unit": "each"
+    },
+    "interior_door": {
+      "per_each": 125.00,
+      "description": "Interior door",
+      "unit": "each"
+    },
+    "window_double_hung": {
+      "per_each": 385.00,
+      "description": "Double hung window",
+      "unit": "each"
+    },
+    "door_hardware": {
+      "per_set": 45.00,
+      "description": "Door hardware set",
+      "unit": "set"
+    },
+    "window_trim": {
+      "per_linear_foot": 3.50,
+      "description": "Window trim",
+      "unit": "linear foot"
+    }
+  },
+
+  "waterproofing": {
+    "membrane_sheet": {
+      "per_square_foot": 3.85,
+      "description": "Sheet waterproof membrane",
+      "unit": "square foot"
+    },
+    "liquid_coating": {
+      "per_gallon": 65.00,
+      "description": "Liquid waterproof coating",
+      "unit": "gallon",
+      "coverage": 100
+    },
+    "sealer_penetrating": {
+      "per_gallon": 35.00,
+      "description": "Penetrating sealer",
+      "unit": "gallon",
+      "coverage": 200
+    }
+  },
+
+  "demolition": {
+    "demolition_types": {
+      "interior_walls": {
+        "per_sf": 4.50,
+        "name": "Interior Wall Demo"
+      },
+      "full_gutting": {
+        "per_sf": 8.75,
+        "name": "Full Interior Gutting"
+      },
+      "structural": {
+        "per_sf": 12.50,
+        "name": "Structural Demolition"
+      },
+      "selective": {
+        "per_sf": 6.25,
+        "name": "Selective Demolition"
+      },
+      "concrete": {
+        "per_sf": 15.00,
+        "name": "Concrete Demo"
+      }
+    },
+    "building_factors": {
+      "residential": 1.0,
+      "commercial": 1.25,
+      "industrial": 1.5,
+      "historic": 1.8
+    },
+    "material_factors": {
+      "wood_frame": 0.85,
+      "masonry": 1.2,
+      "steel": 1.4,
+      "concrete": 1.6,
+      "mixed": 1.0
+    },
+    "access_factors": {
+      "standard": 1.0,
+      "difficult": 1.3,
+      "very_difficult": 1.6,
+      "crane_required": 2.0
+    },
+    "hazmat_factor": 1.75,
+    "dumpster_20yard": {
+      "per_each": 485.00,
+      "name": "20 Yard Dumpster"
+    },
+    "dumpster_30yard": {
+      "per_each": 625.00,
+      "name": "30 Yard Dumpster"
+    },
+    "haul_debris": {
+      "per_ton": 85.00,
+      "name": "Debris Hauling"
+    }
+  },
+
+  "firestop": {
+    "penetration_types": {
+      "standard": {
+        "per_each": 25.00,
+        "labor_minutes": 30,
+        "name": "Standard Penetration Seal"
+      },
+      "large": {
+        "per_each": 45.00,
+        "labor_minutes": 45,
+        "name": "Large Penetration Seal"
+      },
+      "complex": {
+        "per_each": 85.00,
+        "labor_minutes": 75,
+        "name": "Complex Penetration System"
+      }
+    },
+    "linear_systems": {
+      "standard": {
+        "per_lf": 12.50,
+        "labor_minutes_per_lf": 8,
+        "name": "Standard Linear Joint Seal"
+      },
+      "fire_rated": {
+        "per_lf": 18.75,
+        "labor_minutes_per_lf": 12,
+        "name": "Fire-Rated Linear System"
+      },
+      "structural": {
+        "per_lf": 25.00,
+        "labor_minutes_per_lf": 15,
+        "name": "Structural Movement Joint"
+      }
+    },
+    "project_factors": {
+      "residential": 0.8,
+      "commercial": 1.0,
+      "industrial": 1.3,
+      "healthcare": 1.5,
+      "high_rise": 1.2
+    },
+    "building_height_factors": {
+      "low_rise": 1.0,
+      "mid_rise": 1.15,
+      "high_rise": 1.35,
+      "super_tall": 1.6
+    },
+    "system_complexity": {
+      "standard": 1.0,
+      "rated_2hr": 1.25,
+      "rated_4hr": 1.5,
+      "specialty": 1.8
+    },
+    "inspection_cost": 150.00
+  },
+
+  "fees": {
+    "permit_types": {
+      "building": {
+        "base_fee": 250,
+        "per_1000_valuation": 8.50,
+        "min_fee": 150,
+        "max_fee": 15000
+      },
+      "electrical": {
+        "base_fee": 125,
+        "per_1000_valuation": 3.25,
+        "min_fee": 75,
+        "max_fee": 5000
+      },
+      "plumbing": {
+        "base_fee": 100,
+        "per_1000_valuation": 2.75,
+        "min_fee": 60,
+        "max_fee": 4000
+      },
+      "mechanical": {
+        "base_fee": 100,
+        "per_1000_valuation": 2.50,
+        "min_fee": 60,
+        "max_fee": 4000
+      },
+      "structural": {
+        "base_fee": 200,
+        "per_1000_valuation": 4.00,
+        "min_fee": 120,
+        "max_fee": 8000
+      }
+    },
+    "inspection_fees": {
+      "building_inspections": 450,
+      "electrical_inspections": 275,
+      "plumbing_inspections": 225,
+      "mechanical_inspections": 200,
+      "structural_inspections": 350,
+      "final_inspection": 175
+    },
+    "project_factors": {
+      "residential": 0.85,
+      "commercial": 1.0,
+      "industrial": 1.2,
+      "institutional": 1.1
+    },
+    "building_factors": {
+      "new_construction": 1.0,
+      "addition": 0.8,
+      "renovation": 0.7,
+      "alteration": 0.6,
+      "tenant_improvement": 0.5
+    },
+    "jurisdiction_factors": {
+      "rural": 0.7,
+      "standard": 1.0,
+      "urban": 1.3,
+      "metro": 1.6,
+      "premium": 2.0
+    },
+    "expedited_factor": 1.5,
+    "plan_review_percentage": 0.65,
+    "additional_fees": {
+      "soil_test_review": 150,
+      "environmental_review": 300,
+      "traffic_impact": 500,
+      "variance_request": 750,
+      "conditional_use": 1200
+    }
+  },
+
+  "genconds": {
+    "base_percentages": {
+      "supervision": 0.08,
+      "temp_facilities": 0.03,
+      "utilities": 0.025,
+      "safety_security": 0.015,
+      "cleaning": 0.01
+    },
+    "project_factors": {
+      "residential": 0.85,
+      "commercial": 1.0,
+      "industrial": 1.2,
+      "infrastructure": 1.4,
+      "institutional": 1.1
+    },
+    "complexity_factors": {
+      "simple": 0.8,
+      "standard": 1.0,
+      "complex": 1.3,
+      "very_complex": 1.6
+    },
+    "site_factors": {
+      "greenfield": 0.9,
+      "standard": 1.0,
+      "urban_constrained": 1.2,
+      "occupied_renovation": 1.4,
+      "hazardous": 1.7
+    },
+    "duration_factors": {
+      "short": 1.2,
+      "standard": 1.0,
+      "long": 0.9,
+      "very_long": 0.85
+    },
+    "climate_factors": {
+      "mild": 0.95,
+      "temperate": 1.0,
+      "harsh_winter": 1.15,
+      "extreme_heat": 1.1,
+      "extreme_conditions": 1.25
+    },
+    "monthly_base_costs": {
+      "site_office_trailer": 850,
+      "storage_container": 275,
+      "temporary_power": 450,
+      "temporary_water": 180,
+      "temporary_sanitation": 325,
+      "site_security": 1200,
+      "dumpster_service": 485,
+      "temporary_fencing": 380
+    }
+  },
+
+  "waterproofing": {
+    "methods": {
+      "membrane": {
+        "material": 3.50,
+        "labor": 4.25,
+        "name": "Membrane System"
+      },
+      "coating": {
+        "material": 2.75,
+        "labor": 2.50,
+        "name": "Liquid Coating"
+      },
+      "crystalline": {
+        "material": 4.50,
+        "labor": 3.75,
+        "name": "Crystalline Treatment"
+      },
+      "injection": {
+        "material": 8.50,
+        "labor": 12.00,
+        "name": "Crack Injection"
+      }
+    },
+    "drainage": {
+      "interior": {
+        "material": 15.00,
+        "labor": 25.00,
+        "name": "Interior Drain System"
+      },
+      "exterior": {
+        "material": 18.00,
+        "labor": 35.00,
+        "name": "Exterior French Drain"
+      }
+    },
+    "equipment": {
+      "sump_pump": {
+        "material": 450,
+        "labor": 350,
+        "name": "Sump Pump System"
+      },
+      "dehumidifier": {
+        "material": 275,
+        "labor": 150,
+        "name": "Dehumidifier"
+      }
+    },
+    "project_factors": {
+      "foundation": 1.0,
+      "basement": 1.2,
+      "crawlspace": 0.85,
+      "commercial": 1.4,
+      "renovation": 1.3
+    }
+  },
+
   "meta": {
     "currency": "USD",
     "last_updated": "2024-01-15",

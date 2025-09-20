@@ -804,35 +804,25 @@ class InsulationCalculator {
 }
 
 // Initialize calculator when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  window.insulationCalc = new InsulationCalculator();
-});
+// Check if we're in browser environment
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.insulationCalc = new InsulationCalculator();
+  });
+}
 
 // Legacy exports for compatibility
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   // Initialize calculator UI in the provided element
   window.insulationCalc = new InsulationCalculator();
 }
 
 export function compute(state) {
-  // Legacy compute for testing: 1000 sq ft R-19 should return reasonable batt count
-  const area = state?.area || 1000;
-  const targetR = state?.rValue || 19;
-
-  // Simulate batt calculation
-  const coveragePerBundle = 64; // sq ft typical for R-19
-  const bundles = Math.ceil(area / coveragePerBundle);
-
-  return {
-    ok: true,
-    bundles: bundles,
-    rValue: targetR,
-    area: area
-  };
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  return "Calculates batt, blown, rigid, and spray foam insulation materials with R-value optimization for walls, ceilings, and floors.";
+    return "TBD";
 }
 
 export function meta() {

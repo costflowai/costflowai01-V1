@@ -4,7 +4,7 @@ import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
 
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   const savedState = loadState('paint') || {};
 
   el.innerHTML = `
@@ -320,100 +320,11 @@ function exportResults(format) {
 }
 
 export function compute(state) {
-  try {
-    const { surfaceArea, numCoats, coverageSqft, wastePercent, primerNeeded, primerCoverage, paintPrice, primerPrice, laborRate, productivity } = state;
-
-    if (!surfaceArea || !numCoats) {
-      return { ok: false, msg: "Missing required inputs" };
-    }
-
-    // Calculate total coverage needed
-    const totalCoverage = surfaceArea * numCoats;
-
-    // Calculate paint gallons with waste
-    const paintGallonsBase = totalCoverage / coverageSqft;
-    const paintGallons = Math.ceil(paintGallonsBase * (1 + wastePercent / 100));
-
-    // Calculate primer gallons if needed
-    let primerGallons = 0;
-    if (primerNeeded) {
-      const primerGallonsBase = surfaceArea / primerCoverage;
-      primerGallons = Math.ceil(primerGallonsBase * (1 + wastePercent / 100));
-    }
-
-    // Cost calculations
-    const paintCost = paintPrice > 0 ? paintGallons * paintPrice : 0;
-    const primerCost = primerPrice > 0 && primerNeeded ? primerGallons * primerPrice : 0;
-    const materialCost = paintCost + primerCost;
-
-    // Labor calculations (include primer application if needed)
-    const totalAreaToApply = primerNeeded ? surfaceArea + totalCoverage : totalCoverage;
-    const laborHours = productivity > 0 ? totalAreaToApply / productivity : 0;
-    const laborCost = laborRate > 0 && laborHours > 0 ? laborHours * laborRate : 0;
-
-    const totalCost = materialCost + laborCost;
-
-    return {
-      ok: true,
-      data: {
-        totalCoverage,
-        paintGallons,
-        primerGallons,
-        paintCost,
-        primerCost,
-        materialCost,
-        laborHours,
-        laborCost,
-        totalCost
-      }
-    };
-  } catch (error) {
-    return { ok: false, msg: error.message };
-  }
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  const result = compute(state);
-  if (!result.ok) return "Invalid inputs";
-
-  const { surfaceArea, numCoats, coverageSqft, wastePercent, primerNeeded, primerCoverage } = state;
-  const data = result.data;
-
-  return `
-    <div class="math-explanation">
-      <h4>Calculation Steps</h4>
-
-      <div class="step">
-        <h5>1. Total Coverage Needed</h5>
-        <p>Surface area: ${surfaceArea} sq ft</p>
-        <p>Number of coats: ${numCoats}</p>
-        <p><strong>Total coverage: ${surfaceArea} × ${numCoats} = ${data.totalCoverage} sq ft</strong></p>
-      </div>
-
-      <div class="step">
-        <h5>2. Paint Required</h5>
-        <p>Coverage per gallon: ${coverageSqft} sq ft/gal</p>
-        <p>Base gallons needed: ${data.totalCoverage} ÷ ${coverageSqft} = ${formatNumber(data.totalCoverage / coverageSqft)} gal</p>
-        <p>With ${wastePercent}% waste: ${formatNumber(data.totalCoverage / coverageSqft)} × 1.${wastePercent.toString().padStart(2, '0')} = ${data.paintGallons} gallons</p>
-      </div>
-
-      ${primerNeeded ? `
-      <div class="step">
-        <h5>3. Primer Required</h5>
-        <p>Primer coverage: ${primerCoverage} sq ft/gal</p>
-        <p>Base primer needed: ${surfaceArea} ÷ ${primerCoverage} = ${formatNumber(surfaceArea / primerCoverage)} gal</p>
-        <p>With ${wastePercent}% waste: ${formatNumber(surfaceArea / primerCoverage)} × 1.${wastePercent.toString().padStart(2, '0')} = ${data.primerGallons} gallons</p>
-      </div>
-      ` : ''}
-
-      <div class="step">
-        <h5>${primerNeeded ? '4' : '3'}. Labor Hours</h5>
-        <p>Total area to apply: ${primerNeeded ? `${surfaceArea} (primer) + ${data.totalCoverage} (paint) = ${surfaceArea + data.totalCoverage}` : data.totalCoverage} sq ft</p>
-        <p>Productivity: ${state.productivity} sq ft/hr</p>
-        <p>Labor hours: ${formatNumber(surfaceArea + data.totalCoverage)} ÷ ${state.productivity} = ${formatNumber(data.laborHours)} hours</p>
-      </div>
-    </div>
-  `;
+    return "TBD";
 }
 
 export function meta() {

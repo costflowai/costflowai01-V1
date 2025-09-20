@@ -490,7 +490,7 @@ ${window.location.href}`;
 }
 
 // Legacy API for compatibility
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   const calculator = new EarthworkCalculator();
   calculator.init().then(success => {
     if (success) {
@@ -500,25 +500,11 @@ export function init(el) {
 }
 
 export function compute(state) {
-  // ROM calculation for testing: 100 CY @ 10 mi → trucks > 0
-  const cutVolume = parseFloat(state.cutVolume) || 0;
-  const truckCapacity = parseFloat(state.truckCapacity) || 12;
-  const haulDistance = parseFloat(state.haulDistance) || 10;
-
-  if (cutVolume > 0) {
-    const trucksNeeded = Math.ceil(cutVolume / truckCapacity);
-    return {
-      ok: true,
-      trucksNeeded,
-      message: `${trucksNeeded} truck loads needed for ${cutVolume} CY at ${haulDistance} miles`
-    };
-  }
-
-  return { ok: false, msg: "No cut volume specified" };
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  return "Professional earthwork calculator for cut/fill analysis, trucking requirements, and cost estimation with soil type adjustments and haul distance calculations.";
+    return "TBD";
 }
 
 export function meta() {
@@ -539,16 +525,19 @@ export function meta() {
 }
 
 // Initialize calculator when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
-  const calculator = new EarthworkCalculator();
-  const initialized = await calculator.init();
+// Check if we're in browser environment
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', async () => {
+    const calculator = new EarthworkCalculator();
+    const initialized = await calculator.init();
 
-  if (initialized) {
-    console.log('Earthwork Calculator initialized successfully');
-    window.earthworkCalculator = calculator;
-  } else {
-    console.error('Failed to initialize Earthwork Calculator');
-  }
-});
+    if (initialized) {
+      console.log('Earthwork Calculator initialized successfully');
+      window.earthworkCalculator = calculator;
+    } else {
+      console.error('Failed to initialize Earthwork Calculator');
+    }
+  });
+}
 
 export { EarthworkCalculator };

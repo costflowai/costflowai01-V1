@@ -1,5 +1,5 @@
 // HVAC Calculator
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   // Initialize calculator UI in the provided element
 }
 

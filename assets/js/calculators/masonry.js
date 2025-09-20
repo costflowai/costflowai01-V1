@@ -676,33 +676,25 @@ class MasonryCalculator {
 }
 
 // Initialize calculator when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  window.masonryCalc = new MasonryCalculator();
-});
+// Check if we're in browser environment
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.masonryCalc = new MasonryCalculator();
+  });
+}
 
 // Legacy exports for compatibility
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   // Initialize calculator UI in the provided element
   window.masonryCalc = new MasonryCalculator();
 }
 
 export function compute(state) {
-  // Legacy compute for testing: 100 sq ft CMU wall should return reasonable values
-  const wallArea = state?.wallArea || 800; // 100 ft x 8 ft = 800 sq ft
-  const cmuArea = (16/12) * (8/12); // Standard 16"x8" CMU in sq ft
-  const blocks = Math.ceil(wallArea / cmuArea);
-  const mortarBags = Math.ceil(blocks * 0.1); // Rough estimate
-
-  return {
-    ok: true,
-    blocks: blocks,
-    mortarBags: mortarBags,
-    wallArea: wallArea
-  };
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  return "Calculates CMU blocks, bricks, mortar bags, and reinforcement for masonry walls with openings, waste factors, and regional pricing.";
+    return "TBD";
 }
 
 export function meta() {

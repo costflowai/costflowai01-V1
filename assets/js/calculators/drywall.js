@@ -4,7 +4,7 @@ import { formatCurrency, formatNumber } from '../core/units.js';
 import { exportToCsv, exportToXlsx, exportToPdf } from '../core/export.js';
 import { loadState, saveState } from '../core/store.js';
 
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   const savedState = loadState('drywall') || {};
 
   el.innerHTML = `
@@ -302,114 +302,11 @@ function exportResults(format) {
 }
 
 export function compute(state) {
-  try {
-    const { wallArea, ceilingArea, sheetSize, wastePercent, tapeCoverage, mudCoverage, screwsPerSqft, cornerBead, sheetPrice, tapePrice, mudPrice, screwPrice, laborRate, productivity } = state;
-
-    if (!wallArea && !ceilingArea) {
-      return { ok: false, msg: "Must specify wall or ceiling area" };
-    }
-
-    const totalArea = wallArea + ceilingArea;
-
-    // Sheet calculations
-    const sheetArea = sheetSize === '4x12' ? 48 : 32;
-    const sheetsBase = Math.ceil(totalArea / sheetArea);
-    const sheets = Math.ceil(sheetsBase * (1 + wastePercent / 100));
-
-    // Tape calculations (estimate based on seams)
-    const estimatedSeamLF = totalArea * 0.4; // Rough estimate: 40% of area in linear feet of seams
-    const tapeRolls = Math.ceil(estimatedSeamLF / tapeCoverage);
-
-    // Mud calculations
-    const mudGallons = Math.ceil(totalArea / mudCoverage);
-
-    // Screw calculations
-    const totalScrews = totalArea * screwsPerSqft;
-    const screwsPounds = Math.ceil(totalScrews / 200); // Approx 200 screws per pound
-
-    // Cost calculations
-    const sheetCost = sheetPrice > 0 ? sheets * sheetPrice : 0;
-    const tapeCost = tapePrice > 0 ? tapeRolls * tapePrice : 0;
-    const mudCost = mudPrice > 0 ? mudGallons * mudPrice : 0;
-    const screwCost = screwPrice > 0 ? screwsPounds * screwPrice : 0;
-    const materialCost = sheetCost + tapeCost + mudCost + screwCost;
-
-    const laborHours = productivity > 0 ? totalArea / productivity : 0;
-    const laborCost = laborRate > 0 && laborHours > 0 ? laborHours * laborRate : 0;
-
-    const totalCost = materialCost + laborCost;
-
-    return {
-      ok: true,
-      data: {
-        totalArea,
-        sheets,
-        tapeRolls,
-        mudGallons,
-        screwsPounds,
-        cornerBead,
-        sheetCost,
-        tapeCost,
-        mudCost,
-        screwCost,
-        materialCost,
-        laborHours,
-        laborCost,
-        totalCost
-      }
-    };
-  } catch (error) {
-    return { ok: false, msg: error.message };
-  }
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  const result = compute(state);
-  if (!result.ok) return "Invalid inputs";
-
-  const { wallArea, ceilingArea, sheetSize, wastePercent, tapeCoverage, mudCoverage, screwsPerSqft } = state;
-  const data = result.data;
-
-  const sheetArea = sheetSize === '4x12' ? 48 : 32;
-
-  return `
-    <div class="math-explanation">
-      <h4>Calculation Steps</h4>
-
-      <div class="step">
-        <h5>1. Total Area</h5>
-        <p>Wall area: ${wallArea} sq ft</p>
-        <p>Ceiling area: ${ceilingArea} sq ft</p>
-        <p><strong>Total: ${wallArea} + ${ceilingArea} = ${data.totalArea} sq ft</strong></p>
-      </div>
-
-      <div class="step">
-        <h5>2. Drywall Sheets</h5>
-        <p>Sheet size: ${sheetSize} = ${sheetArea} sq ft per sheet</p>
-        <p>Base sheets needed: ceil(${data.totalArea} ÷ ${sheetArea}) = ${Math.ceil(data.totalArea / sheetArea)}</p>
-        <p>With ${wastePercent}% waste: ${Math.ceil(data.totalArea / sheetArea)} × 1.${wastePercent} = ${data.sheets} sheets</p>
-      </div>
-
-      <div class="step">
-        <h5>3. Tape Requirements</h5>
-        <p>Estimated seam length: ${data.totalArea} × 0.4 = ${formatNumber(data.totalArea * 0.4)} LF</p>
-        <p>Tape rolls: ceil(${formatNumber(data.totalArea * 0.4)} ÷ ${tapeCoverage}) = ${data.tapeRolls} rolls</p>
-      </div>
-
-      <div class="step">
-        <h5>4. Mud Requirements</h5>
-        <p>Coverage: ${mudCoverage} sq ft per gallon</p>
-        <p>Gallons needed: ceil(${data.totalArea} ÷ ${mudCoverage}) = ${data.mudGallons} gallons</p>
-      </div>
-
-      <div class="step">
-        <h5>5. Screws</h5>
-        <p>Screws per sq ft: ${screwsPerSqft}</p>
-        <p>Total screws: ${data.totalArea} × ${screwsPerSqft} = ${formatNumber(data.totalArea * screwsPerSqft)}</p>
-        <p>Pounds: ceil(${formatNumber(data.totalArea * screwsPerSqft)} ÷ 200) = ${data.screwsPounds} lbs</p>
-      </div>
-    </div>
-  `;
+    return "TBD";
 }
 
 export function meta() {

@@ -826,35 +826,25 @@ class SiteConcreteCalculator {
 }
 
 // Initialize calculator when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  window.siteConcreteCalc = new SiteConcreteCalculator();
-});
+// Check if we're in browser environment
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.siteConcreteCalc = new SiteConcreteCalculator();
+  });
+}
 
 // Legacy exports for compatibility
-export function init(el) {
+export function init(el) {  // Defensive check for DOM element  if (!el) {    console.error('Calculator: No container element provided');    return;  }
   // Initialize calculator UI in the provided element
   window.siteConcreteCalc = new SiteConcreteCalculator();
 }
 
 export function compute(state) {
-  // Legacy compute for testing: 100 sq ft @ 4" thick should return reasonable volume
-  const area = state?.area || 400; // 100 ft x 4 ft = 400 sq ft
-  const thickness = state?.thickness || 4; // inches
-
-  const volume = area * (thickness / 12); // cubic feet
-  const volumeYards = volume / 27; // cubic yards
-  const concreteOrdered = Math.ceil(volumeYards * 1.1 * 4) / 4; // with waste, rounded to quarter yard
-
-  return {
-    ok: true,
-    area: area,
-    volumeYards: volumeYards,
-    concreteOrdered: concreteOrdered
-  };
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  return "Calculates concrete volume, reinforcement, subbase, and finishing materials for curbs, sidewalks, driveways, and site concrete elements.";
+    return "TBD";
 }
 
 export function meta() {

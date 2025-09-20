@@ -53,10 +53,14 @@
     "transform": {
       "^.+\\.ts$": ["ts-jest", {
         "useESM": true
+      }],
+      "^.+\\.js$": ["ts-jest", {
+        "useESM": true
       }]
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(.*\\.mjs$))"
-    ]
+    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   }
 }

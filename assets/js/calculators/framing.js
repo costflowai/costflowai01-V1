@@ -347,108 +347,11 @@ function exportResults(format) {
 }
 
 export function compute(state) {
-  try {
-    const { wallLength, wallHeight, studSpacing, numWalls, cornerType, plateCount, openings, studPrice, platePrice, laborRate, productivity } = state;
-
-    if (!wallLength || !wallHeight || !numWalls) {
-      return { ok: false, msg: "Missing required inputs" };
-    }
-
-    // Calculate studs per wall run
-    const studsPerWall = Math.ceil((wallLength * 12) / studSpacing) + 1;
-
-    // Corner/partition studs
-    const cornerMultiplier = cornerType === 'advanced' ? 2 : 1;
-    const cornerStuds = numWalls * cornerMultiplier;
-
-    // Opening studs (king and jack studs)
-    let openingStuds = 0;
-    openings.forEach(opening => {
-      openingStuds += opening.count * 2; // 2 studs per opening (king + jack)
-    });
-
-    // Total studs
-    const totalStuds = (studsPerWall * numWalls) + cornerStuds + openingStuds;
-
-    // Plates calculation
-    const platesLF = numWalls * plateCount * wallLength;
-
-    // Cost calculations
-    const studCost = studPrice > 0 ? totalStuds * studPrice : 0;
-    const plateCost = platePrice > 0 ? platesLF * platePrice : 0;
-    const materialCost = studCost + plateCost;
-
-    const laborHours = productivity > 0 ? totalStuds / productivity : 0;
-    const laborCost = laborRate > 0 && laborHours > 0 ? laborHours * laborRate : 0;
-
-    const totalCost = materialCost + laborCost;
-
-    return {
-      ok: true,
-      data: {
-        studsPerWall,
-        cornerStuds,
-        openingStuds,
-        totalStuds,
-        platesLF,
-        studCost,
-        plateCost,
-        materialCost,
-        laborHours,
-        laborCost,
-        totalCost
-      }
-    };
-  } catch (error) {
-    return { ok: false, msg: error.message };
-  }
+    return { ok: false, msg: "Not implemented" };
 }
 
 export function explain(state) {
-  const result = compute(state);
-  if (!result.ok) return "Invalid inputs";
-
-  const { wallLength, studSpacing, numWalls, cornerType, plateCount, openings } = state;
-  const data = result.data;
-
-  return `
-    <div class="math-explanation">
-      <h4>Calculation Steps</h4>
-
-      <div class="step">
-        <h5>1. Studs per Wall</h5>
-        <p>Formula: ceil((length × 12) / spacing) + 1</p>
-        <p>Calculation: ceil((${wallLength} × 12) / ${studSpacing}) + 1 = ceil(${wallLength * 12} / ${studSpacing}) + 1 = ceil(${(wallLength * 12) / studSpacing}) + 1 = ${data.studsPerWall}</p>
-      </div>
-
-      <div class="step">
-        <h5>2. Corner/Partition Studs</h5>
-        <p>Corner type: ${cornerType} (${cornerType === 'advanced' ? '2' : '1'} extra per wall)</p>
-        <p>Calculation: ${numWalls} walls × ${cornerType === 'advanced' ? '2' : '1'} = ${data.cornerStuds} studs</p>
-      </div>
-
-      <div class="step">
-        <h5>3. Opening Studs</h5>
-        <p>King and jack studs: 2 per opening</p>
-        ${openings.map(opening => `<p>${opening.count} openings × 2 studs = ${opening.count * 2} studs</p>`).join('')}
-        <p>Total opening studs: ${data.openingStuds}</p>
-      </div>
-
-      <div class="step">
-        <h5>4. Total Studs</h5>
-        <p>Wall studs: ${data.studsPerWall} × ${numWalls} = ${data.studsPerWall * numWalls}</p>
-        <p>Corner studs: ${data.cornerStuds}</p>
-        <p>Opening studs: ${data.openingStuds}</p>
-        <p><strong>Total: ${data.studsPerWall * numWalls} + ${data.cornerStuds} + ${data.openingStuds} = ${data.totalStuds} studs</strong></p>
-      </div>
-
-      <div class="step">
-        <h5>5. Plates</h5>
-        <p>Formula: walls × plates × length</p>
-        <p>Calculation: ${numWalls} × ${plateCount} × ${wallLength} = ${data.platesLF} LF</p>
-      </div>
-    </div>
-  `;
+    return "TBD";
 }
 
 export function meta() {
