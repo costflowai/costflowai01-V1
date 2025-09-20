@@ -18,8 +18,49 @@ const config = {
   baseUrl: 'https://costflowai.com',
   siteName: 'CostFlowAI',
   siteDescription: 'Professional construction cost calculators and estimation guides',
-  postsPerPage: 6
+  postsPerPage: 10
 };
+
+// Get popular calculators from registry
+function getPopularCalculators() {
+  try {
+    const registryPath = path.join(projectRoot, 'assets/js/calculators/registry.js');
+    const registryContent = fs.readFileSync(registryPath, 'utf-8');
+
+    // Extract calculator entries using regex
+    const registryMatch = registryContent.match(/export const calculatorRegistry = \[([\s\S]*?)\];/);
+    if (!registryMatch) {
+      throw new Error('Could not find calculatorRegistry');
+    }
+
+    // Parse top 5 calculators
+    const calculators = [];
+    const calculatorMatches = registryMatch[1].matchAll(/\{[\s\S]*?id: ['"`](\w+)['"`][\s\S]*?description: ['"`](.*?)['"`][\s\S]*?\}/g);
+
+    for (const match of calculatorMatches) {
+      const [, id, description] = match;
+      const name = id.charAt(0).toUpperCase() + id.slice(1).replace(/([A-Z])/g, ' $1').trim() + ' Calculator';
+      calculators.push({
+        id: id.trim(),
+        name: name,
+        description: description.trim()
+      });
+
+      if (calculators.length >= 5) break;
+    }
+
+    return calculators;
+  } catch (error) {
+    console.warn('Could not load popular calculators:', error.message);
+    return [
+      { id: 'concrete', name: 'Concrete Calculator', description: 'Calculate concrete volume and materials' },
+      { id: 'framing', name: 'Framing Calculator', description: 'Estimate lumber quantities and costs' },
+      { id: 'drywall', name: 'Drywall Calculator', description: 'Calculate drywall sheets and materials' },
+      { id: 'paint', name: 'Paint Calculator', description: 'Estimate paint quantities and coverage' },
+      { id: 'roofing', name: 'Roofing Calculator', description: 'Calculate roofing materials and costs' }
+    ];
+  }
+}
 
 // Ensure output directories exist
 function ensureDirectories() {
@@ -113,6 +154,8 @@ function renderTemplate(template, data) {
 
 // Generate individual post pages
 function generatePostPages(posts, templates) {
+  const popularCalculators = getPopularCalculators();
+
   posts.forEach((post, index) => {
     const prevPost = index < posts.length - 1 ? posts[index + 1] : null;
     const nextPost = index > 0 ? posts[index - 1] : null;
@@ -129,7 +172,9 @@ function generatePostPages(posts, templates) {
       tags_string: post.tags.join(', '),
       prev_post: prevPost,
       next_post: nextPost,
-      related_posts: relatedPosts
+      related_posts: relatedPosts,
+      popular_calculators: popularCalculators,
+      nonce: 'PLACEHOLDER_NONCE'
     };
 
     const html = renderTemplate(templates.postTemplate, templateData);
@@ -146,34 +191,86 @@ function generatePostPages(posts, templates) {
   });
 }
 
-// Generate blog index page
+// Generate blog index page with pagination
 function generateBlogIndex(posts, templates) {
+  const totalPosts = posts.length;
+  const totalPages = Math.ceil(totalPosts / config.postsPerPage);
+
   // Get all tags
   const allTags = [...new Set(posts.flatMap(post => post.tags))];
-  const categories = allTags.map(tag => ({
-    name: tag,
-    slug: tag,
-    count: posts.filter(post => post.tags.includes(tag)).length,
-    current: false
-  }));
+  const popularCalculators = getPopularCalculators();
+  const recentPosts = posts.slice(0, 5);
 
-  // Popular posts (for now, just the first 5)
-  const popularPosts = posts.slice(0, 5);
-
-  const templateData = {
+  // Generate main blog index (page 1)
+  generateBlogPage(1, posts, templates, {
     page_title: 'Construction Cost Estimation Blog',
     page_description: 'Expert guides, tutorials, and insights on construction cost estimation, calculators, and industry best practices.',
     canonical_url: `${config.baseUrl}/blog`,
-    posts: posts.slice(0, config.postsPerPage),
-    categories,
-    popular_posts: popularPosts,
-    is_tag_page: false,
-    nonce: 'blog-script-nonce'
+    all_tags: allTags,
+    popular_calculators: popularCalculators,
+    recent_posts: recentPosts,
+    totalPages
+  });
+
+  // Generate additional pages if needed
+  if (totalPages > 1) {
+    for (let page = 2; page <= totalPages; page++) {
+      generateBlogPage(page, posts, templates, {
+        page_title: `Construction Cost Estimation Blog - Page ${page}`,
+        page_description: 'Expert guides, tutorials, and insights on construction cost estimation, calculators, and industry best practices.',
+        canonical_url: `${config.baseUrl}/blog/page/${page}`,
+        all_tags: allTags,
+        popular_calculators: popularCalculators,
+        recent_posts: recentPosts,
+        totalPages
+      });
+    }
+  }
+}
+
+// Generate individual blog page
+function generateBlogPage(currentPage, allPosts, templates, pageData) {
+  const startIndex = (currentPage - 1) * config.postsPerPage;
+  const endIndex = startIndex + config.postsPerPage;
+  const posts = allPosts.slice(startIndex, endIndex);
+
+  // Build pagination data
+  const pagination = pageData.totalPages > 1 ? {
+    current_page: currentPage,
+    total_pages: pageData.totalPages,
+    prev_url: currentPage > 1 ? (currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`) : null,
+    next_url: currentPage < pageData.totalPages ? `/blog/page/${currentPage + 1}` : null,
+    pages: Array.from({ length: pageData.totalPages }, (_, i) => ({
+      page: i + 1,
+      url: i === 0 ? '/blog' : `/blog/page/${i + 1}`,
+      current: i + 1 === currentPage
+    }))
+  } : null;
+
+  const templateData = {
+    ...pageData,
+    posts,
+    pagination,
+    nonce: 'PLACEHOLDER_NONCE'
   };
 
   const html = renderTemplate(templates.indexTemplate, templateData);
-  fs.writeFileSync(path.join(config.outputDir, 'index.html'), html);
-  console.log('Generated: blog/index.html');
+
+  // Determine output path
+  let outputPath;
+  if (currentPage === 1) {
+    outputPath = path.join(config.outputDir, 'index.html');
+    console.log('Generated: blog/index.html');
+  } else {
+    const pageDir = path.join(config.outputDir, 'page', currentPage.toString());
+    if (!fs.existsSync(pageDir)) {
+      fs.mkdirSync(pageDir, { recursive: true });
+    }
+    outputPath = path.join(pageDir, 'index.html');
+    console.log(`Generated: blog/page/${currentPage}/index.html`);
+  }
+
+  fs.writeFileSync(outputPath, html);
 }
 
 // Generate tag pages

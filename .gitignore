@@ -4,9 +4,32 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Build outputs
-dist/
-build/
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output
+
+# Dependency directories
+.npm
+.bower
+.yarn-cache
+
+# Optional npm cache directory
+.npm-cache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
 
 # Environment variables
 .env
@@ -15,18 +38,34 @@ build/
 .env.test.local
 .env.production.local
 
-# IDE
+# Build outputs
+.cache/
+dist/
+build/
+
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Testing
+# Test results
+test-results/
+playwright-report/
 coverage/
 
-# TypeScript
-*.tsbuildinfo
+# Logs
+logs
+*.log
+
+# Runtime files
+.cache
