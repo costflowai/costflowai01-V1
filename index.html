@@ -28,6 +28,17 @@
     <!-- Performance: Prefetch likely-needed assets -->
     <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
     <link rel="prefetch" href="/assets/data/search.json">
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Performance: Preload critical assets -->
+    <link rel="preload" href="/vendor/lunr/lunr.min.js" as="script">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+    <link rel="preload" href="/assets/js/blog-search.js" as="script">
+    
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
+    <link rel="prefetch" href="/assets/data/search.json">
     <meta name="keywords" content="construction cost estimation, building cost calculator, contractor software, construction management, cost analysis, project estimation, building materials cost">
     <meta name="author" content="CostFlowAI Team">
     <meta name="robots" content="index, follow">
@@ -412,6 +423,5 @@
     </script>
 
     <script type="module" src="/assets/js/core/homepage-performance.js" nonce="__NONCE__"></script>
-
 </body>
 </html>
