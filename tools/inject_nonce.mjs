@@ -37,6 +37,9 @@ function processHtmlFile(filePath, nonce) {
   // Replace CSP nonce placeholder in netlify.toml style headers if present in HTML
   content = content.replace(/{%NONCE%}/g, nonce);
 
+  // Replace PLACEHOLDER_NONCE with actual nonce
+  content = content.replace(/PLACEHOLDER_NONCE/g, nonce);
+
   fs.writeFileSync(filePath, content, 'utf8');
   console.log(`✓ Processed ${path.relative(projectRoot, filePath)} with nonce: ${nonce}`);
 }

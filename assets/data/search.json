@@ -1,37 +1,23 @@
 {
   "version": "1.0",
-  "generated": "2025-09-20T02:14:04.721Z",
+  "generated": "2025-09-20T04:20:58.991Z",
   "count": 12,
   "items": [
     {
-      "id": "page-home",
-      "title": "CostFlowAI - Professional Construction Cost Calculators",
-      "excerpt": "Professional construction cost estimation tools powered by real-time regional pricing data.",
-      "content": "construction cost estimation calculators professional regional pricing real-time data",
-      "headings": "Professional Construction Cost Calculators",
-      "url": "/",
+      "id": "calc-concrete",
+      "title": "Concrete Slab Pro Calculator",
+      "excerpt": "Calculate concrete volume, rebar requirements, and total project costs for concrete slabs with regional pricing.",
+      "content": "concrete slab calculator volume cubic yards rebar grid layout regional pricing labor costs materials waste factor delivery pump",
+      "headings": "Concrete Slab Calculator Professional Materials Labor",
+      "url": "/calculators/concrete",
       "tags": [
-        "home",
-        "calculators",
-        "construction"
+        "concrete",
+        "structural",
+        "rebar",
+        "volume"
       ],
-      "category": "Page",
-      "date": "2025-09-20T02:14:04.721Z"
-    },
-    {
-      "id": "page-calculators",
-      "title": "Construction Calculators - CostFlowAI",
-      "excerpt": "Comprehensive suite of construction cost calculators for structural, MEP, finishes, and sitework.",
-      "content": "construction calculators structural MEP finishes sitework comprehensive suite cost estimation",
-      "headings": "Construction Calculators Structural MEP Finishes",
-      "url": "/calculators",
-      "tags": [
-        "calculators",
-        "tools",
-        "construction"
-      ],
-      "category": "Page",
-      "date": "2025-09-20T02:14:04.721Z"
+      "category": "Calculator",
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-drywall",
@@ -46,7 +32,7 @@
         "finishing"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-paint",
@@ -62,7 +48,7 @@
         "exterior"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-earthwork",
@@ -78,7 +64,7 @@
         "sitework"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-masonry",
@@ -95,7 +81,7 @@
         "structural"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-insulation",
@@ -111,7 +97,7 @@
         "energy"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "calc-siteconcrete",
@@ -127,23 +113,37 @@
         "sidewalks"
       ],
       "category": "Calculator",
-      "date": "2025-09-20T02:14:04.720Z"
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
-      "id": "calc-concrete",
-      "title": "Concrete Slab Pro Calculator",
-      "excerpt": "Calculate concrete volume, rebar requirements, and total project costs for concrete slabs with regional pricing.",
-      "content": "concrete slab calculator volume cubic yards rebar grid layout regional pricing labor costs materials waste factor delivery pump",
-      "headings": "Concrete Slab Calculator Professional Materials Labor",
-      "url": "/calculators/concrete",
+      "id": "page-home",
+      "title": "CostFlowAI - Professional Construction Cost Calculators",
+      "excerpt": "Professional construction cost estimation tools powered by real-time regional pricing data.",
+      "content": "construction cost estimation calculators professional regional pricing real-time data",
+      "headings": "Professional Construction Cost Calculators",
+      "url": "/",
       "tags": [
-        "concrete",
-        "structural",
-        "rebar",
-        "volume"
+        "home",
+        "calculators",
+        "construction"
       ],
-      "category": "Calculator",
-      "date": "2025-09-20T02:14:04.719Z"
+      "category": "Page",
+      "date": "2025-09-20T04:20:58.991Z"
+    },
+    {
+      "id": "page-calculators",
+      "title": "Construction Calculators - CostFlowAI",
+      "excerpt": "Comprehensive suite of construction cost calculators for structural, MEP, finishes, and sitework.",
+      "content": "construction calculators structural MEP finishes sitework comprehensive suite cost estimation",
+      "headings": "Construction Calculators Structural MEP Finishes",
+      "url": "/calculators",
+      "tags": [
+        "calculators",
+        "tools",
+        "construction"
+      ],
+      "category": "Page",
+      "date": "2025-09-20T04:20:58.991Z"
     },
     {
       "id": "post-welcome-to-costflowai",
