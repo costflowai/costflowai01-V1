@@ -20,7 +20,13 @@
   to = "/vendor/:splat"
   status = 200
 
+# Static blog and calculator routes - serve actual files
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/blog/*"
+  to = "/blog/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/*"
+  to = "/calculators/:splat"
   status = 200
