@@ -42,21 +42,6 @@
         <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
     </footer>
 
-    <script nonce="{{nonce}}">
-        function toggleSearch() {
-            // Simple search redirect for now
-            window.location.href = '/blog/';
-        }
-    </script>
-
-    <script type="module" nonce="{{nonce}}">
-        import { bootCalculator } from '/assets/js/core/ui.js';
-        import calculator from '/assets/js/calculators/{{calculator_id}}.js';
-
-        // Boot the calculator when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            bootCalculator('{{calculator_id}}', calculator);
-        });
-    </script>
+    <script type="module" src="/assets/js/calculators/{{calculator_id}}/calculator-init.js" nonce="{{nonce}}"></script>
 </body>
 </html>
