@@ -2,7 +2,7 @@
 // Ensures every registry entry exists and exposes required exports
 
 import { describe, it, expect } from '@jest/globals';
-import { calculatorRegistry } from '../assets/js/calculators/registry';
+import { calculatorRegistry } from '../assets/js/calculators/registry.js';
 
 describe('Calculator Registry', () => {
   it('should have 21 calculators registered', () => {
