@@ -39,6 +39,50 @@
     <!-- Performance: Prefetch likely-needed assets -->
     <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
     <link rel="prefetch" href="/assets/data/search.json">
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Performance: Preload critical assets -->
+    <link rel="preload" href="/vendor/lunr/lunr.min.js" as="script">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+    <link rel="preload" href="/assets/js/blog-search.js" as="script">
+    
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
+    <link rel="prefetch" href="/assets/data/search.json">
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Performance: Preload critical assets -->
+    <link rel="preload" href="/vendor/lunr/lunr.min.js" as="script">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+    <link rel="preload" href="/assets/js/blog-search.js" as="script">
+    
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
+    <link rel="prefetch" href="/assets/data/search.json">
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Performance: Preload critical assets -->
+    <link rel="preload" href="/vendor/lunr/lunr.min.js" as="script">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+    <link rel="preload" href="/assets/js/blog-search.js" as="script">
+    
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
+    <link rel="prefetch" href="/assets/data/search.json">
+    <!-- Performance: DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Performance: Preload critical assets -->
+    <link rel="preload" href="/vendor/lunr/lunr.min.js" as="script">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+    <link rel="preload" href="/assets/js/blog-search.js" as="script">
+    
+    <!-- Performance: Prefetch likely-needed assets -->
+    <link rel="prefetch" href="/vendor/jspdf/jspdf.min.js">
+    <link rel="prefetch" href="/assets/data/search.json">
     <meta name="keywords" content="construction cost estimation, building cost calculator, contractor software, construction management, cost analysis, project estimation, building materials cost">
     <meta name="author" content="CostFlowAI Team">
     <meta name="robots" content="index, follow">
@@ -423,5 +467,85 @@
     </script>
 
     <script type="module" src="/assets/js/core/homepage-performance.js" nonce="__NONCE__"></script>
+
+    <script nonce="__NONCE__">
+      // Performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const perfData = performance.timing;
+          const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+          console.log('⚡ Page load time:', Math.round(loadTime) + 'ms');
+          
+          // Track performance metrics for analytics
+          if (window.CostFlowAnalytics) {
+            window.CostFlowAnalytics.trackEvent('performance_timing', {
+              load_time: loadTime,
+              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
+              first_paint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
+            });
+          }
+        }
+      });
+    </script>
+
+    <script nonce="__NONCE__">
+      // Performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const perfData = performance.timing;
+          const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+          console.log('⚡ Page load time:', Math.round(loadTime) + 'ms');
+          
+          // Track performance metrics for analytics
+          if (window.CostFlowAnalytics) {
+            window.CostFlowAnalytics.trackEvent('performance_timing', {
+              load_time: loadTime,
+              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
+              first_paint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
+            });
+          }
+        }
+      });
+    </script>
+
+    <script nonce="__NONCE__">
+      // Performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const perfData = performance.timing;
+          const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+          console.log('⚡ Page load time:', Math.round(loadTime) + 'ms');
+          
+          // Track performance metrics for analytics
+          if (window.CostFlowAnalytics) {
+            window.CostFlowAnalytics.trackEvent('performance_timing', {
+              load_time: loadTime,
+              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
+              first_paint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
+            });
+          }
+        }
+      });
+    </script>
+
+    <script nonce="__NONCE__">
+      // Performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const perfData = performance.timing;
+          const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+          console.log('⚡ Page load time:', Math.round(loadTime) + 'ms');
+          
+          // Track performance metrics for analytics
+          if (window.CostFlowAnalytics) {
+            window.CostFlowAnalytics.trackEvent('performance_timing', {
+              load_time: loadTime,
+              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
+              first_paint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
+            });
+          }
+        }
+      });
+    </script>
 </body>
 </html>
