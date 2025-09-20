@@ -1,0 +1,146 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "CostFlowAI Calculators" [level=1] [ref=e3]
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Professional Construction Cost Calculators" [level=2] [ref=e6]
+      - paragraph [ref=e7]: Comprehensive suite of cost estimation tools for construction professionals.
+    - generic [ref=e8]:
+      - heading "Structural & Concrete" [level=3] [ref=e9]
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - heading "Concrete Slab Pro" [level=4] [ref=e12]
+          - paragraph [ref=e13]: Professional concrete slab calculator with material quantities, rebar layout, regional pricing, and comprehensive cost breakdown including labor and overhead
+          - generic [ref=e14]:
+            - generic [ref=e15]: ✓ Rebar calculations
+            - generic [ref=e16]: ✓ Regional pricing
+            - generic [ref=e17]: ✓ Export ready
+            - generic [ref=e18]: ✓ Labor costs
+          - link "Open Calculator" [ref=e19] [cursor=pointer]:
+            - /url: /calculators/concrete/
+        - generic [ref=e20]:
+          - heading "Framing Calculator" [level=4] [ref=e21]
+          - paragraph [ref=e22]: Estimate lumber quantities and costs for wood and steel framing systems
+          - link "Open Calculator" [ref=e23] [cursor=pointer]:
+            - /url: /calculators/framing/
+        - generic [ref=e24]:
+          - heading "Masonry Calculator" [level=4] [ref=e25]
+          - paragraph [ref=e26]: Calculate brick, block, stone, and mortar requirements
+          - link "Open Calculator" [ref=e27] [cursor=pointer]:
+            - /url: /calculators/masonry/
+        - generic [ref=e28]:
+          - heading "Steel Calculator" [level=4] [ref=e29]
+          - paragraph [ref=e30]: Estimate structural steel quantities and connection materials
+          - link "Open Calculator" [ref=e31] [cursor=pointer]:
+            - /url: /calculators/steel/
+      - heading "MEP Systems" [level=3] [ref=e32]
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - heading "Plumbing Calculator" [level=4] [ref=e35]
+          - paragraph [ref=e36]: Calculate pipe, fittings, and plumbing fixture requirements
+          - link "Open Calculator" [ref=e37] [cursor=pointer]:
+            - /url: /calculators/plumbing/
+        - generic [ref=e38]:
+          - heading "Electrical Calculator" [level=4] [ref=e39]
+          - paragraph [ref=e40]: Estimate electrical materials including wire, conduit, panels, and devices
+          - link "Open Calculator" [ref=e41] [cursor=pointer]:
+            - /url: /calculators/electrical/
+        - generic [ref=e42]:
+          - heading "HVAC Calculator" [level=4] [ref=e43]
+          - paragraph [ref=e44]: Calculate HVAC system components, ductwork, and equipment sizing
+          - link "Open Calculator" [ref=e45] [cursor=pointer]:
+            - /url: /calculators/hvac/
+      - heading "Finishes" [level=3] [ref=e46]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Drywall Calculator" [level=4] [ref=e49]
+          - paragraph [ref=e50]: Calculate drywall sheets, mud, tape, and finishing materials
+          - link "Open Calculator" [ref=e51] [cursor=pointer]:
+            - /url: /calculators/drywall/
+        - generic [ref=e52]:
+          - heading "Paint Calculator" [level=4] [ref=e53]
+          - paragraph [ref=e54]: Estimate paint quantities, primer, and coating materials for interior and exterior surfaces
+          - link "Open Calculator" [ref=e55] [cursor=pointer]:
+            - /url: /calculators/paint/
+        - generic [ref=e56]:
+          - heading "Flooring Calculator" [level=4] [ref=e57]
+          - paragraph [ref=e58]: Estimate flooring materials for tile, hardwood, carpet, and other floor finishes
+          - link "Open Calculator" [ref=e59] [cursor=pointer]:
+            - /url: /calculators/flooring/
+      - heading "Exterior & Envelope" [level=3] [ref=e60]
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - heading "Roofing Calculator" [level=4] [ref=e63]
+          - paragraph [ref=e64]: Calculate roofing materials including shingles, underlayment, and accessories
+          - link "Open Calculator" [ref=e65] [cursor=pointer]:
+            - /url: /calculators/roofing/
+        - generic [ref=e66]:
+          - heading "Doors & Windows Calculator" [level=4] [ref=e67]
+          - paragraph [ref=e68]: Calculate door and window quantities, hardware, and trim materials
+          - link "Open Calculator" [ref=e69] [cursor=pointer]:
+            - /url: /calculators/doorswindows/
+        - generic [ref=e70]:
+          - heading "Insulation Calculator" [level=4] [ref=e71]
+          - paragraph [ref=e72]: Estimate insulation materials for walls, roofs, and thermal barriers
+          - link "Open Calculator" [ref=e73] [cursor=pointer]:
+            - /url: /calculators/insulation/
+      - heading "Sitework" [level=3] [ref=e74]
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - heading "Earthwork Calculator" [level=4] [ref=e77]
+          - paragraph [ref=e78]: Estimate excavation, fill, grading, and site preparation quantities
+          - link "Open Calculator" [ref=e79] [cursor=pointer]:
+            - /url: /calculators/earthwork/
+        - generic [ref=e80]:
+          - heading "Asphalt Calculator" [level=4] [ref=e81]
+          - paragraph [ref=e82]: Calculate asphalt paving materials and quantities for roads and parking
+          - link "Open Calculator" [ref=e83] [cursor=pointer]:
+            - /url: /calculators/asphalt/
+        - generic [ref=e84]:
+          - heading "Site Concrete Calculator" [level=4] [ref=e85]
+          - paragraph [ref=e86]: Estimate site concrete for sidewalks, curbs, and paved areas
+          - link "Open Calculator" [ref=e87] [cursor=pointer]:
+            - /url: /calculators/siteconcrete/
+        - generic [ref=e88]:
+          - heading "Demolition Calculator" [level=4] [ref=e89]
+          - paragraph [ref=e90]: Calculate demolition quantities, disposal, and site clearing requirements
+          - link "Open Calculator" [ref=e91] [cursor=pointer]:
+            - /url: /calculators/demolition/
+      - heading "Specialties & Protection" [level=3] [ref=e92]
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Firestop Calculator" [level=4] [ref=e95]
+          - paragraph [ref=e96]: Calculate firestop materials and fire-rated assembly components
+          - link "Open Calculator" [ref=e97] [cursor=pointer]:
+            - /url: /calculators/firestop/
+        - generic [ref=e98]:
+          - heading "Waterproofing Calculator" [level=4] [ref=e99]
+          - paragraph [ref=e100]: Estimate waterproofing membranes, coatings, and protection systems
+          - link "Open Calculator" [ref=e101] [cursor=pointer]:
+            - /url: /calculators/waterproof/
+      - heading "Project Management" [level=3] [ref=e102]
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - heading "General Conditions Calculator" [level=4] [ref=e105]
+          - paragraph [ref=e106]: Estimate general conditions including supervision, utilities, and temporary facilities
+          - link "Open Calculator" [ref=e107] [cursor=pointer]:
+            - /url: /calculators/genconds/
+        - generic [ref=e108]:
+          - heading "Fees Calculator" [level=4] [ref=e109]
+          - paragraph [ref=e110]: Calculate permit fees, inspections, and regulatory compliance costs
+          - link "Open Calculator" [ref=e111] [cursor=pointer]:
+            - /url: /calculators/fees/
+  - contentinfo [ref=e112]:
+    - navigation [ref=e113]:
+      - list [ref=e114]:
+        - listitem [ref=e115]:
+          - link "Calculators" [ref=e116] [cursor=pointer]:
+            - /url: /calculators/
+        - listitem [ref=e117]:
+          - link "Blog" [ref=e118] [cursor=pointer]:
+            - /url: /blog/
+    - paragraph [ref=e119]: © 2025 CostFlowAI. All rights reserved.
+```

@@ -1,0 +1,130 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "CostFlowAI" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e9]:
+          - link "Calculators" [ref=e10] [cursor=pointer]:
+            - /url: /calculators/
+        - listitem [ref=e11]:
+          - link "Blog" [ref=e12] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e13]:
+          - link "Search" [ref=e14] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e15]:
+          - link "Contact" [ref=e16] [cursor=pointer]:
+            - /url: mailto:contact@costflowai.com
+      - generic [ref=e17]:
+        - searchbox "Search calculators and blog" [ref=e18]
+        - listbox "Search results"
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Construction Cost Estimation Blog" [level=1] [ref=e22]
+        - paragraph [ref=e23]: Expert guides, tutorials, and insights on construction cost estimation, calculators, and industry best practices.
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - article [ref=e27]:
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - heading [level=2]:
+                  - link:
+                    - /url: ""
+                - generic:
+                  - time
+              - generic:
+                - paragraph
+              - link "Read Article →" [ref=e32] [cursor=pointer]:
+                - /url: ""
+          - paragraph [ref=e34]: No blog posts found.
+          - link "Next →" [ref=e35] [cursor=pointer]:
+            - /url: ""
+        - complementary [ref=e36]:
+          - generic [ref=e37]:
+            - heading "Search" [level=3] [ref=e38]
+            - searchbox "Search blog posts" [ref=e40]
+          - generic [ref=e41]:
+            - heading "Popular Calculators" [level=3] [ref=e42]
+            - list [ref=e43]:
+              - listitem [ref=e44]:
+                - link "Concrete Calculator Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements" [ref=e45] [cursor=pointer]:
+                  - /url: /calculators/concrete/
+                  - strong [ref=e46] [cursor=pointer]: Concrete Calculator
+                  - generic [ref=e47] [cursor=pointer]: Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements
+              - listitem [ref=e48]:
+                - link "Framing Calculator Estimate lumber quantities and costs for wood and steel framing systems" [ref=e49] [cursor=pointer]:
+                  - /url: /calculators/framing/
+                  - strong [ref=e50] [cursor=pointer]: Framing Calculator
+                  - generic [ref=e51] [cursor=pointer]: Estimate lumber quantities and costs for wood and steel framing systems
+              - listitem [ref=e52]:
+                - link "Drywall Calculator Calculate drywall sheets, mud, tape, and finishing materials" [ref=e53] [cursor=pointer]:
+                  - /url: /calculators/drywall/
+                  - strong [ref=e54] [cursor=pointer]: Drywall Calculator
+                  - generic [ref=e55] [cursor=pointer]: Calculate drywall sheets, mud, tape, and finishing materials
+              - listitem [ref=e56]:
+                - link "Paint Calculator Estimate paint quantities, primer, and coating materials for interior and exterior surfaces" [ref=e57] [cursor=pointer]:
+                  - /url: /calculators/paint/
+                  - strong [ref=e58] [cursor=pointer]: Paint Calculator
+                  - generic [ref=e59] [cursor=pointer]: Estimate paint quantities, primer, and coating materials for interior and exterior surfaces
+              - listitem [ref=e60]:
+                - link "Roofing Calculator Calculate roofing materials including shingles, underlayment, and accessories" [ref=e61] [cursor=pointer]:
+                  - /url: /calculators/roofing/
+                  - strong [ref=e62] [cursor=pointer]: Roofing Calculator
+                  - generic [ref=e63] [cursor=pointer]: Calculate roofing materials including shingles, underlayment, and accessories
+          - generic [ref=e64]:
+            - heading "Recent Posts" [level=3] [ref=e65]
+            - list [ref=e66]:
+              - listitem [ref=e67]:
+                - link "Welcome to CostFlowAI - The Future of Construction Cost Estimation" [ref=e68] [cursor=pointer]:
+                  - /url: /blog/welcome-to-costflowai
+                - time [ref=e69]: January 14, 2024
+              - listitem [ref=e70]:
+                - link "Complete Guide to Concrete Slab Calculations - From Volume to Cost" [ref=e71] [cursor=pointer]:
+                  - /url: /blog/concrete-calculator-guide
+                - time [ref=e72]: January 11, 2024
+              - listitem [ref=e73]:
+                - link "Understanding Regional Pricing in Construction Cost Estimation" [ref=e74] [cursor=pointer]:
+                  - /url: /blog/regional-pricing-explained
+                - time [ref=e75]: January 9, 2024
+          - generic [ref=e76]:
+            - heading "Topics" [level=3] [ref=e77]
+            - generic [ref=e78]:
+              - link "announcement" [ref=e79] [cursor=pointer]:
+                - /url: /blog/tags/announcement
+              - link "features" [ref=e80] [cursor=pointer]:
+                - /url: /blog/tags/features
+              - link "construction" [ref=e81] [cursor=pointer]:
+                - /url: /blog/tags/construction
+              - link "concrete" [ref=e82] [cursor=pointer]:
+                - /url: /blog/tags/concrete
+              - link "tutorial" [ref=e83] [cursor=pointer]:
+                - /url: /blog/tags/tutorial
+              - link "calculators" [ref=e84] [cursor=pointer]:
+                - /url: /blog/tags/calculators
+              - link "pricing" [ref=e85] [cursor=pointer]:
+                - /url: /blog/tags/pricing
+              - link "regional" [ref=e86] [cursor=pointer]:
+                - /url: /blog/tags/regional
+              - link "estimation" [ref=e87] [cursor=pointer]:
+                - /url: /blog/tags/estimation
+  - contentinfo [ref=e88]:
+    - navigation [ref=e89]:
+      - list [ref=e90]:
+        - listitem [ref=e91]:
+          - link "Calculators" [ref=e92] [cursor=pointer]:
+            - /url: /calculators/
+        - listitem [ref=e93]:
+          - link "Blog" [ref=e94] [cursor=pointer]:
+            - /url: /blog/
+    - paragraph [ref=e95]: © 2024 CostFlowAI. All rights reserved.
+```

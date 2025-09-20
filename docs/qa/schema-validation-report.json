@@ -1,0 +1,38 @@
+{
+  "summary": {
+    "totalPages": 4,
+    "validSchemas": 4,
+    "errors": 0,
+    "warnings": 1
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "url": "http://localhost:5000/contact/",
+      "warning": "Unknown schema type: ContactPage",
+      "schema": "ContactPage"
+    }
+  ],
+  "validSchemas": [
+    {
+      "url": "http://localhost:5000/blog/",
+      "type": "WebSite",
+      "valid": true
+    },
+    {
+      "url": "http://localhost:5000/contact/",
+      "type": "ContactPage",
+      "valid": true
+    },
+    {
+      "url": "http://localhost:5000/blog/welcome-to-costflowai/",
+      "type": "BlogPosting",
+      "valid": true
+    },
+    {
+      "url": "http://localhost:5000/blog/concrete-calculator-guide/",
+      "type": "BlogPosting",
+      "valid": true
+    }
+  ]
+}

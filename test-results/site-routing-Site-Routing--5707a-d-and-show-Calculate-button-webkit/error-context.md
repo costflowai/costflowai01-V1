@@ -1,0 +1,48 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - link "CostFlowAI" [ref=e5]:
+        - /url: /
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8]:
+            - /url: /
+        - listitem [ref=e9]:
+          - link "Calculators" [ref=e10]:
+            - /url: /calculators/
+        - listitem [ref=e11]:
+          - link "Blog" [ref=e12]:
+            - /url: /blog/
+        - listitem [ref=e13]:
+          - link "Search" [ref=e14]:
+            - /url: "#"
+        - listitem [ref=e15]:
+          - link "Contact" [ref=e16]:
+            - /url: mailto:contact@costflowai.com
+      - generic [ref=e17]:
+        - searchbox "Search calculators and blog" [ref=e18]
+        - listbox "Search results"
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "undefined" [level=1] [ref=e22]
+        - paragraph [ref=e23]: Calculate concrete volume, rebar requirements, and total project costs for concrete slabs
+      - generic [ref=e26]:
+        - button "Calculate" [ref=e27] [cursor=pointer]
+        - button "Reset" [ref=e28]
+  - contentinfo [ref=e29]:
+    - navigation [ref=e30]:
+      - list [ref=e31]:
+        - listitem [ref=e32]:
+          - link "Calculators" [ref=e33]:
+            - /url: /calculators/
+        - listitem [ref=e34]:
+          - link "Blog" [ref=e35]:
+            - /url: /blog/
+    - paragraph [ref=e36]: © 2025 CostFlowAI. All rights reserved.
+```
