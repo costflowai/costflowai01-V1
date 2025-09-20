@@ -40,7 +40,6 @@ coverage/
 
 # Build outputs
 .cache/
-dist/
 build/
 
 # IDE files

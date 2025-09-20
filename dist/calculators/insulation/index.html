@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insulation Calculator - CostFlowAI</title>
+    <meta name="description" content="Calculate insulation materials for walls, ceilings, and floors">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007cba; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #005a8b; }
+        .results { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 4px; }
+        .disclaimer { margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Insulation Calculator</h1>
+        <p>Beta: results are ROM estimates; verify before procurement. See Methodology.</p>
+    </header>
+
+    <main>
+        <form id="insulationForm">
+            <div class="form-group">
+                <label for="area">Area to Insulate (square feet):</label>
+                <input type="number" id="area" step="0.01" min="0" placeholder="Enter area">
+            </div>
+            <div class="form-group">
+                <label for="type">Insulation Type:</label>
+                <select id="type">
+                    <option value="batt">Fiberglass Batts</option>
+                    <option value="blown">Blown-in Cellulose</option>
+                    <option value="foam">Spray Foam</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rValue">Target R-Value:</label>
+                <input type="number" id="rValue" value="19" min="1" max="60" placeholder="Enter R-value">
+            </div>
+            <button type="button" id="btnCalc">Calculate</button>
+        </form>
+
+        <div class="results" id="results" style="display: none;">
+            <h3>Results</h3>
+            <p>Insulation needed: <span id="resultAmount">0</span> <span id="resultUnit">square feet</span></p>
+            <p>Coverage: <span id="resultCoverage">0</span> square feet</p>
+        </div>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> These are rough order of magnitude (ROM) estimates for planning purposes only.
+            Always verify calculations with a qualified contractor and obtain professional estimates before procurement.
+        </div>
+    </main>
+
+    <script defer src="/assets/js/calculators/insulation.js"></script>
+</body>
+</html>

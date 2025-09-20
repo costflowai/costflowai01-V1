@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://costflowai.com/sitemap.xml
+
+# Disallow admin areas (if any)
+Disallow: /admin/
+Disallow: /.env
+Disallow: /config/
+
+# Allow all construction cost calculators
+Allow: /calculators/
+Allow: /calculators/concrete/
+Allow: /calculators/drywall/
+Allow: /calculators/paint/
+Allow: /calculators/insulation/

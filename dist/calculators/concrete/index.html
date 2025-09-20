@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concrete Calculator - CostFlowAI</title>
+    <meta name="description" content="Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007cba; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #005a8b; }
+        .results { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 4px; }
+        .disclaimer { margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Concrete Calculator</h1>
+        <p>Beta: results are ROM estimates; verify before procurement. See Methodology.</p>
+    </header>
+
+    <main>
+        <form id="concreteForm">
+            <div class="form-group">
+                <label for="length">Length (feet):</label>
+                <input type="number" id="length" step="0.01" min="0" placeholder="Enter length">
+            </div>
+            <div class="form-group">
+                <label for="width">Width (feet):</label>
+                <input type="number" id="width" step="0.01" min="0" placeholder="Enter width">
+            </div>
+            <div class="form-group">
+                <label for="thickness">Thickness (inches):</label>
+                <input type="number" id="thickness" step="0.01" min="0" placeholder="Enter thickness">
+            </div>
+            <button type="button" id="btnCalc">Calculate</button>
+        </form>
+
+        <div class="results" id="results" style="display: none;">
+            <h3>Results</h3>
+            <p>Volume: <span id="resultVolume">0</span> cubic yards</p>
+            <p>Estimated concrete needed: <span id="resultConcrete">0</span> cubic yards</p>
+        </div>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> These are rough order of magnitude (ROM) estimates for planning purposes only.
+            Always verify calculations with a qualified engineer and obtain professional estimates before procurement.
+        </div>
+    </main>
+
+    <script defer src="/assets/js/calculators/concrete.js"></script>
+</body>
+</html>
