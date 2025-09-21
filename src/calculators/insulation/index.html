@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insulation Calculator - CostFlowAI</title>
+    <meta name="description" content="Calculate insulation materials and costs for walls, attics, and crawl spaces with our professional insulation calculator.">
+    <link rel="canonical" href="https://costflowai.com/calculators/insulation/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="/">CostFlowAI</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/calculators/">Calculators</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="mailto:hello@costflowai.com">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="calculator-page">
+        <div class="container">
+            <header class="page-header">
+                <h1>Insulation Calculator</h1>
+                <p class="page-description">Calculate insulation materials and costs for walls, attics, and crawl spaces with accurate R-value considerations.</p>
+            </header>
+
+            <div class="calculator-container">
+                <form data-calculator-form class="calculator-form">
+                    <h2>Insulation Area</h2>
+
+                    <div class="form-group">
+                        <label for="totalArea">Total Area to Insulate (ft²) *</label>
+                        <input type="number" id="totalArea" name="totalArea" step="0.01" min="0" required
+                               placeholder="Enter total area to insulate" aria-describedby="area-help">
+                        <small id="area-help" class="form-help">Calculate total wall, ceiling, or floor area to be insulated</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cavityDepth">Cavity Depth (inches)</label>
+                        <select id="cavityDepth" name="cavityDepth" aria-describedby="depth-help">
+                            <option value="3.5">2×4 Wall (3.5")</option>
+                            <option value="5.5" selected>2×6 Wall (5.5")</option>
+                            <option value="7.25">2×8 Floor/Ceiling (7.25")</option>
+                            <option value="9.25">2×10 Floor/Ceiling (9.25")</option>
+                            <option value="11.25">2×12 Floor/Ceiling (11.25")</option>
+                        </select>
+                        <small id="depth-help" class="form-help">Depth of framing cavity to be filled</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="insulationType">Insulation Type</label>
+                        <select id="insulationType" name="insulationType" aria-describedby="type-help">
+                            <option value="fiberglass-batt">Fiberglass Batts</option>
+                            <option value="fiberglass-blown" selected>Blown-in Fiberglass</option>
+                            <option value="cellulose-blown">Blown-in Cellulose</option>
+                            <option value="spray-foam">Spray Foam (Open Cell)</option>
+                        </select>
+                        <small id="type-help" class="form-help">Type of insulation material</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="targetRValue">Target R-Value</label>
+                        <select id="targetRValue" name="targetRValue" aria-describedby="rvalue-help">
+                            <option value="13">R-13 - 2×4 Walls</option>
+                            <option value="19" selected>R-19 - 2×6 Walls</option>
+                            <option value="30">R-30 - Floors/Attics</option>
+                            <option value="38">R-38 - Attics (Cold Climate)</option>
+                            <option value="49">R-49 - Attics (Very Cold)</option>
+                        </select>
+                        <small id="rvalue-help" class="form-help">Desired thermal resistance value</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" data-calculate class="btn btn-primary">
+                            Calculate Insulation
+                        </button>
+                    </div>
+                </form>
+
+                <div data-results class="results" style="display: none;">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <section class="calculator-info">
+                <h2>About This Calculator</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3>How It Works</h3>
+                        <p>This calculator determines insulation requirements by calculating material volume needed to achieve target R-value, considering cavity depth and insulation type. Includes coverage rates and installation factors.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Assumptions</h3>
+                        <ul>
+                            <li>Standard framing with 16" or 24" centers</li>
+                            <li>R-values based on manufacturer specifications</li>
+                            <li>Does not account for thermal bridging</li>
+                            <li>Pricing based on regional averages</li>
+                            <li>Installation by qualified professionals</li>
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <h3>Professional Use</h3>
+                        <p>This calculator provides ROM estimates for energy code compliance and cost planning. Actual R-values may vary based on installation quality and environmental conditions. Consult local energy codes for requirements.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script defer src="/assets/js/main.js"></script>
+    <script type="module" src="/calculators/insulation/calc.js"></script>
+</body>
+</html>

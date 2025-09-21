@@ -1,0 +1,49 @@
+{
+  "name": "concrete",
+  "title": "Concrete Slab Calculator",
+  "description": "Calculate concrete volume, materials, and costs for slabs, foundations, and pours",
+  "category": "structural",
+  "version": "1.0.0",
+  "formulas": {
+    "volume": "length × width × (thickness / 12) / 27",
+    "waste": "volume × waste_factor",
+    "total": "volume + waste"
+  },
+  "pricing": {
+    "concrete_per_yard": 150,
+    "labor_per_hour": 75,
+    "labor_hours_per_yard": 0.5,
+    "markup": 0.10,
+    "overhead": 0.10,
+    "profit": 0.10
+  },
+  "units": {
+    "input": {
+      "length": "feet",
+      "width": "feet",
+      "thickness": "inches"
+    },
+    "output": {
+      "volume": "cubic_yards",
+      "area": "square_feet",
+      "cost": "USD"
+    }
+  },
+  "validation": {
+    "length": { "min": 0, "max": 1000 },
+    "width": { "min": 0, "max": 1000 },
+    "thickness": { "min": 0, "max": 48 },
+    "waste_factor": { "min": 0.05, "max": 0.50 }
+  },
+  "typical_values": {
+    "residential_slab": { "thickness": 4 },
+    "driveway": { "thickness": 6 },
+    "commercial": { "thickness": 8 },
+    "waste_factors": {
+      "professional": 0.10,
+      "standard": 0.15,
+      "complex": 0.20,
+      "diy": 0.25
+    }
+  }
+}

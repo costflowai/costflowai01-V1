@@ -1,0 +1,13 @@
+{
+  "name": "paint",
+  "title": "Paint Calculator",
+  "description": "Calculate paint quantities and coverage for interior and exterior painting projects",
+  "category": "interior",
+  "version": "1.0.0",
+  "pricing": {
+    "paint_per_gallon": 45,
+    "primer_per_gallon": 35,
+    "labor_per_hour": 50,
+    "labor_hours_per_sqft": 0.015
+  }
+}

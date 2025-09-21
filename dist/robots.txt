@@ -1,9 +1,5 @@
 User-agent: *
 Allow: /
-Allow: /calculators/
-Allow: /blog/
-Allow: /assets/
-
 Disallow: /admin/
 Disallow: /private/
 

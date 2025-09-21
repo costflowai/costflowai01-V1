@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{CALCULATOR_TITLE}} - CostFlowAI</title>
+    <meta name="description" content="{{CALCULATOR_DESCRIPTION}}">
+    <link rel="canonical" href="https://costflowai.com/calculators/{{CALCULATOR_SLUG}}/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="/">CostFlowAI</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/calculators/">Calculators</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="mailto:hello@costflowai.com">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="calculator-page">
+        <div class="container">
+            <header class="page-header">
+                <h1>{{CALCULATOR_TITLE}}</h1>
+                <p class="page-description">{{CALCULATOR_DESCRIPTION}}</p>
+            </header>
+
+            <div class="calculator-container">
+                <form data-calculator-form class="calculator-form">
+                    <h2>Project Details</h2>
+                    {{CALCULATOR_INPUTS}}
+
+                    <div class="form-actions">
+                        <button type="button" data-calculate class="btn btn-primary">
+                            Calculate {{CALCULATOR_TYPE}}
+                        </button>
+                    </div>
+                </form>
+
+                <div data-results class="results" style="display: none;">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <section class="calculator-info">
+                <h2>About This Calculator</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3>How It Works</h3>
+                        <p>{{CALCULATOR_HOW_IT_WORKS}}</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Assumptions</h3>
+                        <ul>
+                            {{CALCULATOR_ASSUMPTIONS}}
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <h3>Professional Use</h3>
+                        <p>This calculator provides ROM (Rough Order of Magnitude) estimates for preliminary budgeting. Always verify calculations with professional takeoffs and current material pricing before making procurement decisions.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script defer src="/assets/js/main.js"></script>
+    <script type="module" src="/calculators/{{CALCULATOR_SLUG}}/calc.js"></script>
+</body>
+</html>

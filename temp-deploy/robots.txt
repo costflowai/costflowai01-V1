@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /calculators/
+Allow: /blog/
+Allow: /assets/
+
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://costflowai.com/sitemap.xml
