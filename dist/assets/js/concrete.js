@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Calculate volume with 10% waste factor
+    // Calculate volume with 20% waste factor
     const volCubicFeet = length * width * (thickness / 12);
     const volCubicYards = volCubicFeet / 27;
-    const volWithWaste = volCubicYards * 1.1; // 10% waste factor
+    const volWithWaste = volCubicYards * 1.2; // 20% waste factor
 
     // Update results
     document.getElementById('res-volume').textContent = volWithWaste.toFixed(2);
