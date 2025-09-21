@@ -1,6 +1,6 @@
-import fs from "fs";
-import fsp from "fs/promises";
-import path from "path";
+import fs from 'fs';
+import fsp from 'fs/promises';
+import path from 'path';
 
 const cp = async (s, d) => {
   await fsp.mkdir(d, { recursive: true });
@@ -11,6 +11,6 @@ const cp = async (s, d) => {
   }
 };
 
-console.log("Building dist from src...");
-await cp("src", "dist");
-console.log("Build complete!");
+console.log('Building dist from src...');
+await cp('src', 'dist');
+console.log('✓ Build complete!');
