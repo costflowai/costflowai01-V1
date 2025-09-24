@@ -36,7 +36,7 @@ export default function Home() {
           <h2>Available Calculators</h2>
           <div className="calculator-grid">
             <div className="calculator-card">
-              <h3>Concrete Calculator</h3>
+              <h3>🏗️ Concrete Calculator</h3>
               <p>Calculate volume, materials, and costs for slabs, foundations, and pours.</p>
               <Link href="/calculators/concrete" className="btn-calculate">
                 Calculate Concrete
@@ -44,7 +44,15 @@ export default function Home() {
             </div>
 
             <div className="calculator-card">
-              <h3>Drywall Calculator</h3>
+              <h3>🛣️ Asphalt Calculator</h3>
+              <p>Estimate asphalt tonnage and costs for paving projects.</p>
+              <Link href="/calculators/asphalt" className="btn-calculate">
+                Calculate Asphalt
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>📐 Drywall Calculator</h3>
               <p>Estimate drywall sheets, mud, and labor for interior construction.</p>
               <Link href="/calculators/drywall" className="btn-calculate">
                 Calculate Drywall
@@ -52,11 +60,35 @@ export default function Home() {
             </div>
 
             <div className="calculator-card">
-              <h3>Paint Calculator</h3>
+              <h3>🎨 Paint Calculator</h3>
               <p>Calculate paint quantities and coverage for interior and exterior projects.</p>
               <Link href="/calculators/paint" className="btn-calculate">
                 Calculate Paint
               </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="features">
+          <div className="container">
+            <h2>Why Choose CostFlowAI?</h2>
+            <div className="features-grid">
+              <div className="feature-card">
+                <h3>⚡ Instant Results</h3>
+                <p>Get accurate calculations in seconds with our optimized algorithms.</p>
+              </div>
+              <div className="feature-card">
+                <h3>📊 Detailed Breakdown</h3>
+                <p>Comprehensive cost analysis with material and labor breakdowns.</p>
+              </div>
+              <div className="feature-card">
+                <h3>📄 Export Ready</h3>
+                <p>Export calculations to PDF, CSV, or print directly from your browser.</p>
+              </div>
+              <div className="feature-card">
+                <h3>🎯 Professional Accuracy</h3>
+                <p>Industry-standard formulas used by construction professionals.</p>
+              </div>
             </div>
           </div>
         </section>

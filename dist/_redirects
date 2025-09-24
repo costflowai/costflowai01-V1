@@ -1,4 +1,0 @@
-/blog /blog/ 301!
-/calculators /calculators/ 301!
-/calculators/* /calculators/:splat/ 301!
-/legal /legal/ 301!

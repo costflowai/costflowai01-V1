@@ -1,1 +1,14 @@
-{}
+{
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
+  "/blog": "pages/blog.html",
+  "/calculators/asphalt": "pages/calculators/asphalt.html",
+  "/calculators/concrete": "pages/calculators/concrete.html",
+  "/calculators/drywall": "pages/calculators/drywall.html",
+  "/calculators": "pages/calculators.html",
+  "/calculators/paint": "pages/calculators/paint.html",
+  "/": "pages/index.html",
+  "/contact": "pages/contact.html",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}

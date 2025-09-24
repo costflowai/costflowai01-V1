@@ -1,9 +1,0 @@
-{
-  "name": "CostFlowAI",
-  "short_name": "CostFlowAI",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0b57d0",
-  "theme_color": "#0b57d0",
-  "icons": []
-}
