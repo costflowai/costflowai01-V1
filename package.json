@@ -34,6 +34,7 @@
   "license": "MIT",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@netlify/plugin-nextjs": "^5.13.3",
     "@playwright/test": "^1.40.0",
     "@types/jest": "^29.5.5",
     "@types/react": "19.1.13",

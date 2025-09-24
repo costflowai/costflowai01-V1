@@ -1,28 +1,29 @@
 [build]
-  publish = "."
+  command = "npm run build"
+  publish = "out"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "18"
 
 [[headers]]
   for = "/*"
   [headers.values]
-    # Allow inline scripts and styles for calculator functionality
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
+# Handle client-side routing for Next.js
 [[redirects]]
-  from = "/calculators"
-  to = "/calculators/"
-  status = 301
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
+# API routes if you have any
 [[redirects]]
-  from = "/blog"
-  to = "/blog/"
-  status = 301
-
-[[redirects]]
-  from = "/contact"
-  to = "/contact/"
-  status = 301
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
