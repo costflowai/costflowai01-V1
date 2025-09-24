@@ -118,30 +118,47 @@ export default function CalculatorLayout({
         {children}
 
         {results && (
-          <section className="export-section" aria-labelledby="export-heading">
-            <h3 id="export-heading">Export Options</h3>
-            <div className="export-buttons" role="group" aria-labelledby="export-heading">
-              <button
-                onClick={exportToPDF}
-                className="btn-export"
-                aria-label="Export calculation results as PDF for printing"
-              >
-                📄 Export PDF
-              </button>
-              <button
-                onClick={exportToCSV}
-                className="btn-export"
-                aria-label="Download calculation results as CSV file"
-              >
-                📊 Export CSV
-              </button>
-              <button
-                onClick={shareResults}
-                className="btn-export"
-                aria-label="Share calculation results with others"
-              >
-                📤 Share Results
-              </button>
+          <section className="results-container" aria-labelledby="results-heading">
+            <h2 id="results-heading">Calculation Results</h2>
+            <div className="result-grid">
+              {Object.entries(results).map(([key, value]) => (
+                <div
+                  key={key}
+                  className={`result-item ${key === 'estimatedCost' || key === 'totalCost' || key === 'materialCost' ? 'highlight' : ''}`}
+                >
+                  <span className="label">
+                    {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  </span>
+                  <span className="value">{value}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="export-section" aria-labelledby="export-heading">
+              <h3 id="export-heading">Export & Share Options</h3>
+              <div className="export-buttons" role="group" aria-labelledby="export-heading">
+                <button
+                  onClick={exportToPDF}
+                  className="btn-export"
+                  aria-label="Export calculation results as PDF for printing"
+                >
+                  📄 Export PDF
+                </button>
+                <button
+                  onClick={exportToCSV}
+                  className="btn-export"
+                  aria-label="Download calculation results as CSV file"
+                >
+                  📊 Export CSV
+                </button>
+                <button
+                  onClick={shareResults}
+                  className="btn-export"
+                  aria-label="Share calculation results with others"
+                >
+                  📤 Share Results
+                </button>
+              </div>
             </div>
           </section>
         )}

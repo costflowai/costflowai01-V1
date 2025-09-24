@@ -40,16 +40,46 @@
       "namedRegex": "^/(?:/)?$"
     },
     {
+      "page": "/admin",
+      "regex": "^/admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin(?:/)?$"
+    },
+    {
       "page": "/blog",
       "regex": "^/blog(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/blog(?:/)?$"
     },
     {
+      "page": "/blog/asphalt",
+      "regex": "^/blog/asphalt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/asphalt(?:/)?$"
+    },
+    {
       "page": "/blog/concrete",
       "regex": "^/blog/concrete(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/blog/concrete(?:/)?$"
+    },
+    {
+      "page": "/blog/drywall",
+      "regex": "^/blog/drywall(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/drywall(?:/)?$"
+    },
+    {
+      "page": "/blog/excavation",
+      "regex": "^/blog/excavation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/excavation(?:/)?$"
+    },
+    {
+      "page": "/blog/fence",
+      "regex": "^/blog/fence(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/fence(?:/)?$"
     },
     {
       "page": "/blog/flooring",
@@ -62,6 +92,30 @@
       "regex": "^/blog/framing(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/blog/framing(?:/)?$"
+    },
+    {
+      "page": "/blog/gravel",
+      "regex": "^/blog/gravel(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/gravel(?:/)?$"
+    },
+    {
+      "page": "/blog/insulation",
+      "regex": "^/blog/insulation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/insulation(?:/)?$"
+    },
+    {
+      "page": "/blog/paint",
+      "regex": "^/blog/paint(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/paint(?:/)?$"
+    },
+    {
+      "page": "/blog/rebar",
+      "regex": "^/blog/rebar(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/rebar(?:/)?$"
     },
     {
       "page": "/blog/roofing",
@@ -154,7 +208,56 @@
       "namedRegex": "^/contact(?:/)?$"
     }
   ],
-  "dataRoutes": [],
+  "dataRoutes": [
+    {
+      "page": "/blog/asphalt",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/asphalt\\.json$"
+    },
+    {
+      "page": "/blog/concrete",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/concrete\\.json$"
+    },
+    {
+      "page": "/blog/drywall",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/drywall\\.json$"
+    },
+    {
+      "page": "/blog/excavation",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/excavation\\.json$"
+    },
+    {
+      "page": "/blog/fence",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/fence\\.json$"
+    },
+    {
+      "page": "/blog/flooring",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/flooring\\.json$"
+    },
+    {
+      "page": "/blog/framing",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/framing\\.json$"
+    },
+    {
+      "page": "/blog/gravel",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/gravel\\.json$"
+    },
+    {
+      "page": "/blog/insulation",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/insulation\\.json$"
+    },
+    {
+      "page": "/blog/paint",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/paint\\.json$"
+    },
+    {
+      "page": "/blog/rebar",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/rebar\\.json$"
+    },
+    {
+      "page": "/blog/roofing",
+      "dataRouteRegex": "^/_next/data/AsNNGcPMfDfLjUphQvONw/blog/roofing\\.json$"
+    }
+  ],
   "rsc": {
     "header": "rsc",
     "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",

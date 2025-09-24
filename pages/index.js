@@ -33,8 +33,9 @@ export default function Home() {
         </section>
 
         <section className="calculators-preview">
-          <h2>Available Calculators</h2>
+          <h2>Professional Construction Calculators</h2>
           <div className="calculator-grid">
+            {/* Core Construction Materials */}
             <div className="calculator-card">
               <h3>🏗️ Concrete Calculator</h3>
               <p>Calculate volume, materials, and costs for slabs, foundations, and pours.</p>
@@ -52,6 +53,56 @@ export default function Home() {
             </div>
 
             <div className="calculator-card">
+              <h3>🏠 Flooring Calculator</h3>
+              <p>Calculate materials and costs for laminate, hardwood, tile, and carpet installations.</p>
+              <Link href="/calculators/flooring" className="btn-calculate">
+                Calculate Flooring
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>⚒️ Rebar Calculator</h3>
+              <p>Calculate reinforcement requirements for concrete structures and slabs.</p>
+              <Link href="/calculators/rebar" className="btn-calculate">
+                Calculate Rebar
+              </Link>
+            </div>
+
+            {/* Structural & Framing */}
+            <div className="calculator-card">
+              <h3>🔨 Framing Calculator</h3>
+              <p>Estimate lumber, studs, and plates for wall framing projects.</p>
+              <Link href="/calculators/framing" className="btn-calculate">
+                Calculate Framing
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>🏗️ Excavation Calculator</h3>
+              <p>Calculate digging, hauling, and disposal costs for site preparation.</p>
+              <Link href="/calculators/excavation" className="btn-calculate">
+                Calculate Excavation
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>🚧 Fence Calculator</h3>
+              <p>Estimate materials and costs for wood, vinyl, and metal fencing.</p>
+              <Link href="/calculators/fence" className="btn-calculate">
+                Calculate Fencing
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>🪨 Gravel Calculator</h3>
+              <p>Calculate tonnage and costs for driveways, walkways, and landscaping.</p>
+              <Link href="/calculators/gravel" className="btn-calculate">
+                Calculate Gravel
+              </Link>
+            </div>
+
+            {/* Interior & Exterior */}
+            <div className="calculator-card">
               <h3>📐 Drywall Calculator</h3>
               <p>Estimate drywall sheets, mud, and labor for interior construction.</p>
               <Link href="/calculators/drywall" className="btn-calculate">
@@ -66,6 +117,28 @@ export default function Home() {
                 Calculate Paint
               </Link>
             </div>
+
+            <div className="calculator-card">
+              <h3>🏠 Insulation Calculator</h3>
+              <p>Calculate R-value requirements and costs for energy-efficient construction.</p>
+              <Link href="/calculators/insulation" className="btn-calculate">
+                Calculate Insulation
+              </Link>
+            </div>
+
+            <div className="calculator-card">
+              <h3>🏘️ Roofing Calculator</h3>
+              <p>Estimate shingles, materials, and costs for all roofing projects.</p>
+              <Link href="/calculators/roofing" className="btn-calculate">
+                Calculate Roofing
+              </Link>
+            </div>
+          </div>
+
+          <div className="container" style={{ textAlign: 'center', marginTop: '40px' }}>
+            <Link href="/calculators" className="btn-primary">
+              View All Calculators →
+            </Link>
           </div>
         </section>
 
