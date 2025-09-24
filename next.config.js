@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // For static export if needed
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
-
-  // Ensure trailing slashes for Netlify
+  output: 'export',
   trailingSlash: true,
-
-  // Image optimization
   images: {
     unoptimized: true
+  },
+
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['react', 'react-dom']
+  },
+
+  // Environment variables for analytics (production only)
+  env: {
+    NEXT_PUBLIC_GA_ID: process.env.NODE_ENV === 'production' ? 'G-XXXXXXXXXX' : undefined,
   }
 }
 

@@ -1,0 +1,58 @@
+{
+  "name": "CostFlowAI - Professional Construction Calculators",
+  "short_name": "CostFlowAI",
+  "description": "Professional construction calculators for accurate project estimation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a365d",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Concrete Calculator",
+      "short_name": "Concrete",
+      "description": "Calculate concrete volume and costs",
+      "url": "/calculators/concrete",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Asphalt Calculator",
+      "short_name": "Asphalt",
+      "description": "Calculate asphalt materials and costs",
+      "url": "/calculators/asphalt",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "All Calculators",
+      "short_name": "Calculators",
+      "description": "Browse all construction calculators",
+      "url": "/calculators",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

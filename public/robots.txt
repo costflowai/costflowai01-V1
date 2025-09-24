@@ -1,19 +1,19 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
+# Sitemap
 Sitemap: https://costflowai.com/sitemap.xml
-
-# Block access to admin areas (if any exist)
-Disallow: /admin/
-Disallow: /.netlify/
-Disallow: /node_modules/
 
 # Allow all calculators
 Allow: /calculators/
 
 # Allow blog content
-Allow: /blog/
+Allow: /blog
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
+
+# Block access to admin areas
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /node_modules/

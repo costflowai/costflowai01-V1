@@ -1,6 +1,13 @@
 import { useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+import CalculatorLayout from '../../components/CalculatorLayout';
+import { trackCalculatorUse } from '../../components/Analytics';
+import {
+  validatePositiveNumber,
+  calculateArea,
+  materials,
+  pricing,
+  formatters
+} from '../../utils/calculatorUtils';
 
 export default function DrywallCalculator() {
   const [dimensions, setDimensions] = useState({
@@ -16,15 +23,15 @@ export default function DrywallCalculator() {
     e.preventDefault();
 
     const newErrors = {};
-    if (!dimensions.length || dimensions.length <= 0) {
-      newErrors.length = 'Length is required';
-    }
-    if (!dimensions.width || dimensions.width <= 0) {
-      newErrors.width = 'Width is required';
-    }
-    if (!dimensions.height || dimensions.height <= 0) {
-      newErrors.height = 'Height is required';
-    }
+    newErrors.length = validatePositiveNumber(dimensions.length, 'Length');
+    newErrors.width = validatePositiveNumber(dimensions.width, 'Width');
+    newErrors.height = validatePositiveNumber(dimensions.height, 'Height');
+
+    Object.keys(newErrors).forEach(key => {
+      if (newErrors[key] === null) {
+        delete newErrors[key];
+      }
+    });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -37,21 +44,31 @@ export default function DrywallCalculator() {
     const width = parseFloat(dimensions.width);
     const height = parseFloat(dimensions.height);
 
-    const wallArea = 2 * (length + width) * height;
-    const sheets4x8 = Math.ceil(wallArea / 32); // 4x8 sheet = 32 sq ft
-    const sheetsWithWaste = Math.ceil(sheets4x8 * 1.1); // 10% waste
-    const mudBuckets = Math.ceil(sheetsWithWaste * 0.5); // ~0.5 bucket per sheet
-    const tapeRolls = Math.ceil(sheetsWithWaste * 0.1); // ~0.1 roll per sheet
-    const estimatedCost = sheetsWithWaste * 12 + mudBuckets * 15 + tapeRolls * 8;
+    const wallArea = (2 * length * height) + (2 * width * height);
+    const sheetSize = 32; // 4x8 sheets = 32 sq ft
+    const sheetsNeeded = Math.ceil(wallArea / sheetSize);
+    const sheetsWithWaste = Math.ceil(sheetsNeeded * 1.1);
 
-    setResults({
-      wallArea,
-      sheets4x8,
-      sheetsWithWaste,
-      mudBuckets,
-      tapeRolls,
-      estimatedCost
-    });
+    const jointCompound = Math.ceil(wallArea / 100) * 25; // 25 lb per 100 sq ft
+    const tape = Math.ceil(wallArea / 10); // feet of tape
+    const screws = Math.ceil(sheetsNeeded * 1.5); // 1.5 lbs per sheet
+
+    const materialCost = (sheetsWithWaste * pricing.drywall.sheetCost) +
+                        (jointCompound * pricing.drywall.compoundCost) +
+                        (screws * pricing.drywall.screwCost);
+
+    const calculationResults = {
+      wallArea: formatters.area(wallArea),
+      sheetsNeeded: formatters.count(sheetsNeeded),
+      sheetsWithWaste: formatters.count(sheetsWithWaste),
+      jointCompound: `${jointCompound} lbs`,
+      tape: `${tape} ft`,
+      screws: `${screws} lbs`,
+      materialCost: formatters.currency(materialCost)
+    };
+
+    setResults(calculationResults);
+    trackCalculatorUse('drywall', { length, width, height });
   };
 
   const reset = () => {
@@ -61,34 +78,32 @@ export default function DrywallCalculator() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Drywall Calculator - CostFlowAI</title>
-        <meta name="description" content="Calculate drywall sheets, mud, and materials for your construction project" />
-      </Head>
-
-      <nav className="nav-header">
-        <Link href="/">Home</Link>
-        <Link href="/calculators">Calculators</Link>
-        <span>Drywall Calculator</span>
-      </nav>
-
-      <main className="calculator-container">
-        <h1>Drywall Calculator</h1>
-        <p>Calculate drywall sheets and materials for your room</p>
-
-        <form onSubmit={calculate} className="calculator-form">
+    <CalculatorLayout
+      title="Professional Drywall Calculator"
+      description="Calculate drywall sheets, joint compound, and materials needed for your construction project."
+      results={results}
+      inputs={dimensions}
+      calculatorType="drywall"
+    >
+      <form onSubmit={calculate} className="calculator-form" role="form" aria-labelledby="calculator-title">
+        <div className="form-row">
           <div className="form-group">
             <label htmlFor="length">Room Length (feet)</label>
             <input
               type="number"
               id="length"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.length}
               onChange={(e) => setDimensions({...dimensions, length: e.target.value})}
               className={errors.length ? 'error' : ''}
+              placeholder="e.g., 12"
+              aria-describedby={errors.length ? 'length-error' : undefined}
+              aria-invalid={errors.length ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.length && <span className="error-message">{errors.length}</span>}
+            {errors.length && <span className="error-message" id="length-error" role="alert">{errors.length}</span>}
           </div>
 
           <div className="form-group">
@@ -97,11 +112,17 @@ export default function DrywallCalculator() {
               type="number"
               id="width"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.width}
               onChange={(e) => setDimensions({...dimensions, width: e.target.value})}
               className={errors.width ? 'error' : ''}
+              placeholder="e.g., 10"
+              aria-describedby={errors.width ? 'width-error' : undefined}
+              aria-invalid={errors.width ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.width && <span className="error-message">{errors.width}</span>}
+            {errors.width && <span className="error-message" id="width-error" role="alert">{errors.width}</span>}
           </div>
 
           <div className="form-group">
@@ -109,53 +130,74 @@ export default function DrywallCalculator() {
             <input
               type="number"
               id="height"
-              step="0.5"
+              step="0.1"
+              min="0"
+              max="20"
               value={dimensions.height}
               onChange={(e) => setDimensions({...dimensions, height: e.target.value})}
               className={errors.height ? 'error' : ''}
+              placeholder="e.g., 8"
+              aria-describedby={errors.height ? 'height-error' : undefined}
+              aria-invalid={errors.height ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.height && <span className="error-message">{errors.height}</span>}
+            {errors.height && <span className="error-message" id="height-error" role="alert">{errors.height}</span>}
           </div>
+        </div>
 
-          <div className="button-group">
-            <button type="submit" className="btn-primary">Calculate</button>
-            <button type="button" onClick={reset} className="btn-secondary">Reset</button>
-          </div>
-        </form>
+        <div className="button-group" role="group" aria-label="Calculator actions">
+          <button type="submit" className="btn-primary" aria-describedby="calculate-help">
+            Calculate
+          </button>
+          <button type="button" onClick={reset} className="btn-secondary" aria-label="Reset all input fields">
+            Reset
+          </button>
+        </div>
+        <div id="calculate-help" className="sr-only">
+          Calculate drywall materials needed based on room dimensions
+        </div>
+      </form>
 
-        {results && (
-          <div className="results-container">
-            <h2>Calculation Results</h2>
+      {results && (
+        <div className="results-container">
+          <h2>Drywall Calculation Results</h2>
 
-            <div className="result-grid">
-              <div className="result-item">
-                <span className="label">Wall Area:</span>
-                <span className="value">{results.wallArea.toFixed(2)} sq ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">4x8 Sheets Needed:</span>
-                <span className="value">{results.sheets4x8} sheets</span>
-              </div>
-              <div className="result-item">
-                <span className="label">With 10% Waste:</span>
-                <span className="value">{results.sheetsWithWaste} sheets</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Mud Buckets:</span>
-                <span className="value">{results.mudBuckets} buckets</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Tape Rolls:</span>
-                <span className="value">{results.tapeRolls} rolls</span>
-              </div>
-              <div className="result-item highlight">
-                <span className="label">Estimated Cost:</span>
-                <span className="value">${results.estimatedCost.toFixed(2)}</span>
-              </div>
+          <div className="result-grid">
+            <div className="result-item">
+              <span className="label">Wall Area:</span>
+              <span className="value">{results.wallArea}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Sheets Needed:</span>
+              <span className="value">{results.sheetsNeeded}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">With 10% Waste:</span>
+              <span className="value">{results.sheetsWithWaste} sheets</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Joint Compound:</span>
+              <span className="value">{results.jointCompound}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Drywall Tape:</span>
+              <span className="value">{results.tape}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Screws Needed:</span>
+              <span className="value">{results.screws}</span>
             </div>
           </div>
-        )}
-      </main>
-    </>
+
+          <h3>Cost Estimate</h3>
+          <div className="result-grid">
+            <div className="result-item highlight">
+              <span className="label">Material Cost:</span>
+              <span className="value">{results.materialCost}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </CalculatorLayout>
   );
 }

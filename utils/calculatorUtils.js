@@ -90,9 +90,9 @@ export const pricing = {
   },
 
   drywall: {
-    sheetEach: 12,
-    mudBucketEach: 15,
-    tapeRollEach: 8
+    sheetCost: 12,
+    compoundCost: 15,
+    screwCost: 8
   },
 
   paint: {

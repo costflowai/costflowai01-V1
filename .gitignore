@@ -67,4 +67,4 @@ logs
 *.log
 
 # Runtime files
-.cache
+.cache.next/

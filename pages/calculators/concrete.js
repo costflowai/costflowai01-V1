@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CalculatorLayout from '../../components/CalculatorLayout';
+import { trackCalculatorUse } from '../../components/Analytics';
 import {
   validatePositiveNumber,
   calculateVolume,
@@ -61,7 +62,7 @@ export default function ConcreteCalculator() {
     const cost80lbBags = bags80lb * pricing.concrete.bags80lbEach;
     const cost60lbBags = bags60lb * pricing.concrete.bags60lbEach;
 
-    setResults({
+    const calculationResults = {
       area: formatters.area(area),
       volumeCubicFeet: formatters.volume(volumeCubicFeet, 'cu ft'),
       volumeCubicYards: formatters.volume(volumeCubicYards),
@@ -72,7 +73,12 @@ export default function ConcreteCalculator() {
       costReadyMix: formatters.currency(costReadyMix),
       cost80lbBags: formatters.currency(cost80lbBags),
       cost60lbBags: formatters.currency(cost60lbBags)
-    });
+    };
+
+    setResults(calculationResults);
+
+    // Track calculator usage for analytics
+    trackCalculatorUse('concrete', { length, width, thickness });
   };
 
   const reset = () => {
@@ -89,7 +95,7 @@ export default function ConcreteCalculator() {
       inputs={dimensions}
       calculatorType="concrete"
     >
-      <form onSubmit={calculate} className="calculator-form">
+      <form onSubmit={calculate} className="calculator-form" role="form" aria-labelledby="calculator-title">
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="length">Length (feet)</label>
@@ -103,8 +109,11 @@ export default function ConcreteCalculator() {
               onChange={(e) => setDimensions({...dimensions, length: e.target.value})}
               className={errors.length ? 'error' : ''}
               placeholder="e.g., 20"
+              aria-describedby={errors.length ? 'length-error' : undefined}
+              aria-invalid={errors.length ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.length && <span className="error-message">{errors.length}</span>}
+            {errors.length && <span className="error-message" id="length-error" role="alert">{errors.length}</span>}
           </div>
 
           <div className="form-group">
@@ -119,8 +128,11 @@ export default function ConcreteCalculator() {
               onChange={(e) => setDimensions({...dimensions, width: e.target.value})}
               className={errors.width ? 'error' : ''}
               placeholder="e.g., 15"
+              aria-describedby={errors.width ? 'width-error' : undefined}
+              aria-invalid={errors.width ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.width && <span className="error-message">{errors.width}</span>}
+            {errors.width && <span className="error-message" id="width-error" role="alert">{errors.width}</span>}
           </div>
 
           <div className="form-group">
@@ -135,14 +147,24 @@ export default function ConcreteCalculator() {
               onChange={(e) => setDimensions({...dimensions, thickness: e.target.value})}
               className={errors.thickness ? 'error' : ''}
               placeholder="e.g., 4"
+              aria-describedby={errors.thickness ? 'thickness-error' : undefined}
+              aria-invalid={errors.thickness ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.thickness && <span className="error-message">{errors.thickness}</span>}
+            {errors.thickness && <span className="error-message" id="thickness-error" role="alert">{errors.thickness}</span>}
           </div>
         </div>
 
-        <div className="button-group">
-          <button type="submit" className="btn-primary">Calculate</button>
-          <button type="button" onClick={reset} className="btn-secondary">Reset</button>
+        <div className="button-group" role="group" aria-label="Calculator actions">
+          <button type="submit" className="btn-primary" aria-describedby="calculate-help">
+            Calculate
+          </button>
+          <button type="button" onClick={reset} className="btn-secondary" aria-label="Reset all input fields">
+            Reset
+          </button>
+        </div>
+        <div id="calculate-help" className="sr-only">
+          Calculate concrete volume and cost based on entered dimensions
         </div>
       </form>
 
