@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Cost Calculators - CostFlowAI</title>
+    <meta name="description" content="Professional construction cost calculators for concrete, drywall, electrical, plumbing, roofing, and more. Get accurate estimates for your construction projects.">
+    <meta name="keywords" content="construction calculators, cost estimation, building materials, concrete calculator, drywall calculator, electrical estimator">
+    <link rel="canonical" href="https://costflowai.com/calculators/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Construction Cost Calculators - CostFlowAI">
+    <meta property="og:description" content="Professional construction cost calculators for accurate project estimates">
+    <meta property="og:url" content="https://costflowai.com/calculators/">
+    <meta property="og:type" content="website">
+
+    <!-- Performance optimizations -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preload" href="/assets/css/dist/app.min.css" as="style">
+    <link rel="preload" href="/assets/js/core/analytics.js" as="script">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/dist/app.min.css">
+    <link rel="stylesheet" href="/assets/css/enterprise.css">
+
+    <!-- Critical CSS -->
+    <style>
+        .calculators-hero{background:linear-gradient(135deg,#1e40af 0%,#2563eb 100%);color:white;text-align:center;padding:4rem 2rem}.calculators-hero h1{font-size:2.5rem;margin-bottom:1rem;font-weight:800}.calculators-hero p{font-size:1.2rem;opacity:0.9;max-width:600px;margin:0 auto}.calculator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;padding:2rem;max-width:1200px;margin:0 auto}.calculator-card{background:white;border-radius:12px;padding:2rem;box-shadow:0 4px 6px rgba(0,0,0,0.1);transition:all 0.3s ease;border:1px solid #e5e7eb}.calculator-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,0.15)}.calculator-icon{width:48px;height:48px;background:linear-gradient(135deg,#2563eb,#1e40af);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}.calculator-icon svg{color:white;width:24px;height:24px}.calculator-card h3{font-size:1.25rem;font-weight:700;color:#111827;margin-bottom:0.75rem}.calculator-card p{color:#6b7280;margin-bottom:1.5rem;line-height:1.6}.btn-calculator{background:#2563eb;color:white;padding:0.75rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;transition:background 0.2s}.btn-calculator:hover{background:#1d4ed8;color:white}.category-section{margin:3rem 0}.category-title{text-align:center;font-size:2rem;font-weight:700;color:#111827;margin-bottom:0.5rem}.category-subtitle{text-align:center;color:#6b7280;margin-bottom:2rem;font-size:1.1rem}@media (max-width:768px){.calculators-hero{padding:3rem 1rem}.calculators-hero h1{font-size:2rem}.calculator-grid{grid-template-columns:1fr;padding:1rem}.calculator-card{padding:1.5rem}}
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <a href="/" class="logo">CostFlowAI</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/calculators/" class="active">Calculators</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="#" class="search-trigger">Search</a></li>
+                <li><a href="mailto:contact@costflowai.com">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculators-hero">
+            <h1>Professional Construction Calculators</h1>
+            <p>Accurate cost estimation tools for contractors, builders, and construction professionals. Get detailed material lists, quantities, and pricing for your projects.</p>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">Structural & Foundation</h2>
+            <p class="category-subtitle">Essential calculations for structural elements and foundations</p>
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M9 9h6v6H9z"/>
+                        </svg>
+                    </div>
+                    <h3>Concrete Calculator</h3>
+                    <p>Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements. Includes rebar calculations and regional pricing.</p>
+                    <a href="/calculators/concrete/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18m-9-9v18"/>
+                        </svg>
+                    </div>
+                    <h3>Steel Calculator</h3>
+                    <p>Estimate steel beam quantities, weights, and costs for structural framing projects. Includes connection details and fabrication costs.</p>
+                    <a href="/calculators/steel/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/>
+                            <path d="M12 12h.01M16 12h.01M8 12h.01"/>
+                        </svg>
+                    </div>
+                    <h3>Masonry Calculator</h3>
+                    <p>Calculate brick, block, and stone quantities with mortar requirements. Includes waste factors and labor estimates.</p>
+                    <a href="/calculators/masonry/" class="btn-calculator">Calculate Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">Interior Finishes</h2>
+            <p class="category-subtitle">Calculate materials for interior construction and finishing</p>
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M9 12h6"/>
+                        </svg>
+                    </div>
+                    <h3>Drywall Calculator</h3>
+                    <p>Calculate drywall sheets, mud, tape, and finishing materials. Includes different panel sizes and waste calculations.</p>
+                    <a href="/calculators/drywall/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10 9 10s9-4.5 9-10V7z"/>
+                        </svg>
+                    </div>
+                    <h3>Paint Calculator</h3>
+                    <p>Estimate paint quantities, primer, and coating materials for interior and exterior surfaces. Multiple finish options included.</p>
+                    <a href="/calculators/paint/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="M7 15h10M7 11h10M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3>Flooring Calculator</h3>
+                    <p>Calculate flooring materials for hardwood, tile, carpet, and laminate installations. Includes underlayment and trim.</p>
+                    <a href="/calculators/flooring/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                            <path d="M3 12v7a2 2 0 0 0 2 2h14v-4"/>
+                        </svg>
+                    </div>
+                    <h3>Insulation Calculator</h3>
+                    <p>Calculate insulation materials for walls, attics, and crawl spaces. Different R-values and insulation types supported.</p>
+                    <a href="/calculators/insulation/" class="btn-calculator">Calculate Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">MEP Systems</h2>
+            <p class="category-subtitle">Mechanical, electrical, and plumbing system calculations</p>
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3>Electrical Calculator</h3>
+                    <p>Calculate electrical rough-in materials, panels, outlets, and lighting circuits. Includes load calculations and code compliance.</p>
+                    <a href="/calculators/electrical/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10 9 10s9-4.5 9-10V7z"/>
+                        </svg>
+                    </div>
+                    <h3>Plumbing Calculator</h3>
+                    <p>Estimate plumbing rough-in materials, fixtures, and water supply systems. Includes pipe sizing and fitting calculations.</p>
+                    <a href="/calculators/plumbing/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2z"/>
+                            <path d="M8 12h8"/>
+                        </svg>
+                    </div>
+                    <h3>HVAC Calculator</h3>
+                    <p>Calculate heating and cooling system materials, ductwork, and equipment sizing. Includes load calculations and efficiency ratings.</p>
+                    <a href="/calculators/hvac/" class="btn-calculator">Calculate Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">Exterior & Site Work</h2>
+            <p class="category-subtitle">Calculations for exterior construction and site development</p>
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18l-2-7H5l-2 7z"/>
+                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>
+                        </svg>
+                    </div>
+                    <h3>Roofing Calculator</h3>
+                    <p>Calculate roofing materials for shingles, metal, and flat roof systems. Includes underlayment, flashing, and accessories.</p>
+                    <a href="/calculators/roofing/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <rect x="7" y="7" width="10" height="10"/>
+                        </svg>
+                    </div>
+                    <h3>Framing Calculator</h3>
+                    <p>Calculate lumber quantities for wall framing, floor systems, and roof structures. Includes stud spacing and header calculations.</p>
+                    <a href="/calculators/framing/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21V8l9-5 9 5v13"/>
+                        </svg>
+                    </div>
+                    <h3>Earthwork Calculator</h3>
+                    <p>Calculate excavation, grading, and backfill quantities. Includes soil types, compaction factors, and equipment costs.</p>
+                    <a href="/calculators/earthwork/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="10" rx="2"/>
+                            <circle cx="12" cy="5" r="2"/>
+                            <path d="M12 7v4"/>
+                        </svg>
+                    </div>
+                    <h3>Asphalt Calculator</h3>
+                    <p>Calculate asphalt quantities for driveways, parking lots, and roadways. Includes base preparation and compaction requirements.</p>
+                    <a href="/calculators/asphalt/" class="btn-calculator">Calculate Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">Specialty & Demolition</h2>
+            <p class="category-subtitle">Specialized construction and demolition calculations</p>
+            <div class="calculator-grid">
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <h3>Demolition Calculator</h3>
+                    <p>Calculate demolition costs, debris removal, and disposal fees. Includes labor estimates and equipment requirements.</p>
+                    <a href="/calculators/demolition/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Fire Stop Calculator</h3>
+                    <p>Calculate fire-stopping materials for penetrations, joints, and barriers. Includes fire ratings and code compliance.</p>
+                    <a href="/calculators/firestop/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="8" width="18" height="4" rx="1"/>
+                            <path d="M12 8V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3"/>
+                            <path d="M12 8V5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>
+                        </svg>
+                    </div>
+                    <h3>Waterproofing Calculator</h3>
+                    <p>Calculate waterproofing materials for foundations, basements, and below-grade structures. Multiple membrane types supported.</p>
+                    <a href="/calculators/waterproof/" class="btn-calculator">Calculate Now</a>
+                </div>
+
+                <div class="calculator-card">
+                    <div class="calculator-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="6" y="10" width="12" height="11" rx="1"/>
+                            <circle cx="12" cy="16" r="1"/>
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                        </svg>
+                    </div>
+                    <h3>General Conditions</h3>
+                    <p>Calculate general conditions, overhead, and project management costs. Includes permits, temporary facilities, and utilities.</p>
+                    <a href="/calculators/genconds/" class="btn-calculator">Calculate Now</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Popular Calculators</h3>
+                <ul>
+                    <li><a href="/calculators/concrete/">Concrete Calculator</a></li>
+                    <li><a href="/calculators/drywall/">Drywall Calculator</a></li>
+                    <li><a href="/calculators/electrical/">Electrical Calculator</a></li>
+                    <li><a href="/calculators/paint/">Paint Calculator</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="/blog/">Construction Guides</a></li>
+                    <li><a href="/help/">Help Center</a></li>
+                    <li><a href="/api/">API Documentation</a></li>
+                    <li><a href="/contact/">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="/about/">About CostFlowAI</a></li>
+                    <li><a href="/privacy/">Privacy Policy</a></li>
+                    <li><a href="/terms/">Terms of Service</a></li>
+                    <li><a href="/careers/">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Search overlay -->
+    <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-labelledby="search-title">
+        <div class="search-container">
+            <form class="search-form">
+                <h2 id="search-title" class="sr-only">Search</h2>
+                <input type="text" id="blog-search" placeholder="Search calculators and guides..." aria-label="Search calculators and guides" />
+                <button type="button" id="search-close" aria-label="Close search">Close</button>
+            </form>
+            <div id="search-results" class="search-results" role="region" aria-live="polite" aria-label="Search results"></div>
+        </div>
+    </div>
+
+    <!-- Analytics Configuration -->
+    <meta name="ga-tracking-id" content="G-PLACEHOLDER123">
+
+    <script src="/vendor/lunr/lunr.min.js" defer async nonce="__NONCE__"></script>
+    <script type="module" src="/assets/js/core/analytics.js" nonce="__NONCE__"></script>
+    <script type="module" src="/assets/js/core/performance.js" nonce="__NONCE__"></script>
+    <script type="module" src="/assets/js/core/accessibility.js" nonce="__NONCE__"></script>
+    <script type="module" src="/assets/js/blog-search.js" nonce="__NONCE__"></script>
+    <script type="module" src="/assets/js/core/search.js" nonce="__NONCE__"></script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" nonce="__NONCE__">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Construction Cost Calculators",
+      "description": "Professional construction cost calculators for accurate project estimates",
+      "url": "https://costflowai.com/calculators/",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "WebApplication",
+            "position": 1,
+            "name": "Concrete Calculator",
+            "description": "Calculate concrete volume, materials, and costs",
+            "url": "https://costflowai.com/calculators/concrete/"
+          },
+          {
+            "@type": "WebApplication",
+            "position": 2,
+            "name": "Drywall Calculator",
+            "description": "Calculate drywall sheets, mud, and finishing materials",
+            "url": "https://costflowai.com/calculators/drywall/"
+          },
+          {
+            "@type": "WebApplication",
+            "position": 3,
+            "name": "Electrical Calculator",
+            "description": "Calculate electrical materials and circuits",
+            "url": "https://costflowai.com/calculators/electrical/"
+          }
+        ]
+      }
+    }
+    </script>
+
+    <script nonce="__NONCE__">
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchTrigger = document.querySelector('.search-trigger');
+            const searchOverlay = document.getElementById('search-overlay');
+            const searchClose = document.getElementById('search-close');
+            const searchInput = document.getElementById('blog-search');
+
+            if (searchTrigger && searchOverlay) {
+                searchTrigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    searchOverlay.style.display = 'block';
+                    searchInput?.focus();
+                });
+            }
+
+            if (searchClose) {
+                searchClose.addEventListener('click', function() {
+                    searchOverlay.style.display = 'none';
+                });
+            }
+
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && searchOverlay.style.display === 'block') {
+                    searchOverlay.style.display = 'none';
+                }
+            });
+
+            // Close on outside click
+            searchOverlay?.addEventListener('click', function(e) {
+                if (e.target === searchOverlay) {
+                    searchOverlay.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
