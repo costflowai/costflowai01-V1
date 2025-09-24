@@ -78,10 +78,30 @@
   to = "/calculators/rebar/index.html"
   status = 200
 
-# Blog routes
+# Blog routes - All 12 calculator articles
+[[redirects]]
+  from = "/blog/asphalt"
+  to = "/blog/asphalt/index.html"
+  status = 200
+
 [[redirects]]
   from = "/blog/concrete"
   to = "/blog/concrete/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/drywall"
+  to = "/blog/drywall/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/excavation"
+  to = "/blog/excavation/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/fence"
+  to = "/blog/fence/index.html"
   status = 200
 
 [[redirects]]
@@ -92,6 +112,26 @@
 [[redirects]]
   from = "/blog/framing"
   to = "/blog/framing/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/gravel"
+  to = "/blog/gravel/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/insulation"
+  to = "/blog/insulation/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/paint"
+  to = "/blog/paint/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/rebar"
+  to = "/blog/rebar/index.html"
   status = 200
 
 [[redirects]]
