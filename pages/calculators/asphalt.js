@@ -1,6 +1,14 @@
 import { useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+import CalculatorLayout from '../../components/CalculatorLayout';
+import { trackCalculatorUse } from '../../components/Analytics';
+import {
+  validatePositiveNumber,
+  calculateVolume,
+  calculateArea,
+  materials,
+  pricing,
+  formatters
+} from '../../utils/calculatorUtils';
 
 export default function AsphaltCalculator() {
   const [dimensions, setDimensions] = useState({
@@ -16,15 +24,15 @@ export default function AsphaltCalculator() {
     e.preventDefault();
 
     const newErrors = {};
-    if (!dimensions.length || dimensions.length <= 0) {
-      newErrors.length = 'Length is required';
-    }
-    if (!dimensions.width || dimensions.width <= 0) {
-      newErrors.width = 'Width is required';
-    }
-    if (!dimensions.thickness || dimensions.thickness <= 0) {
-      newErrors.thickness = 'Thickness is required';
-    }
+    newErrors.length = validatePositiveNumber(dimensions.length, 'Length');
+    newErrors.width = validatePositiveNumber(dimensions.width, 'Width');
+    newErrors.thickness = validatePositiveNumber(dimensions.thickness, 'Thickness');
+
+    Object.keys(newErrors).forEach(key => {
+      if (newErrors[key] === null) {
+        delete newErrors[key];
+      }
+    });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -37,19 +45,23 @@ export default function AsphaltCalculator() {
     const width = parseFloat(dimensions.width);
     const thickness = parseFloat(dimensions.thickness);
 
-    const area = length * width;
-    const volumeCubicFeet = (area * thickness) / 12;
-    const tonnage = volumeCubicFeet * 0.1; // Asphalt weighs ~110 lbs per cubic foot
-    const tonnageWithWaste = tonnage * 1.05; // 5% waste factor
-    const estimatedCost = tonnageWithWaste * 100; // $100 per ton estimate
+    const area = calculateArea.rectangle(length, width);
+    const volumeCubicFeet = calculateVolume.cubicFeet(length, width, thickness);
+    const tonnage = materials.asphalt.tonnage(volumeCubicFeet);
+    const tonnageWithWaste = tonnage * 1.1; // 10% waste factor
 
-    setResults({
-      area,
-      volumeCubicFeet,
-      tonnage,
-      tonnageWithWaste,
-      estimatedCost
-    });
+    const materialCost = tonnageWithWaste * pricing.asphalt.tonnageEach;
+
+    const calculationResults = {
+      area: formatters.area(area),
+      volumeCubicFeet: formatters.volume(volumeCubicFeet, 'cu ft'),
+      tonnage: `${tonnage.toFixed(2)} tons`,
+      tonnageWithWaste: `${tonnageWithWaste.toFixed(2)} tons`,
+      materialCost: formatters.currency(materialCost)
+    };
+
+    setResults(calculationResults);
+    trackCalculatorUse('asphalt', { length, width, thickness });
   };
 
   const reset = () => {
@@ -59,34 +71,32 @@ export default function AsphaltCalculator() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Asphalt Calculator - CostFlowAI</title>
-        <meta name="description" content="Calculate asphalt tonnage and costs for your paving project" />
-      </Head>
-
-      <nav className="nav-header">
-        <Link href="/">Home</Link>
-        <Link href="/calculators">Calculators</Link>
-        <span>Asphalt Calculator</span>
-      </nav>
-
-      <main className="calculator-container">
-        <h1>Asphalt Calculator</h1>
-        <p>Calculate asphalt tonnage and materials for your paving project</p>
-
-        <form onSubmit={calculate} className="calculator-form">
+    <CalculatorLayout
+      title="Professional Asphalt Calculator"
+      description="Calculate asphalt tonnage and costs for driveways, parking lots, and paving projects."
+      results={results}
+      inputs={dimensions}
+      calculatorType="asphalt"
+    >
+      <form onSubmit={calculate} className="calculator-form" role="form" aria-labelledby="calculator-title">
+        <div className="form-row">
           <div className="form-group">
             <label htmlFor="length">Length (feet)</label>
             <input
               type="number"
               id="length"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.length}
               onChange={(e) => setDimensions({...dimensions, length: e.target.value})}
               className={errors.length ? 'error' : ''}
+              placeholder="e.g., 50"
+              aria-describedby={errors.length ? 'length-error' : undefined}
+              aria-invalid={errors.length ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.length && <span className="error-message">{errors.length}</span>}
+            {errors.length && <span className="error-message" id="length-error" role="alert">{errors.length}</span>}
           </div>
 
           <div className="form-group">
@@ -95,11 +105,17 @@ export default function AsphaltCalculator() {
               type="number"
               id="width"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.width}
               onChange={(e) => setDimensions({...dimensions, width: e.target.value})}
               className={errors.width ? 'error' : ''}
+              placeholder="e.g., 12"
+              aria-describedby={errors.width ? 'width-error' : undefined}
+              aria-invalid={errors.width ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.width && <span className="error-message">{errors.width}</span>}
+            {errors.width && <span className="error-message" id="width-error" role="alert">{errors.width}</span>}
           </div>
 
           <div className="form-group">
@@ -108,48 +124,65 @@ export default function AsphaltCalculator() {
               type="number"
               id="thickness"
               step="0.25"
+              min="0"
+              max="12"
               value={dimensions.thickness}
               onChange={(e) => setDimensions({...dimensions, thickness: e.target.value})}
               className={errors.thickness ? 'error' : ''}
+              placeholder="e.g., 2"
+              aria-describedby={errors.thickness ? 'thickness-error' : undefined}
+              aria-invalid={errors.thickness ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.thickness && <span className="error-message">{errors.thickness}</span>}
+            {errors.thickness && <span className="error-message" id="thickness-error" role="alert">{errors.thickness}</span>}
           </div>
+        </div>
 
-          <div className="button-group">
-            <button type="submit" className="btn-primary">Calculate</button>
-            <button type="button" onClick={reset} className="btn-secondary">Reset</button>
-          </div>
-        </form>
+        <div className="button-group" role="group" aria-label="Calculator actions">
+          <button type="submit" className="btn-primary" aria-describedby="calculate-help">
+            Calculate
+          </button>
+          <button type="button" onClick={reset} className="btn-secondary" aria-label="Reset all input fields">
+            Reset
+          </button>
+        </div>
+        <div id="calculate-help" className="sr-only">
+          Calculate asphalt tonnage and costs based on project dimensions
+        </div>
+      </form>
 
-        {results && (
-          <div className="results-container">
-            <h2>Calculation Results</h2>
+      {results && (
+        <div className="results-container">
+          <h2>Asphalt Calculation Results</h2>
 
-            <div className="result-grid">
-              <div className="result-item">
-                <span className="label">Area:</span>
-                <span className="value">{results.area.toFixed(2)} sq ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Volume:</span>
-                <span className="value">{results.volumeCubicFeet.toFixed(2)} cu ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Tonnage:</span>
-                <span className="value">{results.tonnage.toFixed(2)} tons</span>
-              </div>
-              <div className="result-item">
-                <span className="label">With 5% Waste:</span>
-                <span className="value">{results.tonnageWithWaste.toFixed(2)} tons</span>
-              </div>
-              <div className="result-item highlight">
-                <span className="label">Estimated Cost:</span>
-                <span className="value">${results.estimatedCost.toFixed(2)}</span>
-              </div>
+          <div className="result-grid">
+            <div className="result-item">
+              <span className="label">Project Area:</span>
+              <span className="value">{results.area}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Volume (Cubic Feet):</span>
+              <span className="value">{results.volumeCubicFeet}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Asphalt Needed:</span>
+              <span className="value">{results.tonnage}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">With 10% Waste:</span>
+              <span className="value">{results.tonnageWithWaste}</span>
             </div>
           </div>
-        )}
-      </main>
-    </>
+
+          <h3>Cost Estimate</h3>
+          <div className="result-grid">
+            <div className="result-item highlight">
+              <span className="label">Material Cost:</span>
+              <span className="value">{results.materialCost}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </CalculatorLayout>
   );
 }

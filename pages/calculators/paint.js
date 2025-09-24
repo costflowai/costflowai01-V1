@@ -1,6 +1,13 @@
 import { useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+import CalculatorLayout from '../../components/CalculatorLayout';
+import { trackCalculatorUse } from '../../components/Analytics';
+import {
+  validatePositiveNumber,
+  calculateArea,
+  materials,
+  pricing,
+  formatters
+} from '../../utils/calculatorUtils';
 
 export default function PaintCalculator() {
   const [dimensions, setDimensions] = useState({
