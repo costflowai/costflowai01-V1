@@ -46,6 +46,30 @@
       "namedRegex": "^/blog(?:/)?$"
     },
     {
+      "page": "/blog/concrete",
+      "regex": "^/blog/concrete(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/concrete(?:/)?$"
+    },
+    {
+      "page": "/blog/flooring",
+      "regex": "^/blog/flooring(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/flooring(?:/)?$"
+    },
+    {
+      "page": "/blog/framing",
+      "regex": "^/blog/framing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/framing(?:/)?$"
+    },
+    {
+      "page": "/blog/roofing",
+      "regex": "^/blog/roofing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog/roofing(?:/)?$"
+    },
+    {
       "page": "/calculators",
       "regex": "^/calculators(?:/)?$",
       "routeKeys": {},
@@ -70,10 +94,58 @@
       "namedRegex": "^/calculators/drywall(?:/)?$"
     },
     {
+      "page": "/calculators/excavation",
+      "regex": "^/calculators/excavation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/excavation(?:/)?$"
+    },
+    {
+      "page": "/calculators/fence",
+      "regex": "^/calculators/fence(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/fence(?:/)?$"
+    },
+    {
+      "page": "/calculators/flooring",
+      "regex": "^/calculators/flooring(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/flooring(?:/)?$"
+    },
+    {
+      "page": "/calculators/framing",
+      "regex": "^/calculators/framing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/framing(?:/)?$"
+    },
+    {
+      "page": "/calculators/gravel",
+      "regex": "^/calculators/gravel(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/gravel(?:/)?$"
+    },
+    {
+      "page": "/calculators/insulation",
+      "regex": "^/calculators/insulation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/insulation(?:/)?$"
+    },
+    {
       "page": "/calculators/paint",
       "regex": "^/calculators/paint(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/calculators/paint(?:/)?$"
+    },
+    {
+      "page": "/calculators/rebar",
+      "regex": "^/calculators/rebar(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/rebar(?:/)?$"
+    },
+    {
+      "page": "/calculators/roofing",
+      "regex": "^/calculators/roofing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/calculators/roofing(?:/)?$"
     },
     {
       "page": "/contact",

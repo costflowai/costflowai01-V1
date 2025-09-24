@@ -1,19 +1,37 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
+# Sitemap
 Sitemap: https://costflowai.com/sitemap.xml
 
-# Block access to admin areas (if any exist)
-Disallow: /admin/
-Disallow: /.netlify/
-Disallow: /node_modules/
-
-# Allow all calculators
+# Allow all calculator pages
 Allow: /calculators/
+Allow: /calculators/concrete/
+Allow: /calculators/asphalt/
+Allow: /calculators/drywall/
+Allow: /calculators/paint/
+Allow: /calculators/flooring/
+Allow: /calculators/framing/
+Allow: /calculators/gravel/
+Allow: /calculators/fence/
+Allow: /calculators/excavation/
+Allow: /calculators/roofing/
+Allow: /calculators/insulation/
+Allow: /calculators/rebar/
 
 # Allow blog content
 Allow: /blog/
+Allow: /blog/concrete/
+Allow: /blog/flooring/
+Allow: /blog/framing/
+Allow: /blog/roofing/
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
+
+# Block access to admin areas
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /node_modules/
+Disallow: /_next/
+Disallow: /out/

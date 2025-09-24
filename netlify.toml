@@ -15,15 +15,104 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com;"
 
-# Handle client-side routing for Next.js
+# Calculator routes - ensure they load their specific pages
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/calculators/concrete"
+  to = "/calculators/concrete/index.html"
   status = 200
+
+[[redirects]]
+  from = "/calculators/asphalt"
+  to = "/calculators/asphalt/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/drywall"
+  to = "/calculators/drywall/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/paint"
+  to = "/calculators/paint/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/flooring"
+  to = "/calculators/flooring/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/framing"
+  to = "/calculators/framing/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/gravel"
+  to = "/calculators/gravel/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/fence"
+  to = "/calculators/fence/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/excavation"
+  to = "/calculators/excavation/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/roofing"
+  to = "/calculators/roofing/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/insulation"
+  to = "/calculators/insulation/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculators/rebar"
+  to = "/calculators/rebar/index.html"
+  status = 200
+
+# Blog routes
+[[redirects]]
+  from = "/blog/concrete"
+  to = "/blog/concrete/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/flooring"
+  to = "/blog/flooring/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/framing"
+  to = "/blog/framing/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/roofing"
+  to = "/blog/roofing/index.html"
+  status = 200
+
+# Handle trailing slashes by adding them
+[[redirects]]
+  from = "/calculators/:slug"
+  to = "/calculators/:slug/"
+  status = 301
 
 # API routes if you have any
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# 404 handling - this should be last
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

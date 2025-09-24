@@ -83,7 +83,7 @@
     "serverRuntimeConfig": {},
     "publicRuntimeConfig": {},
     "reactProductionProfiling": false,
-    "reactStrictMode": true,
+    "reactStrictMode": false,
     "reactMaxHeadersLength": 6000,
     "httpAgentOptions": {
       "keepAlive": true
@@ -169,7 +169,7 @@
       "imgOptSkipMetadata": null,
       "isrFlushToDisk": true,
       "workerThreads": false,
-      "optimizeCss": true,
+      "optimizeCss": false,
       "nextScriptWorkers": false,
       "scrollRestoration": false,
       "externalDir": false,
@@ -207,8 +207,6 @@
       "browserDebugInfoInTerminal": false,
       "optimizeRouterScrolling": false,
       "optimizePackageImports": [
-        "react",
-        "react-dom",
         "lucide-react",
         "date-fns",
         "lodash-es",
@@ -312,8 +310,7 @@
     ".next\\BUILD_ID",
     ".next\\server\\next-font-manifest.js",
     ".next\\server\\next-font-manifest.json",
-    ".next\\required-server-files.json",
-    ".next\\static\\css\\b0bb8ef8f241f7f1.css"
+    ".next\\required-server-files.json"
   ],
   "ignore": [
     "node_modules\\next\\dist\\compiled\\@ampproject\\toolbox-optimizer\\**\\*"

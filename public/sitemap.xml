@@ -2,49 +2,129 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://costflowai.com/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://costflowai.com/calculators/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
+
+    <!-- Original Calculator Pages -->
     <url>
         <loc>https://costflowai.com/calculators/concrete/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://costflowai.com/calculators/asphalt/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://costflowai.com/calculators/drywall/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://costflowai.com/calculators/paint/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- New Calculator Pages -->
+    <url>
+        <loc>https://costflowai.com/calculators/flooring/</loc>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://costflowai.com/calculators/framing/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/gravel/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/fence/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/excavation/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/roofing/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/insulation/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/calculators/rebar/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Blog Pages -->
+    <url>
         <loc>https://costflowai.com/blog/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://costflowai.com/blog/concrete/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/blog/flooring/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/blog/framing/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://costflowai.com/blog/roofing/</loc>
+        <lastmod>2024-09-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Other Pages -->
+    <url>
         <loc>https://costflowai.com/contact/</loc>
-        <lastmod>2024-01-15</lastmod>
+        <lastmod>2024-09-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
