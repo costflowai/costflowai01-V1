@@ -1,17 +1,6 @@
 User-agent: *
 Allow: /
-
-# Sitemaps
-Sitemap: https://costflowai.com/sitemap.xml
-
-# Disallow admin and private paths
+Disallow: /api/
 Disallow: /admin/
-Disallow: /private/
-Disallow: /.git/
-Disallow: /node_modules/
-Disallow: /tools/
 
-# Allow important paths
-Allow: /blog/
-Allow: /calculators/
-Allow: /assets/
+Sitemap: https://costflowai.com/sitemap.xml

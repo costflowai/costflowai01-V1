@@ -4,44 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concrete Calculator - CostFlowAI</title>
-    <meta name="description" content="Calculate concrete volume, materials, and costs for slabs, foundations, and structural elements">
-    <link rel="stylesheet" href="/assets/css/base.css">
-    <link rel="stylesheet" href="/assets/css/layout.css">
-    <link rel="stylesheet" href="/assets/css/calculators.css">
-    <link rel="stylesheet" href="/assets/css/print.css">
+    <meta name="description" content="Calculate concrete volume, bags, and costs for slabs, footings, columns, and stairs. Free instant estimates.">
+    <link rel="stylesheet" href="/styles/global.css">
+    <link rel="stylesheet" href="/calculators/styles.css">
 </head>
 <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
+    <nav class="nav-header">
+        <a href="/">Home</a>
+        <a href="/calculators/">Calculators</a>
+        <a href="/calculators/concrete/">Concrete</a>
+    </nav>
 
-    <header>
-        <nav class="main-nav">
-            <a href="/" class="logo">CostFlowAI</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/calculators/">Calculators</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="#" onclick="toggleSearch()">Search</a></li>
-                <li><a href="mailto:contact@costflowai.com">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="calculator-container">
+        <h1>Concrete Calculator</h1>
+        <p>Calculate concrete volume and materials for your project</p>
 
-    <main id="app">
-        <div id="calculator-loading">
-            <p>Loading calculator...</p>
+        <form id="concreteForm">
+            <div class="calculator-tabs">
+                <button type="button" class="tab-button active" data-tab="slab">Slab</button>
+                <button type="button" class="tab-button" data-tab="footing">Footing</button>
+                <button type="button" class="tab-button" data-tab="column">Column</button>
+                <button type="button" class="tab-button" data-tab="stairs">Stairs</button>
+            </div>
+
+            <div id="slab" class="tab-content active">
+                <div class="form-group">
+                    <label for="slabLength">Length (feet)</label>
+                    <input type="number" id="slabLength" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="slabWidth">Width (feet)</label>
+                    <input type="number" id="slabWidth" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="slabThickness">Thickness (inches)</label>
+                    <input type="number" id="slabThickness" step="0.25" value="4" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pricePerYard">Price per Cubic Yard ($)</label>
+                <input type="number" id="pricePerYard" value="130" step="1">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Calculate</button>
+                <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
+            </div>
+        </form>
+
+        <div id="results"></div>
+
+        <div class="export-buttons" style="display:none;">
+            <button onclick="calculator.exportToPDF()">Export PDF</button>
+            <button onclick="calculator.exportToCSV(calculator.lastResults)">Export CSV</button>
         </div>
-    </main>
+    </div>
 
-    <footer>
-        <nav class="footer-nav">
-            <ul>
-                <li><a href="/calculators/">Calculators</a></li>
-                <li><a href="/blog/">Blog</a></li>
-            </ul>
-        </nav>
-        <p>&copy; 2024 CostFlowAI. All rights reserved.</p>
-    </footer>
-
-    <script type="module" src="/assets/js/calculators/concrete/calculator-init.js" nonce="__NONCE__"></script>
+    <script src="/calculators/calculator-base.js"></script>
+    <script src="/calculators/concrete/calculator.js"></script>
 </body>
 </html>
