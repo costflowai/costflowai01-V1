@@ -2,7 +2,6 @@
   "name": "costflowai",
   "version": "1.0.0",
   "description": "CostFlowAI - Professional cost calculation and analysis platform",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

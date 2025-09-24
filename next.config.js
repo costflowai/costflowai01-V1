@@ -1,16 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Temporarily disabled for build compatibility
   output: 'export',
   trailingSlash: true,
   images: {
     unoptimized: true
-  },
-
-  // Performance optimizations
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['react', 'react-dom']
   },
 
   // Environment variables for analytics (production only)
@@ -19,4 +13,4 @@ const nextConfig = {
   }
 }
 
-export default nextConfig
+module.exports = nextConfig

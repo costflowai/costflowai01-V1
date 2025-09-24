@@ -1,8 +1,18 @@
+import { useEffect, useState } from 'react'
 import Script from 'next/script'
 
 export default function Analytics() {
-  // Only load analytics in production and browser
-  if (process.env.NODE_ENV !== 'production' || typeof window === 'undefined') {
+  const [shouldRender, setShouldRender] = useState(false)
+
+  useEffect(() => {
+    // Only render analytics in production and in the browser
+    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+      setShouldRender(true)
+    }
+  }, [])
+
+  // Don't render during SSR or in development
+  if (!shouldRender) {
     return null
   }
 

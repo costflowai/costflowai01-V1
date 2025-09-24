@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 import Analytics from '../components/Analytics'
 
 export default function MyApp({ Component, pageProps }) {
+  // Service worker registration moved to client-side only
   useEffect(() => {
-    // Register service worker for PWA
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
           console.log('SW registered: ', registration);
@@ -56,7 +56,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@costflowai" />
       </Head>
-      <Analytics />
+      {/* <Analytics /> - Temporarily disabled for build, enable after deployment */}
       <Component {...pageProps} />
     </>
   )

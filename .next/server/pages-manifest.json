@@ -1,13 +1,13 @@
 {
   "/_app": "pages/_app.js",
-  "/calculators/concrete": "pages/calculators/concrete.js",
-  "/_error": "pages/_error.js",
   "/blog": "pages/blog.js",
+  "/_error": "pages/_error.js",
   "/calculators/asphalt": "pages/calculators/asphalt.js",
   "/calculators": "pages/calculators.js",
-  "/calculators/drywall": "pages/calculators/drywall.js",
-  "/calculators/paint": "pages/calculators/paint.js",
   "/contact": "pages/contact.js",
+  "/calculators/drywall": "pages/calculators/drywall.js",
+  "/calculators/concrete": "pages/calculators/concrete.js",
   "/": "pages/index.js",
+  "/calculators/paint": "pages/calculators/paint.js",
   "/_document": "pages/_document.js"
 }

@@ -14,6 +14,8 @@ export default function PaintCalculator() {
     length: '',
     width: '',
     height: '8',
+    doors: '2',
+    windows: '4',
     coats: '2'
   });
 
@@ -24,18 +26,15 @@ export default function PaintCalculator() {
     e.preventDefault();
 
     const newErrors = {};
-    if (!dimensions.length || dimensions.length <= 0) {
-      newErrors.length = 'Length is required';
-    }
-    if (!dimensions.width || dimensions.width <= 0) {
-      newErrors.width = 'Width is required';
-    }
-    if (!dimensions.height || dimensions.height <= 0) {
-      newErrors.height = 'Height is required';
-    }
-    if (!dimensions.coats || dimensions.coats <= 0) {
-      newErrors.coats = 'Number of coats is required';
-    }
+    newErrors.length = validatePositiveNumber(dimensions.length, 'Length');
+    newErrors.width = validatePositiveNumber(dimensions.width, 'Width');
+    newErrors.height = validatePositiveNumber(dimensions.height, 'Height');
+
+    Object.keys(newErrors).forEach(key => {
+      if (newErrors[key] === null) {
+        delete newErrors[key];
+      }
+    });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -47,64 +46,73 @@ export default function PaintCalculator() {
     const length = parseFloat(dimensions.length);
     const width = parseFloat(dimensions.width);
     const height = parseFloat(dimensions.height);
-    const coats = parseFloat(dimensions.coats);
+    const doors = parseInt(dimensions.doors) || 0;
+    const windows = parseInt(dimensions.windows) || 0;
+    const coats = parseInt(dimensions.coats) || 1;
 
-    const wallArea = 2 * (length + width) * height;
+    const wallArea = (2 * length * height) + (2 * width * height);
     const ceilingArea = length * width;
-    const totalArea = wallArea + ceilingArea;
-    const paintableArea = totalArea * coats; // Account for multiple coats
-    const gallonsNeeded = paintableArea / 350; // 1 gallon covers ~350 sq ft
-    const gallonsWithWaste = gallonsNeeded * 1.1; // 10% waste factor
-    const gallonsPurchase = Math.ceil(gallonsWithWaste);
-    const estimatedCost = gallonsPurchase * 35; // $35 per gallon estimate
+    const doorArea = doors * 20; // 20 sq ft per door
+    const windowArea = windows * 10; // 10 sq ft per window
 
-    setResults({
-      wallArea,
-      ceilingArea,
-      totalArea,
-      paintableArea,
-      gallonsNeeded,
-      gallonsWithWaste,
-      gallonsPurchase,
-      estimatedCost
-    });
+    const totalArea = wallArea + ceilingArea - doorArea - windowArea;
+    const gallonsNeeded = materials.paint.gallonsNeeded(totalArea, coats);
+    const gallonsToBuy = materials.paint.gallonsPurchase(gallonsNeeded);
+    const primerGallons = Math.ceil(gallonsNeeded * 0.8); // Usually need less primer
+
+    const paintCost = gallonsToBuy * pricing.paint.gallonEach;
+    const primerCost = primerGallons * pricing.paint.primerGallonEach;
+    const totalCost = paintCost + primerCost;
+
+    const calculationResults = {
+      totalArea: formatters.area(totalArea),
+      wallArea: formatters.area(wallArea),
+      ceilingArea: formatters.area(ceilingArea),
+      gallonsNeeded: `${gallonsNeeded.toFixed(1)} gallons`,
+      gallonsToBuy: `${gallonsToBuy} gallons`,
+      primerGallons: `${primerGallons} gallons`,
+      paintCost: formatters.currency(paintCost),
+      primerCost: formatters.currency(primerCost),
+      totalCost: formatters.currency(totalCost)
+    };
+
+    setResults(calculationResults);
+    trackCalculatorUse('paint', { length, width, height, coats });
   };
 
   const reset = () => {
-    setDimensions({ length: '', width: '', height: '8', coats: '2' });
+    setDimensions({ length: '', width: '', height: '8', doors: '2', windows: '4', coats: '2' });
     setResults(null);
     setErrors({});
   };
 
   return (
-    <>
-      <Head>
-        <title>Paint Calculator - CostFlowAI</title>
-        <meta name="description" content="Calculate paint quantities and costs for your painting project" />
-      </Head>
-
-      <nav className="nav-header">
-        <Link href="/">Home</Link>
-        <Link href="/calculators">Calculators</Link>
-        <span>Paint Calculator</span>
-      </nav>
-
-      <main className="calculator-container">
-        <h1>Paint Calculator</h1>
-        <p>Calculate paint quantities for your room painting project</p>
-
-        <form onSubmit={calculate} className="calculator-form">
+    <CalculatorLayout
+      title="Professional Paint Calculator"
+      description="Calculate paint and primer needed for your interior and exterior painting projects."
+      results={results}
+      inputs={dimensions}
+      calculatorType="paint"
+    >
+      <form onSubmit={calculate} className="calculator-form" role="form" aria-labelledby="calculator-title">
+        <div className="form-row">
           <div className="form-group">
             <label htmlFor="length">Room Length (feet)</label>
             <input
               type="number"
               id="length"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.length}
               onChange={(e) => setDimensions({...dimensions, length: e.target.value})}
               className={errors.length ? 'error' : ''}
+              placeholder="e.g., 12"
+              aria-describedby={errors.length ? 'length-error' : undefined}
+              aria-invalid={errors.length ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.length && <span className="error-message">{errors.length}</span>}
+            {errors.length && <span className="error-message" id="length-error" role="alert">{errors.length}</span>}
           </div>
 
           <div className="form-group">
@@ -113,11 +121,17 @@ export default function PaintCalculator() {
               type="number"
               id="width"
               step="0.1"
+              min="0"
+              max="10000"
               value={dimensions.width}
               onChange={(e) => setDimensions({...dimensions, width: e.target.value})}
               className={errors.width ? 'error' : ''}
+              placeholder="e.g., 10"
+              aria-describedby={errors.width ? 'width-error' : undefined}
+              aria-invalid={errors.width ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.width && <span className="error-message">{errors.width}</span>}
+            {errors.width && <span className="error-message" id="width-error" role="alert">{errors.width}</span>}
           </div>
 
           <div className="form-group">
@@ -125,71 +139,123 @@ export default function PaintCalculator() {
             <input
               type="number"
               id="height"
-              step="0.5"
+              step="0.1"
+              min="0"
+              max="20"
               value={dimensions.height}
               onChange={(e) => setDimensions({...dimensions, height: e.target.value})}
               className={errors.height ? 'error' : ''}
+              placeholder="e.g., 8"
+              aria-describedby={errors.height ? 'height-error' : undefined}
+              aria-invalid={errors.height ? 'true' : 'false'}
+              aria-required="true"
             />
-            {errors.height && <span className="error-message">{errors.height}</span>}
+            {errors.height && <span className="error-message" id="height-error" role="alert">{errors.height}</span>}
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="doors">Number of Doors</label>
+            <input
+              type="number"
+              id="doors"
+              min="0"
+              max="20"
+              value={dimensions.doors}
+              onChange={(e) => setDimensions({...dimensions, doors: e.target.value})}
+              placeholder="e.g., 2"
+            />
           </div>
 
           <div className="form-group">
-            <label htmlFor="coats">Number of Coats</label>
+            <label htmlFor="windows">Number of Windows</label>
             <input
               type="number"
+              id="windows"
+              min="0"
+              max="50"
+              value={dimensions.windows}
+              onChange={(e) => setDimensions({...dimensions, windows: e.target.value})}
+              placeholder="e.g., 4"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="coats">Coats of Paint</label>
+            <select
               id="coats"
-              min="1"
-              max="4"
               value={dimensions.coats}
               onChange={(e) => setDimensions({...dimensions, coats: e.target.value})}
-              className={errors.coats ? 'error' : ''}
-            />
-            {errors.coats && <span className="error-message">{errors.coats}</span>}
+            >
+              <option value="1">1 Coat</option>
+              <option value="2">2 Coats</option>
+              <option value="3">3 Coats</option>
+            </select>
           </div>
+        </div>
 
-          <div className="button-group">
-            <button type="submit" className="btn-primary">Calculate</button>
-            <button type="button" onClick={reset} className="btn-secondary">Reset</button>
-          </div>
-        </form>
+        <div className="button-group" role="group" aria-label="Calculator actions">
+          <button type="submit" className="btn-primary" aria-describedby="calculate-help">
+            Calculate
+          </button>
+          <button type="button" onClick={reset} className="btn-secondary" aria-label="Reset all input fields">
+            Reset
+          </button>
+        </div>
+        <div id="calculate-help" className="sr-only">
+          Calculate paint and primer needs based on room dimensions
+        </div>
+      </form>
 
-        {results && (
-          <div className="results-container">
-            <h2>Calculation Results</h2>
+      {results && (
+        <div className="results-container">
+          <h2>Paint Calculation Results</h2>
 
-            <div className="result-grid">
-              <div className="result-item">
-                <span className="label">Wall Area:</span>
-                <span className="value">{results.wallArea.toFixed(2)} sq ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Ceiling Area:</span>
-                <span className="value">{results.ceilingArea.toFixed(2)} sq ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Total Area:</span>
-                <span className="value">{results.totalArea.toFixed(2)} sq ft</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Paint Needed:</span>
-                <span className="value">{results.gallonsNeeded.toFixed(2)} gallons</span>
-              </div>
-              <div className="result-item">
-                <span className="label">With 10% Waste:</span>
-                <span className="value">{results.gallonsWithWaste.toFixed(2)} gallons</span>
-              </div>
-              <div className="result-item">
-                <span className="label">Gallons to Buy:</span>
-                <span className="value">{results.gallonsPurchase} gallons</span>
-              </div>
-              <div className="result-item highlight">
-                <span className="label">Estimated Cost:</span>
-                <span className="value">${results.estimatedCost.toFixed(2)}</span>
-              </div>
+          <div className="result-grid">
+            <div className="result-item">
+              <span className="label">Total Paint Area:</span>
+              <span className="value">{results.totalArea}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Wall Area:</span>
+              <span className="value">{results.wallArea}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Ceiling Area:</span>
+              <span className="value">{results.ceilingArea}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Paint Needed:</span>
+              <span className="value">{results.gallonsNeeded}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Paint to Buy:</span>
+              <span className="value">{results.gallonsToBuy}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Primer Needed:</span>
+              <span className="value">{results.primerGallons}</span>
             </div>
           </div>
-        )}
-      </main>
-    </>
+
+          <h3>Cost Estimates</h3>
+          <div className="result-grid">
+            <div className="result-item">
+              <span className="label">Paint Cost:</span>
+              <span className="value">{results.paintCost}</span>
+            </div>
+            <div className="result-item">
+              <span className="label">Primer Cost:</span>
+              <span className="value">{results.primerCost}</span>
+            </div>
+            <div className="result-item highlight">
+              <span className="label">Total Material Cost:</span>
+              <span className="value">{results.totalCost}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </CalculatorLayout>
   );
 }
